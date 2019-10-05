@@ -76,7 +76,7 @@ class Mob extends Entity {
 	function onAlarmStart() {}
 	function onAlarmEnd() {
 		var dh = new dn.DecisionHelper(patrolPts);
-		dh.score( function(pt) return -level.pf.getPath({ x:cx, y:cy }, { x:pt.cx, y:pt.cy }).length );
+		dh.score( function(pt) return -distCaseFree(pt.cx, pt.cy) );
 		var t = dh.getBest();
 		goto(t.cx, t.cy);
 		for(i in 0...patrolPts.length)
