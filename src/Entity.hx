@@ -214,8 +214,8 @@ class Entity {
 		if( shadow!=null ) {
 			shadow.set(spr.lib, spr.groupName, spr.frame);
 			shadow.x = footX;
-			shadow.y = footY-2;
-			shadow.scaleY = -0.4;
+			shadow.y = footY-2 + zr*Const.GRID*0.3;
+			shadow.scaleY = -0.4-0.3*zr;
 		}
 
 		if( debugLabel!=null ) {
