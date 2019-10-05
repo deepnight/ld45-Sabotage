@@ -132,7 +132,7 @@ class Level extends dn.Process {
 
 		for(cy in 0...hei)
 		for(cx in 0...wid) {
-			if( !cd.has("fireFx") && getDamage(cx,cy)>0 && ( hasCollision(cx,cy) || hasRoof(cx,cy) ) )
+			if( !cd.has("fireFx") && getDamage(cx,cy)>0 && ( hasCollision(cx,cy) || hasRoof(cx,cy) && hasVisibleRoof(cx,cy) ) )
 				fx.fire((cx+rnd(0.3,0.7))*Const.GRID, (cy+rnd(0.2,1))*Const.GRID);
 
 			// Roof anim
