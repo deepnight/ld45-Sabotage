@@ -163,6 +163,17 @@ class Fx extends dn.Process {
 		#end
 	}
 
+	public function throwAngle(x:Float, y:Float, ang:Float) {
+		var p = allocTopAdd(getTile("fxLineDir"), x,y);
+		p.setCenterRatio(1,0.5);
+		p.rotation = ang;
+		p.setFadeS(1, 0, 0.06);
+		p.colorize(0x6d60c5);
+		p.scaleX = -1;
+		p.scaleY = 3;
+		p.lifeS = 0;
+	}
+
 	public function viewCone(x:Float, y:Float, ang:Float, ?c=0x7a9aff) {
 		var p = allocTopAdd(getTile("viewCone"), x,y);
 		p.setCenterRatio(0,0.5);

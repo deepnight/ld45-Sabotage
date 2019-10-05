@@ -10,9 +10,12 @@ class Hero extends Entity {
 
 		spr.anim.registerStateAnim("heroThrow", 2, 0.05, function() return isLocked() && cd.has("throwingItem") );
 		spr.anim.registerStateAnim("heroGrab", 2, function() return isLocked() && cd.has("grabbingItem") );
-		spr.anim.registerStateAnim("heroRun", 1, 0.2, function() return M.fabs(dxTotal)>=0.04 || M.fabs(dyTotal)>=0.04);
+		spr.anim.registerStateAnim("heroRun", 1, 0.2, function() return isMoving());
+		spr.anim.registerStateAnim("heroIdleBack", 0, 0.4, function() return cd.has("lookingBack"));
 		spr.anim.registerStateAnim("heroIdle", 0, 0.4);
 	}
+
+	inline function isMoving() return M.fabs(dxTotal)>=0.04 || M.fabs(dyTotal)>=0.04;
 
 	override function dispose() {
 		super.dispose();
@@ -29,19 +32,24 @@ class Hero extends Entity {
 		}
 	}
 
+	function getThrowAngle() {
+		var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
+		return leftDist<=0.3 ? dir==1?0:M.PI : Math.atan2(-ca.lyValue(), ca.lxValue());
+	}
+
+	var throwAngle : Float;
 	function throwItem() {
 		if( item!=null ) {
 			var e = item;
 			game.delayer.addS( function() {
 				if( isAlive() && e.isAlive() ) {
 					dropItem();
-					var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
-					var a = leftDist<=0.3 ? dir==1?0:M.PI : Math.atan2(-ca.lyValue(), ca.lxValue());
 					var s = 0.4;
-					e.bump(Math.cos(a)*s, Math.sin(a)*s, 0.2);
+					e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.2);
 				}
 			}, 0.25);
 			lockS(0.3);
+			throwAngle = getThrowAngle();
 			cd.setS("throwingItem", getLockS()-0.1);
 		}
 	}
@@ -67,7 +75,7 @@ class Hero extends Entity {
 			}
 			else {
 				item.spr.rotation = dir*0.2;
-				if( M.fabs(dxTotal)>=0.03 || M.fabs(dyTotal)>=0.03 )
+				if( isMoving() )
 					item.setPosPixel(footX-dir*4, footY-3);
 				else
 					item.setPosPixel(footX-dir*3, footY-2);
@@ -78,9 +86,18 @@ class Hero extends Entity {
 	override function update() {
 		super.update();
 
+
+		var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
+
+		// Throw aiming
+		if( isLocked() && cd.has("throwingItem") ) {
+			if( leftDist>=0.3 && cd.getS("throwingItem")>=0.1 )
+				throwAngle = getThrowAngle();
+			fx.throwAngle(footX, footY, getThrowAngle());
+		}
+
 		if( !isLocked() ) {
 			// Move
-			var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
 			if( leftDist>=0.3 ) {
 				var a = Math.atan2(-ca.lyValue(), ca.lxValue());
 				var s = 0.01 * leftDist * tmod;
@@ -111,15 +128,24 @@ class Hero extends Entity {
 		if( item!=null && !item.isAlive() )
 			item = null;
 
-		// if( ca.xPressed() )
-			// dn.Bresenham.iterateDisc(cx,cy, 4, function(cx,cy) {
-			// 	level.damage(cx,cy, 0.35);
-			// });
+		if( ca.yPressed() )
+			dn.Bresenham.iterateDisc(cx,cy, 4, function(cx,cy) {
+				level.damage(cx,cy, 0.35);
+			});
 
 		// Roof anim
 		if( level.hasRoof(cx,cy) )
 			level.eraseRoofFrom(cx,cy);
 		else
 			level.clearRoofErase();
+
+		if( isMoving() )
+			cd.setS("lookBackLock", 0.4);
+		if( !isMoving() && zr==0 && !cd.has("lookBackLock") ) {
+			cd.setS("lookingBack",0.5);
+			cd.setS("lookBackLock",rnd(2.5,4));
+		}
+
+		debug(Std.int(hxd.Timer.fps()));
 	}
 }
