@@ -135,6 +135,9 @@ class Entity {
 		cd = null;
     }
 
+	public inline function debugFloat(v:Float, ?p=1, ?str="") {
+		debug(pretty(v,p)+str);
+	}
 	public inline function debug(?v:Dynamic) {
 		#if debug
 		if( v==null && debugLabel!=null ) {
@@ -172,6 +175,12 @@ class Entity {
 		var step = dxTotal*tmod / steps;
 		while( steps>0 ) {
 			xr+=step;
+			if( level.hasCollision(cx+1, cy) && xr>0.8 ) {
+				xr = 0.8;
+			}
+			if( level.hasCollision(cx-1, cy) && xr<0.2 ) {
+				xr = 0.2;
+			}
 			while( xr>1 ) { xr--; cx++; }
 			while( xr<0 ) { xr++; cx--; }
 			steps--;
@@ -186,6 +195,12 @@ class Entity {
 		var step = dyTotal*tmod / steps;
 		while( steps>0 ) {
 			yr+=step;
+			if( level.hasCollision(cx, cy+1) && yr>0.9 ) {
+				yr = 0.9;
+			}
+			if( level.hasCollision(cx, cy-1) && yr<0.2 ) {
+				yr = 0.2;
+			}
 			while( yr>1 ) { yr--; cy++; }
 			while( yr<0 ) { yr++; cy--; }
 			steps--;
