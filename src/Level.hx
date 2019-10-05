@@ -10,6 +10,7 @@ class Level extends dn.Process {
 	var layerRenders : Map<String,h2d.Object> = new Map();
 
 	var roofBitmaps : Map<Int, h2d.Bitmap> = new Map();
+	public var pf : dn.PathFinder;
 
 	public function new(l:ogmo.Level) {
 		super(Game.ME);
@@ -27,6 +28,11 @@ class Level extends dn.Process {
 				case _ : layerRenders.set(l.name, o);
 			}
 		}
+
+		pf = new dn.PathFinder(wid, hei);
+		for(cy in 0...hei)
+		for(cx in 0...wid)
+			pf.setCollision(cx,cy, hasCollision(cx,cy));
 	}
 
 	public inline function isValid(cx,cy) return cx>=0 && cx<wid && cy>=0 && cy<hei;
@@ -86,7 +92,7 @@ class Level extends dn.Process {
 			// Default renders
 			switch l.type {
 				case TileLayer: l.render(target);
-				case EntityLayer: #if debug l.render(target, 0.5); #end
+				// case EntityLayer: #if debug l.render(target, 0.5); #end
 				case IntGridLayer: #if debug l.render(target, 0.5); #end
 				case _:
 			}

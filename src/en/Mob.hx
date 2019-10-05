@@ -7,6 +7,7 @@ class Mob extends Entity {
 	var lastAlarmPt : CPoint;
 	var curPatrolIdx = 0;
 	var curPatrolPt(get,never) : CPoint; inline function get_curPatrolPt() return patrolPts[curPatrolIdx];
+	var path : Array<CPoint> = [];
 
 	public var lookAng : Float;
 	var viewCone : HSprite;
@@ -17,14 +18,25 @@ class Mob extends Entity {
 		lastAlarmPt = new CPoint(cx,cy);
 
 		// Parse patrol
+		var lastPt = new CPoint(cx,cy);
 		for(n in data.nodes) {
-			for(pt in patrolPts)
-				if( pt.is(n.cx,n.cy) )
-					throw "Duplicate patrol point for mob at "+cx+","+cy;
-			patrolPts.push( new CPoint(n.cx, n.cy) );
+			var segment = [];
+			dn.Bresenham.iterateThinLine( lastPt.cx, lastPt.cy, n.cx, n.cy, function(x,y) segment.push( new CPoint(x, y) ) );
+			if( segment[0].cx!=lastPt.cx || segment[0].cy!=lastPt.cy )
+				segment.reverse();
+			patrolPts = patrolPts.concat(segment);
+			lastPt.set(n.cx, n.cy);
+		}
+		var i = 0;
+		while( i<patrolPts.length-1 ) {
+			while( i<patrolPts.length-1 && patrolPts[i].cx==patrolPts[i+1].cx && patrolPts[i].cy==patrolPts[i+1].cy )
+				patrolPts.splice(i,1);
+			i++;
 		}
 		if( patrolPts.length==0 || !patrolPts[0].is(cx,cy) )
 			patrolPts.insert(0, new CPoint(cx,cy));
+
+		// for(i in 0...patrolPts.length) fx.markerCase(patrolPts[i].cx, patrolPts[i].cy, 9999, Color.interpolateInt(0x000088,0x880000, i/patrolPts.length)); // HACK
 
 		viewCone = Assets.tiles.h_get("viewCone",0, 0, 0.5);
 		game.scroller.add(viewCone, Const.DP_FX_BG);
@@ -38,6 +50,11 @@ class Mob extends Entity {
 
 	public function hasAlarm() {
 		return cd.has("alarm");
+	}
+
+	function goto(x,y) {
+		path = level.pf.smooth( level.pf.getPath({x:cx, y:cy}, {x:x, y:y}) ).map( function(pt) return new CPoint(pt.x, pt.y) );
+		path.shift();
 	}
 
 	override function postUpdate() {
@@ -63,37 +80,62 @@ class Mob extends Entity {
 	override function update() {
 		super.update();
 
+		// See hero
+		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=M.PI*0.3 )
+			cd.setS("sawHero", 0.5);
+
+		if( cd.has("sawHero") ) {
+			lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
+			cd.setS("alarm",3);
+		}
+
+		// Movement AI
 		if( !hasAlarm() ) {
-			if( M.dist(footX, footY, curPatrolPt.footX, curPatrolPt.footY)>Const.GRID*0.1 ) {
+			if( !curPatrolPt.is(cx,cy) ) {
 				// Patrol movement
-				var s = 0.005;
-				var a = Math.atan2(curPatrolPt.footY-footY, curPatrolPt.footX-footX);
-				dx+=Math.cos(a)*s;
-				dy+=Math.sin(a)*s;
-				lookAng = M.round(a/M.PIHALF)*M.PIHALF;
+				if( !cd.hasSetS("patrolPath",0.4) )
+					goto(curPatrolPt.cx, curPatrolPt.cy);
 			}
 			else {
 				// Reached patrol point
 				curPatrolIdx++;
+				cd.unset("patrolPath");
 				if( curPatrolIdx>=patrolPts.length )
 					curPatrolIdx = 0;
 			}
 		}
 		else {
 			// Track alarm source
-			var s = 0.007;
+			if( !cd.hasSetS("trackPath",0.2) )
+				goto(lastAlarmPt.cx, lastAlarmPt.cy);
 			var a = Math.atan2(lastAlarmPt.footY-footY, lastAlarmPt.footX-footX);
-			dx+=Math.cos(a)*s;
-			dy+=Math.sin(a)*s;
 			if( distPxFree(lastAlarmPt.footX,lastAlarmPt.footY)>=Const.GRID*0.5 )
 				lookAng = a;
 		}
 
-		// See hero
-		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=M.PI*0.3 ) {
-			lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
-			cd.setS("alarm",3);
+		if( path.length>0 ) {
+			// Follow path
+			var next = path[0];
+			while( next!=null && next.distCase(this)<=0.2 ) {
+				path.shift();
+				next = path[0];
+			}
+			if( next!=null ) {
+				// Movement
+				var s = hasAlarm() ? 0.008 : 0.005;
+				var a = Math.atan2(next.footY-footY, next.footX-footX);
+				fx.markerCase(next.cx, next.cy, 0.06, 0xffcc00);
+				dx+=Math.cos(a)*s;
+				dy+=Math.sin(a)*s;
+				if( M.dist(footX, footY, next.footX, next.footY)>=Const.GRID*0.6 )
+					lookAng = a;
+				// Try to stick to cell center
+				var a = Math.atan2(0.5-yr, 0.5-xr);
+				dx+=Math.cos(a)*0.001;
+				dy+=Math.sin(a)*0.001;
+			}
 		}
+
 
 		// Sound emit fx
 		if( level.hasVisibleRoof(cx,cy) && !cd.hasSetS("soundFx", 1) && distCase(hero)<=10 )
