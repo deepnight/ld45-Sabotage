@@ -164,14 +164,14 @@ class Fx extends dn.Process {
 		p.lifeS = 1;
 	}
 
-	public function angle(x:Float, y:Float, ang:Float, ?sec=3.0, ?c=0xFF00FF) {
+	public function angle(x:Float, y:Float, ang:Float, dist:Float, ?sec=3.0, ?c=0xFF00FF) {
 		#if debug
 		var p = allocTopAdd(getTile("fxLineDir"), x,y);
 		p.setCenterRatio(0,0.5);
 		p.rotation = ang;
 		p.setFadeS(1, 0, 0.06);
 		p.colorize(c);
-		p.scaleX = 0.75;
+		p.scaleX = dist/p.t.width;
 		p.lifeS = sec;
 		#end
 	}

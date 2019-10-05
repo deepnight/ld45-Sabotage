@@ -116,12 +116,13 @@ class Mob extends Entity {
 
 		// See hero
 		var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.3;
+		var viewDist = hasAlarm() ? 11 : 6;
 		if( ui.Console.ME.hasFlag("cone") ) {
-			fx.angle(footX, footY, lookAng+viewAng*0.5, 0.03, 0xff0000);
-			fx.angle(footX, footY, lookAng-viewAng*0.5, 0.03, 0xff0000);
+			fx.angle(footX, footY, lookAng+viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
+			fx.angle(footX, footY, lookAng-viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
 		}
-		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=6 )
-			cd.setS("sawHero", 0.4);
+		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=viewDist )
+			cd.setS("sawHero", 0.5);
 
 		// Continue to track hero longer after last sight
 		if( cd.has("sawHero") ) {
