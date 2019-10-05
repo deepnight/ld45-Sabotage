@@ -93,7 +93,8 @@ class Hero extends Entity {
 		if( isLocked() && cd.has("throwingItem") ) {
 			if( leftDist>=0.3 && cd.getS("throwingItem")>=0.1 )
 				throwAngle = getThrowAngle();
-			fx.throwAngle(footX, footY, getThrowAngle());
+			if( !cd.hasSetS("throwFx",0.02) )
+				fx.throwAngle(footX, footY, getThrowAngle());
 		}
 
 		if( !isLocked() ) {
@@ -146,6 +147,6 @@ class Hero extends Entity {
 			cd.setS("lookBackLock",rnd(2.5,4));
 		}
 
-		debug(Std.int(hxd.Timer.fps()));
+		if( ui.Console.ME.hasFlag("fps") ) debug(Std.int(hxd.Timer.fps()));
 	}
 }
