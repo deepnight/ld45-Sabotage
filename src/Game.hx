@@ -11,6 +11,8 @@ class Game extends Process {
 	public var ogmoProj : ogmo.Project;
 	public var level : Level;
 
+	public var hero : en.Hero;
+
 	public function new() {
 		super(Main.ME);
 		ME = this;
@@ -28,6 +30,9 @@ class Game extends Process {
 		ogmoProj = new ogmo.Project(hxd.Res.map.ld45);
 		level = new Level(ogmoProj.levels[0]);
 		fx = new Fx();
+
+		var pt = level.getEntityPt("hero");
+		hero = new en.Hero(pt.cx, pt.cy);
 
 		trace(Lang.t._("Game is ready."));
 	}

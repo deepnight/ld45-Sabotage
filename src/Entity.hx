@@ -15,7 +15,7 @@ class Entity {
     public var cx = 0;
     public var cy = 0;
     public var xr = 0.5;
-    public var yr = 1.0;
+    public var yr = 0.5;
 
     public var dx = 0.;
     public var dy = 0.;
@@ -70,7 +70,7 @@ class Entity {
 		cx = x;
 		cy = y;
 		xr = 0.5;
-		yr = 1;
+		yr = 0.5;
 	}
 
 	public function setPosPixel(x:Float, y:Float) {
