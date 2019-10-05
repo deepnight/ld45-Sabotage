@@ -98,6 +98,7 @@ class Level extends dn.Process {
 					b.setPosition(cx*l.gridWid, cy*l.gridHei);
 					roofBitmaps.set( coordId(cx,cy), b );
 				}
+				target.y-=8;
 
 				continue;
 			}
@@ -106,7 +107,7 @@ class Level extends dn.Process {
 			switch l.type {
 				case TileLayer: l.render(target);
 				// case EntityLayer: #if debug l.render(target, 0.5); #end
-				case IntGridLayer: #if debug l.render(target, 0.5); #end
+				// case IntGridLayer: #if debug l.render(target, 0.5); #end
 				case _:
 			}
 		}

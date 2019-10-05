@@ -256,8 +256,8 @@ class Entity {
 			if( level.hasCollision(cx, cy+1) && yr>0.9 ) {
 				yr = 0.9;
 			}
-			if( level.hasCollision(cx, cy-1) && yr<0.2 ) {
-				yr = 0.2;
+			if( level.hasCollision(cx, cy-1) && yr<0.5 ) {
+				yr = 0.5;
 			}
 			while( yr>1 ) { yr--; cy++; }
 			while( yr<0 ) { yr++; cy--; }

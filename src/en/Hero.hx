@@ -33,9 +33,12 @@ class Hero extends Entity {
 		if( item!=null ) {
 			var e = item;
 			game.delayer.addS( function() {
-				if( e.isAlive() ) {
+				if( isAlive() && e.isAlive() ) {
 					dropItem();
-					e.bump(dir*0.4, 0, 0.2);
+					var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
+					var a = leftDist<=0.3 ? dir==1?0:M.PI : Math.atan2(-ca.lyValue(), ca.lxValue());
+					var s = 0.4;
+					e.bump(Math.cos(a)*s, Math.sin(a)*s, 0.2);
 				}
 			}, 0.25);
 			lockS(0.3);
