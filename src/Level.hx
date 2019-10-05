@@ -44,6 +44,22 @@ class Level extends dn.Process {
 		return null;
 	}
 
+	public function getEntityPts(id:String) {
+		var a = [];
+		for(e in data.layersByName.get("entities").entities)
+			if( e.name==id )
+				a.push( new CPoint(e.cx, e.cy) );
+		return a;
+	}
+
+	public function getEntities(id:String) {
+		var a = [];
+		for(e in data.layersByName.get("entities").entities)
+			if( e.name==id )
+				a.push(e);
+		return a;
+	}
+
 	public function render() {
 		invalidated = false;
 		for(e in layerRenders)
@@ -78,6 +94,7 @@ class Level extends dn.Process {
 	}
 
 	public inline function hasRoof(cx,cy) return isValid(cx,cy) && roofBitmaps.exists(coordId(cx,cy));
+	public inline function hasVisibleRoof(cx,cy) return hasRoof(cx,cy) && getRoofBitmap(cx,cy).alpha>=0.9;
 	inline function getRoofBitmap(cx,cy) : Null<h2d.Bitmap> return hasRoof(cx,cy) ? roofBitmaps.get(coordId(cx,cy)) : null;
 	var roofEraseMarks : Map<Int,Bool> = new Map();
 	public inline function eraseRoofFrom(cx,cy) {

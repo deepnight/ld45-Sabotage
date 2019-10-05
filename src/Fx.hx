@@ -137,6 +137,20 @@ class Fx extends dn.Process {
 		});
 	}
 
+	public function emitSound(x:Float, y:Float) {
+		var n = 2;
+		for(i in 0...n) {
+			var p = allocTopAdd(getTile("fxNova"), x,y);
+			p.setFadeS(0.3, 0, 0.2);
+			p.colorize(0xffffff);
+			p.setScale(0.03);
+			p.ds = 0.03;
+			p.dsFrict = 0.83;
+			p.delayS = 0.4*(i+1)/n;
+			p.lifeS = 0.1;
+		}
+	}
+
 	override function update() {
 		super.update();
 

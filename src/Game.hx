@@ -27,12 +27,15 @@ class Game extends Process {
 		root.add(scroller, Const.DP_BG);
 
 		camera = new Camera();
-		ogmoProj = new ogmo.Project(hxd.Res.map.ld45);
+		ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
 		level = new Level(ogmoProj.levels[0]);
 		fx = new Fx();
 
 		var pt = level.getEntityPt("hero");
 		hero = new en.Hero(pt.cx, pt.cy);
+
+		for(e in level.getEntities("guard"))
+			new en.Mob(e.cx, e.cy, e);
 	}
 
 	public function onCdbReload() {

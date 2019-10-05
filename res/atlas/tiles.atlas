@@ -1,61 +1,68 @@
 
 tiles.png
-size: 64,64
+size: 256,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 empty
   rotate: false
-  xy: 19, 55
+  xy: 19, 177
   size: 3, 3
   orig: 1, 1
   offset: 0, -2
   index: -1
 fxCircle
   rotate: false
-  xy: 1, 47
+  xy: 1, 177
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 fxDot
   rotate: false
-  xy: 19, 60
+  xy: 19, 182
   size: 3, 3
   orig: 3, 3
   offset: 0, 0
   index: -1
 fxLine
   rotate: false
-  xy: 27, 47
+  xy: 1, 203
   size: 33, 3
   orig: 33, 3
   offset: 0, 0
   index: -1
 fxLineDir0
   rotate: false
-  xy: 27, 52
+  xy: 9, 195
   size: 32, 3
   orig: 33, 3
   offset: 1, 0
   index: -1
+fxNova0
+  rotate: false
+  xy: 1, 1
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 fxSmallCircle
   rotate: false
-  xy: 19, 47
+  xy: 1, 195
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 fxSmoke0
   rotate: false
-  xy: 1, 1
+  xy: 1, 131
   size: 44, 44
   orig: 44, 44
   offset: 0, 0
   index: -1
 pixel
   rotate: false
-  xy: 62, 1
+  xy: 9, 200
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

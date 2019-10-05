@@ -18,7 +18,7 @@ class Hero extends Entity {
 		var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
 		if( leftDist>=0.3 ) {
 			var a = Math.atan2(-ca.lyValue(), ca.lxValue());
-			var s = 0.02 * leftDist * tmod;
+			var s = 0.01 * leftDist * tmod;
 			dx+=Math.cos(a)*s;
 			dy+=Math.sin(a)*s;
 		}

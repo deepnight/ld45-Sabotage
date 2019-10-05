@@ -25,6 +25,8 @@ class CPoint {
 		this.yr = yr;
 	}
 
+	public function is(x,y) return cx==x && cy==y;
+
 	public inline function distCase(?e:Entity, ?pt:CPoint, ?cx=0, ?cy=0, ?xr=0.5, ?yr=0.5) {
 		if( e!=null )
 			return M.dist(cx+xr, cy+yr, e.cx+e.xr, e.cy+e.yr);
