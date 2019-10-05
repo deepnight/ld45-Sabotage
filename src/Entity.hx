@@ -274,7 +274,9 @@ class Entity {
 			dz-=gravity*tmod;
 		if( zr<0 ) {
 			zr = 0;
-			dz = -dz*0.3;
+			dz = -dz*0.4;
+			if( M.fabs(dz)<=0.02 )
+				dz = 0;
 			onZLand();
 		}
 		if( M.fabs(dz)<=0.0005*tmod ) dz = 0;
