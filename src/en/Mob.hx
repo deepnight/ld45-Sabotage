@@ -141,7 +141,7 @@ class Mob extends Entity {
 
 
 		// Follow path
-		if( path.length>0 ) {
+		if( path.length>0 && !isLocked() ) {
 			var next = path[0];
 			while( next!=null && next.distCase(this)<=0.2 ) {
 				path.shift();
