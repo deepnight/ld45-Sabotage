@@ -104,13 +104,13 @@ class Mob extends Entity {
 		}
 
 		// See hero
-		var viewAng = 0.6;
+		var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.3;
 		if( ui.Console.ME.hasFlag("cone") ) {
 			fx.angle(footX, footY, lookAng+viewAng*0.5, 0.03, 0xff0000);
 			fx.angle(footX, footY, lookAng-viewAng*0.5, 0.03, 0xff0000);
 		}
 		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=10 )
-			cd.setS("sawHero", 0.5);
+			cd.setS("sawHero", 0.4);
 
 		// Continue to track hero longer after last sight
 		if( cd.has("sawHero") ) {
@@ -170,7 +170,11 @@ class Mob extends Entity {
 
 
 		// Sound emit fx
-		if( level.hasVisibleRoof(cx,cy) && !cd.hasSetS("soundFx", 1) && distCase(hero)<=10 )
-			fx.emitSound(footX, footY);
+		if( level.hasVisibleRoof(cx,cy) && distCase(hero)<=10 ) {
+			if( !hasAlarm() && !cd.hasSetS("soundFx", 1) )
+				fx.emitSound(footX, footY);
+			if( hasAlarm() && !cd.hasSetS("soundFxAlarm", 0.4) )
+				fx.emitSound(footX, footY, 0xff0000);
+		}
 	}
 }
