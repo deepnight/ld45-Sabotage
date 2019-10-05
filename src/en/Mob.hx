@@ -41,15 +41,12 @@ class Mob extends Entity {
 		viewCone = Assets.tiles.h_get("viewCone",0, 0, 0.5);
 		game.scroller.add(viewCone, Const.DP_FX_BG);
 		viewCone.setScale(0.2);
+		lookAng = M.PI;
 	}
 
 	override function dispose() {
 		super.dispose();
 		ALL.remove(this);
-	}
-
-	public function hasAlarm() {
-		return cd.has("alarm");
 	}
 
 	function goto(x,y) {
@@ -76,17 +73,49 @@ class Mob extends Entity {
 		viewCone.colorize( hasAlarm() ? sightCheckEnt(hero) ? 0xff0000 : 0xffdd00 : 0x7a9aff );
 	}
 
+	function onAlarmStart() {}
+	function onAlarmEnd() {
+		var dh = new dn.DecisionHelper(patrolPts);
+		dh.score( function(pt) return -level.pf.getPath({ x:cx, y:cy }, { x:pt.cx, y:pt.cy }).length );
+		var t = dh.getBest();
+		goto(t.cx, t.cy);
+		for(i in 0...patrolPts.length)
+			if( patrolPts[i].is(t.cx,t.cy) )
+				curPatrolIdx = i;
+	}
+
+	public inline function hasAlarm() {
+		return cd.has("alarm");
+	}
+
+	function triggerAlarm(?sec=3.0) {
+		if( !hasAlarm() )
+			onAlarmStart();
+		cd.setS("alarm",sec);
+		cd.setS("wasUnderAlarm", Const.INFINITE);
+	}
 
 	override function update() {
 		super.update();
 
+		if( !hasAlarm() && cd.has("wasUnderAlarm") ) {
+			onAlarmEnd();
+			cd.unset("wasUnderAlarm");
+		}
+
 		// See hero
-		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=M.PI*0.3 )
+		var viewAng = 0.6;
+		if( ui.Console.ME.hasFlag("cone") ) {
+			fx.angle(footX, footY, lookAng+viewAng*0.5, 0.03, 0xff0000);
+			fx.angle(footX, footY, lookAng-viewAng*0.5, 0.03, 0xff0000);
+		}
+		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=10 )
 			cd.setS("sawHero", 0.5);
 
+		// Continue to track hero longer after last sight
 		if( cd.has("sawHero") ) {
 			lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
-			cd.setS("alarm",3);
+			triggerAlarm();
 		}
 
 		// Movement AI
@@ -108,13 +137,11 @@ class Mob extends Entity {
 			// Track alarm source
 			if( !cd.hasSetS("trackPath",0.2) )
 				goto(lastAlarmPt.cx, lastAlarmPt.cy);
-			var a = Math.atan2(lastAlarmPt.footY-footY, lastAlarmPt.footX-footX);
-			if( distPxFree(lastAlarmPt.footX,lastAlarmPt.footY)>=Const.GRID*0.5 )
-				lookAng = a;
 		}
 
+
+		// Follow path
 		if( path.length>0 ) {
-			// Follow path
 			var next = path[0];
 			while( next!=null && next.distCase(this)<=0.2 ) {
 				path.shift();
@@ -124,15 +151,20 @@ class Mob extends Entity {
 				// Movement
 				var s = hasAlarm() ? 0.008 : 0.005;
 				var a = Math.atan2(next.footY-footY, next.footX-footX);
-				fx.markerCase(next.cx, next.cy, 0.06, 0xffcc00);
 				dx+=Math.cos(a)*s;
 				dy+=Math.sin(a)*s;
-				if( M.dist(footX, footY, next.footX, next.footY)>=Const.GRID*0.6 )
-					lookAng = a;
+
 				// Try to stick to cell center
 				var a = Math.atan2(0.5-yr, 0.5-xr);
 				dx+=Math.cos(a)*0.001;
 				dy+=Math.sin(a)*0.001;
+
+				if( hasAlarm() && distPxFree(lastAlarmPt.footX, lastAlarmPt.footY) >= Const.GRID*0.5 )
+					lookAng = Math.atan2(lastAlarmPt.footY-footY, lastAlarmPt.footX-footX);
+
+				if( !hasAlarm() && distPxFree(next.footX, next.footY) >= Const.GRID*0.5 )
+					lookAng = Math.atan2(next.footY-footY, next.footX-footX);
+
 			}
 		}
 
