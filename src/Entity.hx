@@ -117,6 +117,10 @@ class Entity {
 		return M.dist(footX, footY, e.footX, e.footY);
 	}
 
+	public inline function distCaseFree(tcx:Int, tcy:Int, ?txr=0.5, ?tyr=0.5) {
+		return M.dist(cx+xr, cy+yr, tcx+txr, tcy+tyr);
+	}
+
 	public inline function distPxFree(x:Float, y:Float) {
 		return M.dist(footX, footY, x, y);
 	}
