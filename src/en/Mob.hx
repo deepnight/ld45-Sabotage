@@ -151,13 +151,13 @@ class Mob extends Entity {
 				// Movement
 				var s = hasAlarm() ? 0.008 : 0.005;
 				var a = Math.atan2(next.footY-footY, next.footX-footX);
-				dx+=Math.cos(a)*s;
-				dy+=Math.sin(a)*s;
+				dx+=Math.cos(a)*s*tmod;
+				dy+=Math.sin(a)*s*tmod;
 
 				// Try to stick to cell center
 				var a = Math.atan2(0.5-yr, 0.5-xr);
-				dx+=Math.cos(a)*0.001;
-				dy+=Math.sin(a)*0.001;
+				dx+=Math.cos(a)*0.001*tmod;
+				dy+=Math.sin(a)*0.001*tmod;
 
 				if( hasAlarm() && distPxFree(lastAlarmPt.footX, lastAlarmPt.footY) >= Const.GRID*0.5 )
 					lookAng = Math.atan2(lastAlarmPt.footY-footY, lastAlarmPt.footX-footX);

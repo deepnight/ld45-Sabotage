@@ -38,6 +38,9 @@ class Game extends Process {
 
 		for(e in level.getEntities("guard"))
 			new en.Mob(e.cx, e.cy, e);
+
+		for(e in level.getEntities("item"))
+			new en.Item(e.cx, e.cy, Barrel);
 	}
 
 	public function onCdbReload() {
@@ -68,7 +71,11 @@ class Game extends Process {
 		// Updates
 		for(e in Entity.ALL) if( !e.destroyed ) e.preUpdate();
 		for(e in Entity.ALL) if( !e.destroyed ) e.update();
-		for(e in Entity.ALL) if( !e.destroyed ) e.postUpdate();
+		Entity.ALL.sort( function(a,b) return Reflect.compare(a.footY, b.footY)); // Z-sort
+		for(e in Entity.ALL) if( !e.destroyed ) {
+			e.zOver();
+			e.postUpdate();
+		}
 		gc();
 
 		if( !ui.Console.ME.isActive() && !ui.Modal.hasAny() ) {

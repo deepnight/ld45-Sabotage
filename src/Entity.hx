@@ -17,14 +17,17 @@ class Entity {
     public var cy = 0;
     public var xr = 0.5;
     public var yr = 0.5;
+    public var zr = 0.;
 
     public var dx = 0.;
     public var dy = 0.;
+    public var dz = 0.;
     public var bdx = 0.;
     public var bdy = 0.;
 	public var dxTotal(get,never) : Float; inline function get_dxTotal() return dx+bdx;
 	public var dyTotal(get,never) : Float; inline function get_dyTotal() return dy+bdy;
 	public var frict = 0.82;
+	public var gravity = 0.02;
 	public var bumpFrict = 0.93;
 	public var hei : Float = Const.GRID;
 	public var radius = Const.GRID*0.5;
@@ -34,6 +37,7 @@ class Entity {
 	public var sprScaleY = 1.0;
 
     public var spr : HSprite;
+    public var shadow : Null<HSprite>;
 	var debugLabel : Null<h2d.Text>;
 
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
@@ -50,10 +54,33 @@ class Entity {
 		cd = new dn.Cooldown(Const.FPS);
         setPosCase(x,y);
 
-        spr = new HSprite();
+        spr = new HSprite(Assets.tiles);
         Game.ME.scroller.add(spr, Const.DP_MAIN);
 		spr.setCenterRatio(0.5,1);
+		enableShadow();
     }
+
+	public function disableShadow() {
+		if( shadow!=null ) {
+			shadow.remove();
+			shadow = null;
+		}
+	}
+
+	public function enableShadow() {
+		disableShadow();
+		shadow = new HSprite(spr.lib);
+		game.scroller.add(shadow, Const.DP_BG);
+		shadow.setCenterRatio(0.5,1);
+		shadow.color.r = 0;
+		shadow.color.g = 0;
+		shadow.color.b = 0;
+		shadow.alpha = 0.6;
+	}
+
+	public function zOver() {
+		game.scroller.over(spr);
+	}
 
 	inline function set_dir(v) {
 		return dir = v>0 ? 1 : v<0 ? -1 : dir;
@@ -67,11 +94,11 @@ class Entity {
 		destroy();
 	}
 
-	public function setPosCase(x:Int, y:Int) {
+	public function setPosCase(x:Int, y:Int, ?xr=0.5, ?yr=0.5) {
 		cx = x;
 		cy = y;
-		xr = 0.5;
-		yr = 0.5;
+		this.xr = xr;
+		this.yr = yr;
 	}
 
 	public function setPosPixel(x:Float, y:Float) {
@@ -81,9 +108,10 @@ class Entity {
 		yr = (y-cy*Const.GRID)/Const.GRID;
 	}
 
-	public function bump(x:Float,y:Float) {
+	public function bump(x:Float,y:Float,z:Float) {
 		bdx+=x;
 		bdy+=y;
+		dz+=z;
 	}
 
 	public function cancelVelocities() {
@@ -137,6 +165,8 @@ class Entity {
     public function dispose() {
         ALL.remove(this);
 
+		disableShadow();
+
 		spr.remove();
 		spr = null;
 
@@ -166,21 +196,35 @@ class Entity {
 		#end
 	}
 
+	public function unlock() cd.unset("lock");
+	public function lockS(sec:Float) cd.setS("lock", sec, false);
+	public function getLockS() return cd.getS("lock");
+	public function isLocked() return cd.has("lock");
+
     public function preUpdate() {
 		cd.update(tmod);
     }
 
     public function postUpdate() {
         spr.x = (cx+xr)*Const.GRID;
-        spr.y = (cy+yr)*Const.GRID;
+        spr.y = (cy+yr-zr)*Const.GRID;
         spr.scaleX = dir*sprScaleX;
         spr.scaleY = sprScaleY;
+
+		if( shadow!=null ) {
+			shadow.set(spr.lib, spr.groupName, spr.frame);
+			shadow.x = footX;
+			shadow.y = footY-2;
+			shadow.scaleY = -0.4;
+		}
 
 		if( debugLabel!=null ) {
 			debugLabel.x = Std.int(footX - debugLabel.textWidth*0.5);
 			debugLabel.y = Std.int(footY+1);
 		}
     }
+
+	function onZLand() {}
 
 
     public function update() {
@@ -223,5 +267,16 @@ class Entity {
 		bdy*=Math.pow(bumpFrict,tmod);
 		if( M.fabs(dy)<=0.0005*tmod ) dy = 0;
 		if( M.fabs(bdy)<=0.0005*tmod ) bdy = 0;
+
+		// Z
+		zr+=dz*tmod;
+		if( zr>0 )
+			dz-=gravity*tmod;
+		if( zr<0 ) {
+			zr = 0;
+			dz = -dz*0.3;
+			onZLand();
+		}
+		if( M.fabs(dz)<=0.0005*tmod ) dz = 0;
     }
 }

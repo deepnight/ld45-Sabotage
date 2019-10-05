@@ -4,6 +4,13 @@ size: 256,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+barrel0
+  rotate: false
+  xy: 195, 95
+  size: 14, 15
+  orig: 16, 16
+  offset: 1, 0
+  index: -1
 empty
   rotate: false
   xy: 252, 1
@@ -27,21 +34,21 @@ fxDot
   index: -1
 fxFlame0
   rotate: false
-  xy: 230, 70
+  xy: 245, 106
   size: 10, 16
   orig: 10, 16
   offset: 0, 0
   index: -1
 fxFlame1
   rotate: false
-  xy: 177, 77
+  xy: 220, 123
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
   index: -1
 fxFlame2
   rotate: false
-  xy: 242, 70
+  xy: 208, 120
   size: 10, 16
   orig: 10, 16
   offset: 0, 0
@@ -90,7 +97,7 @@ fxNova0
   index: -1
 fxSmallCircle
   rotate: false
-  xy: 188, 77
+  xy: 248, 70
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -101,6 +108,76 @@ fxSmoke0
   size: 44, 44
   orig: 44, 44
   offset: 0, 0
+  index: -1
+heroGrab0
+  rotate: false
+  xy: 229, 106
+  size: 14, 15
+  orig: 16, 16
+  offset: 2, 0
+  index: -1
+heroIdle0
+  rotate: false
+  xy: 230, 70
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+heroIdle1
+  rotate: false
+  xy: 177, 77
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+heroIdle2
+  rotate: false
+  xy: 211, 85
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+heroIdleBack0
+  rotate: false
+  xy: 177, 95
+  size: 16, 15
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+heroRun0
+  rotate: false
+  xy: 229, 88
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+heroRun1
+  rotate: false
+  xy: 193, 112
+  size: 13, 16
+  orig: 16, 16
+  offset: 2, 0
+  index: -1
+heroRun2
+  rotate: false
+  xy: 211, 103
+  size: 16, 15
+  orig: 16, 16
+  offset: 0, 1
+  index: -1
+heroThrow0
+  rotate: false
+  xy: 195, 77
+  size: 14, 16
+  orig: 16, 16
+  offset: 1, 0
+  index: -1
+heroThrow1
+  rotate: false
+  xy: 177, 112
+  size: 14, 15
+  orig: 16, 16
+  offset: 2, 0
   index: -1
 pixel
   rotate: false
