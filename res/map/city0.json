@@ -5,6 +5,45 @@
   "offsetY": 0,
   "layers": [
     {
+      "name": "entities",
+      "_eid": "27367086",
+      "offsetX": 0,
+      "offsetY": 0,
+      "gridCellWidth": 16,
+      "gridCellHeight": 16,
+      "gridCellsX": 20,
+      "gridCellsY": 15,
+      "entities": [
+        {
+          "name": "hero",
+          "id": 0,
+          "_eid": "27361764",
+          "x": 144,
+          "y": 128,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "hero",
+          "id": 1,
+          "_eid": "27361764",
+          "x": 176,
+          "y": 160,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "hero",
+          "id": 2,
+          "_eid": "27361764",
+          "x": 160,
+          "y": 80,
+          "originX": 0,
+          "originY": 0
+        }
+      ]
+    },
+    {
       "name": "tiles",
       "_eid": "27485736",
       "offsetX": 0,
@@ -318,27 +357,6 @@
       ],
       "exportMode": 0,
       "arrayMode": 0
-    },
-    {
-      "name": "entities",
-      "_eid": "27367086",
-      "offsetX": 0,
-      "offsetY": 0,
-      "gridCellWidth": 16,
-      "gridCellHeight": 16,
-      "gridCellsX": 20,
-      "gridCellsY": 15,
-      "entities": [
-        {
-          "name": "hero",
-          "id": 0,
-          "_eid": "27361764",
-          "x": 144,
-          "y": 128,
-          "originX": 0,
-          "originY": 0
-        }
-      ]
     },
     {
       "name": "collisions",

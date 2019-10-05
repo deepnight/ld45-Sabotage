@@ -22,20 +22,13 @@ class Level extends dn.Process {
 		invalidated = false;
 		root.removeChildren();
 
-		var a = data.layers.copy();
-		a.reverse();
-		for(l in a) {
-			if( l.type!=TileLayer )
-				continue;
-			l.render(root);
+		for(l in data.layersReversed) {
+			switch l.type {
+				case TileLayer: l.render(root);
+				case EntityLayer: #if debug l.render(root); #end
+				case IntGridLayer: #if debug l.render(root); #end
+			}
 		}
-		// Debug level render
-		// for(cx in 0...wid)
-		// for(cy in 0...hei) {
-		// 	var g = new h2d.Graphics(root);
-		// 	g.beginFill(Color.randomColor(rnd(0,1), 0.5, 0.4), 1);
-		// 	g.drawRect(cx*Const.GRID, cy*Const.GRID, Const.GRID, Const.GRID);
-		// }
 	}
 
 	override function postUpdate() {

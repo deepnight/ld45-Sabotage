@@ -13,6 +13,14 @@
   "entityTags": [],
   "layers": [
     {
+      "definition": "entity",
+      "name": "entities",
+      "gridSize": {"x": 16, "y": 16},
+      "exportID": "27367086",
+      "requiredTags": [],
+      "excludedTags": []
+    },
+    {
       "definition": "tile",
       "name": "tiles",
       "gridSize": {"x": 16, "y": 16},
@@ -20,14 +28,6 @@
       "exportMode": 0,
       "arrayMode": 0,
       "defaultTileset": "mainTileset"
-    },
-    {
-      "definition": "entity",
-      "name": "entities",
-      "gridSize": {"x": 16, "y": 16},
-      "exportID": "27367086",
-      "requiredTags": [],
-      "excludedTags": []
     },
     {
       "definition": "grid",
