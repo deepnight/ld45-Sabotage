@@ -228,6 +228,9 @@ class Entity {
 
 
     public function update() {
+		var wallSlide = 0.005;
+		var wallSlideTolerance = 0.015;
+
 		// X
 		var steps = M.ceil( M.fabs(dxTotal*tmod) );
 		var step = dxTotal*tmod / steps;
@@ -235,9 +238,14 @@ class Entity {
 			xr+=step;
 			if( level.hasCollision(cx+1, cy) && xr>0.8 ) {
 				xr = 0.8;
+				if( yr<0.6 && !level.hasCollision(cx+1,cy-1) && dyTotal<=wallSlideTolerance ) dy-=wallSlide*tmod;
+				if( yr>0.6 && !level.hasCollision(cx+1,cy+1) && dyTotal>=-wallSlideTolerance ) dy+=wallSlide*tmod;
+
 			}
 			if( level.hasCollision(cx-1, cy) && xr<0.2 ) {
 				xr = 0.2;
+				if( yr<0.6 && !level.hasCollision(cx-1,cy-1) && dyTotal<=wallSlideTolerance ) dy-=wallSlide*tmod;
+				if( yr>0.6 && !level.hasCollision(cx-1,cy+1) && dyTotal>=-wallSlideTolerance ) dy+=wallSlide*tmod;
 			}
 			while( xr>1 ) { xr--; cx++; }
 			while( xr<0 ) { xr++; cx--; }
@@ -255,9 +263,13 @@ class Entity {
 			yr+=step;
 			if( level.hasCollision(cx, cy+1) && yr>0.9 ) {
 				yr = 0.9;
+				if( xr<0.5 && !level.hasCollision(cx-1,cy+1) && dxTotal<=wallSlideTolerance ) dx-=wallSlide*tmod;
+				if( xr>0.5 && !level.hasCollision(cx+1,cy+1) && dxTotal>=-wallSlideTolerance ) dx+=wallSlide*tmod;
 			}
 			if( level.hasCollision(cx, cy-1) && yr<0.5 ) {
 				yr = 0.5;
+				if( xr<0.5 && !level.hasCollision(cx-1,cy-1) && dxTotal<=wallSlideTolerance ) dx-=wallSlide*tmod;
+				if( xr>0.5 && !level.hasCollision(cx+1,cy-1) && dxTotal>=-wallSlideTolerance ) dx+=wallSlide*tmod;
 			}
 			while( yr>1 ) { yr--; cy++; }
 			while( yr<0 ) { yr++; cy--; }
