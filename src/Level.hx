@@ -7,11 +7,26 @@ class Level extends dn.Process {
 
 	var invalidated = true;
 	var data : ogmo.Level;
+	var layerRenders : Map<String,h2d.Object> = new Map();
+
+	var roofBitmaps : Map<Int, h2d.Bitmap> = new Map();
 
 	public function new(l:ogmo.Level) {
 		super(Game.ME);
 		data = l;
-		createRootInLayers(Game.ME.scroller, Const.DP_BG);
+		createRootInLayers(game.scroller, Const.DP_BG);
+
+		for(l in data.layersReversed) {
+			var o = new h2d.Object();
+			game.scroller.add(o, switch l.name {
+				case "roofs" : Const.DP_TOP;
+				case _ : Const.DP_BG;
+			});
+
+			switch l.name {
+				case _ : layerRenders.set(l.name, o);
+			}
+		}
 	}
 
 	public inline function isValid(cx,cy) return cx>=0 && cx<wid && cy>=0 && cy<hei;
@@ -31,28 +46,70 @@ class Level extends dn.Process {
 
 	public function render() {
 		invalidated = false;
-		root.removeChildren();
+		for(e in layerRenders)
+			e.removeChildren();
+		roofBitmaps = new Map();
 
 		for(l in data.layersReversed) {
+			var target = layerRenders.get(l.name);
+			if( l.name=="roofs" ) {
+				// Special roof render
+				for(cy in 0...l.cHei)
+				for(cx in 0...l.cWid) {
+					if( l.getTileId(cx,cy)<0 )
+						continue;
+
+					var b = new h2d.Bitmap(l.tileset.getTile( l.getTileId(cx,cy) ), target);
+					b.setPosition(cx*l.gridWid, cy*l.gridHei);
+					roofBitmaps.set( coordId(cx,cy), b );
+				}
+
+				continue;
+			}
+
+			// Default renders
 			switch l.type {
-				case TileLayer: l.render(root);
-				case EntityLayer: #if debug l.render(root, 0.5); #end
-				case IntGridLayer: #if debug l.render(root, 0.5); #end
+				case TileLayer: l.render(target);
+				case EntityLayer: #if debug l.render(target, 0.5); #end
+				case IntGridLayer: #if debug l.render(target, 0.5); #end
+				case _:
 			}
 		}
+	}
 
-		// for(cx in 0...wid)
-		// for(cy in 0...hei)
-		// 	if( hasCollision(cx,cy) ) {
-		// 		var g = new h2d.Graphics(root);
-		// 		g.lineStyle(1, 0xffffff, 1);
-		// 		g.drawCircle((cx+0.5)*Const.GRID, (cy+0.5)*Const.GRID, Const.GRID*0.5);
-		// 	}
+	public inline function hasRoof(cx,cy) return isValid(cx,cy) && roofBitmaps.exists(coordId(cx,cy));
+	inline function getRoofBitmap(cx,cy) : Null<h2d.Bitmap> return hasRoof(cx,cy) ? roofBitmaps.get(coordId(cx,cy)) : null;
+	var roofEraseMarks : Map<Int,Bool> = new Map();
+	public inline function eraseRoofFrom(cx,cy) {
+		if( hasRoof(cx,cy) )
+			roofEraseMarks.set( coordId(cx,cy), true );
+	}
+
+	public inline function clearRoofErase() {
+		roofEraseMarks = new Map();
 	}
 
 	override function postUpdate() {
 		super.postUpdate();
-		if( invalidated )
-			render();
+
+		if( invalidated ) render();
+
+		for(cy in 0...hei)
+		for(cx in 0...wid) {
+			if( !hasRoof(cx,cy) )
+				continue;
+			var b = getRoofBitmap(cx,cy);
+			if( !roofEraseMarks.exists(coordId(cx,cy)) && b.alpha<1 )
+				b.alpha += (1-b.alpha)*0.1;
+			if( roofEraseMarks.exists(coordId(cx,cy)) && b.alpha>0 ) {
+				b.alpha += (0-b.alpha)*0.3;
+				if( b.alpha<=0.2 ) {
+					eraseRoofFrom(cx-1,cy);
+					eraseRoofFrom(cx+1,cy);
+					eraseRoofFrom(cx,cy-1);
+					eraseRoofFrom(cx,cy+1);
+				}
+			}
+		}
 	}
 }

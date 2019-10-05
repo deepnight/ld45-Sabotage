@@ -22,5 +22,10 @@ class Hero extends Entity {
 			dx+=Math.cos(a)*s;
 			dy+=Math.sin(a)*s;
 		}
+
+		if( level.hasRoof(cx,cy) )
+			level.eraseRoofFrom(cx,cy);
+		else
+			level.clearRoofErase();
 	}
 }
