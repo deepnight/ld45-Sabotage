@@ -33,8 +33,6 @@ class Game extends Process {
 
 		var pt = level.getEntityPt("hero");
 		hero = new en.Hero(pt.cx, pt.cy);
-
-		trace(Lang.t._("Game is ready."));
 	}
 
 	public function onCdbReload() {
@@ -76,6 +74,11 @@ class Game extends Process {
 					trace(Lang.t._("Press ESCAPE again to exit."));
 				else
 					hxd.System.exit();
+			#end
+
+			#if debug
+			if( ca.isKeyboardPressed(Key.R) )
+				Main.ME.startGame();
 			#end
 		}
 	}
