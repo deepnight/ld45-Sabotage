@@ -8,6 +8,7 @@ class Game extends Process {
 	public var fx : Fx;
 	public var camera : Camera;
 	public var scroller : h2d.Layers;
+	public var ogmoProj : ogmo.Project;
 	public var level : Level;
 
 	public function new() {
@@ -24,7 +25,8 @@ class Game extends Process {
 		root.add(scroller, Const.DP_BG);
 
 		camera = new Camera();
-		level = new Level();
+		ogmoProj = new ogmo.Project(hxd.Res.map.ld45);
+		level = new Level(ogmoProj.levels[0]);
 		fx = new Fx();
 
 		trace(Lang.t._("Game is ready."));
