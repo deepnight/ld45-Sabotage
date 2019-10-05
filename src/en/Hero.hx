@@ -15,8 +15,6 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroIdle", 0, 0.4);
 	}
 
-	inline function isMoving() return M.fabs(dxTotal)>=0.04 || M.fabs(dyTotal)>=0.04;
-
 	override function dispose() {
 		super.dispose();
 		dropItem();

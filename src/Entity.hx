@@ -78,6 +78,8 @@ class Entity {
 		shadow.alpha = 0.6;
 	}
 
+	inline function isMoving() return M.fabs(dxTotal)>=0.01 || M.fabs(dyTotal)>=0.01;
+
 	public function zOver() {
 		game.scroller.over(spr);
 	}

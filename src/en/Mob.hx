@@ -38,10 +38,17 @@ class Mob extends Entity {
 
 		// for(i in 0...patrolPts.length) fx.markerCase(patrolPts[i].cx, patrolPts[i].cy, 9999, Color.interpolateInt(0x000088,0x880000, i/patrolPts.length)); // HACK
 
+		// Sight
 		viewCone = Assets.tiles.h_get("viewCone",0, 0, 0.5);
-		game.scroller.add(viewCone, Const.DP_FX_BG);
+		game.scroller.add(viewCone, Const.DP_BG);
+		game.scroller.under(viewCone);
 		viewCone.setScale(0.2);
 		lookAng = M.PI;
+
+		// Anims
+		spr.anim.registerStateAnim("guardRun", 1, 0.2, function() return isMoving() && hasAlarm());
+		spr.anim.registerStateAnim("guardWalk", 1, 0.2, function() return isMoving());
+		spr.anim.registerStateAnim("guardIdle", 0, 0.4);
 	}
 
 	override function dispose() {
@@ -73,7 +80,11 @@ class Mob extends Entity {
 		viewCone.colorize( hasAlarm() ? sightCheckEnt(hero) ? 0xff0000 : 0xffdd00 : 0x7a9aff );
 	}
 
-	function onAlarmStart() {}
+	function onAlarmStart() {
+		fx.alarm(headX, headY+5);
+		fx.flashBangS(0xffcc00, 0.3);
+		lockS(0.4);
+	}
 	function onAlarmEnd() {
 		var dh = new dn.DecisionHelper(patrolPts);
 		dh.score( function(pt) return -distCaseFree(pt.cx, pt.cy) );
@@ -85,7 +96,7 @@ class Mob extends Entity {
 	}
 
 	public inline function hasAlarm() {
-		return cd.has("alarm");
+		return isAlive() && cd.has("alarm");
 	}
 
 	function triggerAlarm(?sec=3.0) {
@@ -109,7 +120,7 @@ class Mob extends Entity {
 			fx.angle(footX, footY, lookAng+viewAng*0.5, 0.03, 0xff0000);
 			fx.angle(footX, footY, lookAng-viewAng*0.5, 0.03, 0xff0000);
 		}
-		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=10 )
+		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=6 )
 			cd.setS("sawHero", 0.4);
 
 		// Continue to track hero longer after last sight
@@ -124,6 +135,10 @@ class Mob extends Entity {
 				// Patrol movement
 				if( !cd.hasSetS("patrolPath",0.4) )
 					goto(curPatrolPt.cx, curPatrolPt.cy);
+				if( curPatrolPt.cx<cx ) dir = -1;
+				if( curPatrolPt.cx>cx ) dir = 1;
+				if( curPatrolPt.cy<cy ) dir = -1;
+				if( curPatrolPt.cy>cy ) dir = 1;
 			}
 			else {
 				// Reached patrol point
@@ -135,8 +150,10 @@ class Mob extends Entity {
 		}
 		else {
 			// Track alarm source
-			if( !cd.hasSetS("trackPath",0.2) )
+			if( !cd.hasSetS("trackPath",0.2) ) {
 				goto(lastAlarmPt.cx, lastAlarmPt.cy);
+				dir = lastAlarmPt.cx<cx ? -1 : lastAlarmPt.cx>cx ? 1 : dir;
+			}
 		}
 
 
@@ -149,7 +166,7 @@ class Mob extends Entity {
 			}
 			if( next!=null ) {
 				// Movement
-				var s = hasAlarm() ? 0.008 : 0.005;
+				var s = hasAlarm() ? 0.008 : spr.frame==1 ? 0.003 : 0.006;
 				var a = Math.atan2(next.footY-footY, next.footX-footX);
 				dx+=Math.cos(a)*s*tmod;
 				dy+=Math.sin(a)*s*tmod;

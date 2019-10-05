@@ -151,6 +151,19 @@ class Fx extends dn.Process {
 		}
 	}
 
+	public function alarm(x:Float, y:Float) {
+		var p = allocTopNormal(getTile("fxAlarm"), x,y);
+		p.setCenterRatio(0.5,1);
+		// p.setFadeS(1, 0, 0.2);
+		// p.colorize(c);
+		// p.setScale(0.03);
+		// p.ds = 0.03;
+		// p.dsFrict = 0.83;
+		p.dy = -3;
+		p.frict = 0.8;
+		p.lifeS = 1;
+	}
+
 	public function angle(x:Float, y:Float, ang:Float, ?sec=3.0, ?c=0xFF00FF) {
 		#if debug
 		var p = allocTopAdd(getTile("fxLineDir"), x,y);

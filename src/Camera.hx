@@ -47,6 +47,12 @@ class Camera extends dn.Process {
 			var tx = target.footX;
 			var ty = target.footY;
 
+			for(e in en.Mob.ALL)
+				if( e.isAlive() && e.hasAlarm() ) {
+					tx = ( tx*2 + e.centerX*1 ) / 3;
+					ty = ( ty*2 + e.centerY*1 ) / 3;
+				}
+
 			var d = M.dist(x,y, tx, ty);
 			if( d>=deadZone ) {
 				var a = Math.atan2( ty-y, tx-x );
