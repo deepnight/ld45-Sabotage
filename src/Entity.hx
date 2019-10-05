@@ -8,6 +8,7 @@ class Entity {
 	public var destroyed(default,null) = false;
 	public var ftime(get,never) : Float; inline function get_ftime() return game.ftime;
 	public var tmod(get,never) : Float; inline function get_tmod() return Game.ME.tmod;
+	public var hero(get,never) : en.Hero; inline function get_hero() return Game.ME.hero;
 
 	public var cd : dn.Cooldown;
 
@@ -97,7 +98,16 @@ class Entity {
 	public inline function irnd(min,max,?sign) return Lib.irnd(min,max,sign);
 	public inline function pretty(v,?p=1) return M.pretty(v,p);
 
+	public inline function sightCheckEnt(e:Entity) {
+		return sightCheckCase(e.cx,e.cy);
+	}
+
+	public inline function sightCheckCase(tcx:Int, tcy:Int) {
+		return dn.Bresenham.checkThinLine(cx,cy,tcx,tcy, function(x,y) return !level.hasCollision(x,y));
+	}
+
 	public inline function dirTo(e:Entity) return e.centerX<centerX ? -1 : 1;
+	public inline function angTo(e:Entity) return Math.atan2(e.footY-footY, e.footX-footX);
 
 	public inline function distCase(e:Entity) {
 		return M.dist(cx+xr, cy+yr, e.cx+e.xr, e.cy+e.yr);

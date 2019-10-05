@@ -6,35 +6,35 @@ filter: Linear,Linear
 repeat: none
 empty
   rotate: false
-  xy: 19, 177
+  xy: 248, 9
   size: 3, 3
   orig: 1, 1
   offset: 0, -2
   index: -1
 fxCircle
   rotate: false
-  xy: 1, 177
+  xy: 230, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 fxDot
   rotate: false
-  xy: 19, 182
+  xy: 248, 14
   size: 3, 3
   orig: 3, 3
   offset: 0, 0
   index: -1
 fxLine
   rotate: false
-  xy: 1, 203
+  xy: 177, 67
   size: 33, 3
   orig: 33, 3
   offset: 0, 0
   index: -1
 fxLineDir0
   rotate: false
-  xy: 9, 195
+  xy: 212, 67
   size: 32, 3
   orig: 33, 3
   offset: 1, 0
@@ -48,22 +48,29 @@ fxNova0
   index: -1
 fxSmallCircle
   rotate: false
-  xy: 1, 195
+  xy: 248, 1
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 fxSmoke0
   rotate: false
-  xy: 1, 131
+  xy: 131, 67
   size: 44, 44
   orig: 44, 44
   offset: 0, 0
   index: -1
 pixel
   rotate: false
-  xy: 9, 200
+  xy: 253, 9
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
+  index: -1
+viewCone
+  rotate: false
+  xy: 131, 1
+  size: 97, 64
+  orig: 128, 66
+  offset: 0, 1
   index: -1
