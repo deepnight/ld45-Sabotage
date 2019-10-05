@@ -9,6 +9,8 @@ class Level extends dn.Process {
 	var data : ogmo.Level;
 	var layerRenders : Map<String,h2d.Object> = new Map();
 
+	var damageMap : Map<Int, Float> = new Map();
+
 	var roofBitmaps : Map<Int, h2d.Bitmap> = new Map();
 	public var pf : dn.PathFinder;
 
@@ -33,6 +35,17 @@ class Level extends dn.Process {
 		for(cy in 0...hei)
 		for(cx in 0...wid)
 			pf.setCollision(cx,cy, hasCollision(cx,cy));
+	}
+
+	public inline function getDamage(cx,cy) {
+		return isValid(cx,cy) && damageMap.exists(coordId(cx,cy)) ? damageMap.get(coordId(cx,cy)) : 0.;
+	}
+
+	public inline function damage(cx,cy, pow:Float) {
+		if( !isValid(cx,cy) || getDamage(cx,cy)>=1 )
+			return;
+
+		damageMap.set( coordId(cx,cy), M.fclamp(getDamage(cx,cy)+pow, 0, 1) );
 	}
 
 	public inline function isValid(cx,cy) return cx>=0 && cx<wid && cy>=0 && cy<hei;
@@ -119,20 +132,25 @@ class Level extends dn.Process {
 
 		for(cy in 0...hei)
 		for(cx in 0...wid) {
-			if( !hasRoof(cx,cy) )
-				continue;
-			var b = getRoofBitmap(cx,cy);
-			if( !roofEraseMarks.exists(coordId(cx,cy)) && b.alpha<1 )
-				b.alpha += (1-b.alpha)*0.1;
-			if( roofEraseMarks.exists(coordId(cx,cy)) && b.alpha>0 ) {
-				b.alpha += (0-b.alpha)*0.3;
-				if( b.alpha<=0.2 ) {
-					eraseRoofFrom(cx-1,cy);
-					eraseRoofFrom(cx+1,cy);
-					eraseRoofFrom(cx,cy-1);
-					eraseRoofFrom(cx,cy+1);
+			if( !cd.has("fireFx") && getDamage(cx,cy)>0 && ( hasCollision(cx,cy) || hasRoof(cx,cy) ) )
+				fx.fire((cx+rnd(0.3,0.7))*Const.GRID, (cy+rnd(0.2,1))*Const.GRID);
+
+			// Roof anim
+			if( hasRoof(cx,cy) ) {
+				var b = getRoofBitmap(cx,cy);
+				if( !roofEraseMarks.exists(coordId(cx,cy)) && b.alpha<1 )
+					b.alpha += (1-b.alpha)*0.1;
+				if( roofEraseMarks.exists(coordId(cx,cy)) && b.alpha>0 ) {
+					b.alpha += (0-b.alpha)*0.3;
+					if( b.alpha<=0.2 ) {
+						eraseRoofFrom(cx-1,cy);
+						eraseRoofFrom(cx+1,cy);
+						eraseRoofFrom(cx,cy-1);
+						eraseRoofFrom(cx,cy+1);
+					}
 				}
 			}
 		}
+		cd.hasSetS("fireFx",0.15);
 	}
 }

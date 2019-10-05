@@ -173,6 +173,37 @@ class Fx extends dn.Process {
 		p.lifeS = 0;
 	}
 
+	public function fire(x:Float, y:Float) {
+		// var t = rnd(0.2,0.3);
+		var p = allocBgNormal(getTile("fxSmoke"), x,y);
+		p.colorize(0x440000);
+		p.setFadeS(rnd(0.2,0.5), 0.2, 0.6);
+		p.rotation = rnd(0,6.28);
+		p.setScale(rnd(0.5,1.2,true));
+		p.lifeS = 0.2;
+		p.dy = -rnd(0.4,1);
+		p.frict = rnd(0.92,0.94);
+
+		for(i in 0...2) {
+			var p = allocTopAdd(getTile("fxLargeFlame"), x+rnd(0,3,true), y+rnd(0,3,true));
+			p.setCenterRatio(0.5, rnd(0.7,1));
+			p.setFadeS(rnd(0.8,1), 0.2, 0.1);
+			p.colorAnimS(0xffcc00, 0xc52424, rnd(0.3,0.4));
+			p.scaleXMul = rnd(0.98,1.01);
+			// p.scaleYMul = rnd(0.98,0.99);
+			p.dsY = rnd(0.01,0.03);
+			p.dsFrict = rnd(0.88,0.90);
+			p.scaleX = rnd(0.6,0.9,true);
+			p.scaleY = rnd(0.3,0.6);
+
+			// p.moveAng(-0.1, rnd(0.0,0.2));
+			// p.rotation = -0.1;
+			p.frict = rnd(0.92,0.94);
+			p.lifeS = rnd(0.3,0.8);
+			p.delayS = rnd(0,0.5);
+		}
+	}
+
 	override function update() {
 		super.update();
 

@@ -23,9 +23,16 @@ class Hero extends Entity {
 			dy+=Math.sin(a)*s;
 		}
 
+		if( ca.xPressed() )
+			dn.Bresenham.iterateDisc(cx,cy, 4, function(cx,cy) {
+				level.damage(cx,cy, 0.35);
+			});
+
 		if( level.hasRoof(cx,cy) )
 			level.eraseRoofFrom(cx,cy);
 		else
 			level.clearRoofErase();
+
+		debug(fx.pool.getAllocateds());
 	}
 }

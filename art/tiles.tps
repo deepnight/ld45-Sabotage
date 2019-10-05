@@ -239,6 +239,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">export_tiles/fxFlame0.png</key>
+            <key type="filename">export_tiles/fxFlame1.png</key>
+            <key type="filename">export_tiles/fxFlame2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,3,4,7</rect>
+                <key>scale9Paddings</key>
+                <rect>2,3,4,7</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">export_tiles/fxLine.png</key>
             <key type="filename">export_tiles/fxLineDir0.png</key>
             <struct type="IndividualSpriteSettings">
@@ -289,6 +304,19 @@
                 <rect>11,11,22,22</rect>
                 <key>scale9Paddings</key>
                 <rect>11,11,22,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/viewCone.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,17,64,33</rect>
+                <key>scale9Paddings</key>
+                <rect>32,17,64,33</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
