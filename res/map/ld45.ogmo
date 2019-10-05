@@ -116,7 +116,7 @@
       "hasNodes": true,
       "nodeLimit": 0,
       "nodeDisplay": 1,
-      "nodeGhost": false,
+      "nodeGhost": true,
       "tags": [],
       "values": []
     },
