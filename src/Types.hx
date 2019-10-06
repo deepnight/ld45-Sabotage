@@ -1,3 +1,4 @@
 enum ItemType {
 	Barrel;
+	Gun;
 }

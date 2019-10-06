@@ -56,6 +56,14 @@ class Mob extends Entity {
 	override function dispose() {
 		super.dispose();
 		ALL.remove(this);
+		viewCone.remove();
+		path = null;
+		patrolPts = null;
+	}
+
+	override function onDie() {
+		super.onDie();
+		new en.Cadaver(this, "guardDead", Gun);
 	}
 
 	function goto(x,y) {
@@ -105,12 +113,13 @@ class Mob extends Entity {
 		return isAlive() && cd.has("alarm");
 	}
 
-	function triggerAlarm(?sec=3.0) {
+	public function triggerAlarm(?sec=3.0) {
 		if( !hasAlarm() ) {
 			onAlarmStart();
 			lockS(0.4);
 			cd.setS("recentAlarmStart", getLockS()+0.1);
 		}
+		lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
 		cd.setS("alarm",sec);
 		cd.setS("wasUnderAlarm", Const.INFINITE);
 	}
@@ -141,10 +150,8 @@ class Mob extends Entity {
 				}
 
 				// Continue to track hero longer after last sight
-				if( !isStunned() && cd.has("sawHero") ) {
-					lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
+				if( !isStunned() && cd.has("sawHero") )
 					triggerAlarm();
-				}
 
 				// Shoot
 				if( !isLocked() && cd.has("canShoot") && distCase(hero)<=8 && !cd.has("shootLock")) {

@@ -9,6 +9,7 @@ class Hero extends Entity {
 		ca = Main.ME.controller.createAccess("hero");
 
 		spr.anim.registerStateAnim("heroHit", 10, function() return isLocked() && cd.has("recentHit") );
+		spr.anim.registerStateAnim("heroUseGun", 2, 0.05, function() return isLocked() && cd.has("usingGun") );
 		spr.anim.registerStateAnim("heroThrow", 2, 0.05, function() return isLocked() && cd.has("throwingItem") );
 		spr.anim.registerStateAnim("heroGrab", 2, function() return isLocked() && cd.has("grabbingItem") );
 		spr.anim.registerStateAnim("heroRun", 1, 0.2, function() return isMoving());
@@ -56,15 +57,19 @@ class Hero extends Entity {
 	}
 
 	public inline function isGrabbing<T:Entity>(c:Class<T>) return grabbedEnt!=null && grabbedEnt.isAlive() && Std.is(grabbedEnt, c);
+	public inline function isGrabbingItem(k:ItemType) return isGrabbing(en.Item) && grabbedEnt.as(Item).item==k;
+	public inline function consumeItemUse() if( isGrabbing(en.Item) ) grabbedEnt.as(Item).consumeUse();
 
 	function releaseGrab() {
 		if( grabbedEnt!=null ) {
 			grabbedEnt.setPosCase(cx,cy,xr,yr);
 			grabbedEnt.bump(dir*0.06, 0, 0.2);
 			grabbedEnt.stunS(0.4);
+			grabbedEnt.setSpriteOffset();
 			grabbedEnt.spr.rotation = 0;
 			grabbedEnt.cd.setS("grabLock",1);
 			grabbedEnt = null;
+			cd.setS("grabLock",0.5);
 		}
 	}
 
@@ -83,24 +88,15 @@ class Hero extends Entity {
 			if( isAlive() && e.isAlive() ) {
 				releaseGrab();
 				var s = 0.4;
-				e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.3);
+				e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.03);
 			}
 		}, 0.25);
 		lockS(0.3);
 		grabbedEnt.stunS(1.2);
 		grabbedEnt.cd.setS("grabLock",1);
+		cd.setS("grabLock",0.5);
 		throwAngle = getThrowAngle();
 		cd.setS("throwingItem", getLockS()-0.1);
-	}
-
-	function pickItem(e:Item) {
-		releaseGrab();
-		dx*=0.3;
-		dy*=0.3;
-		dir = dirTo(e);
-		grabbedEnt = e;
-		lockS(0.3);
-		cd.setS("grabbingItem", getLockS()-0.1);
 	}
 
 	function grab(e:Entity) {
@@ -116,6 +112,7 @@ class Hero extends Entity {
 
 	override function postUpdate() {
 		super.postUpdate();
+
 		if( grabbedEnt!=null ) {
 			if( cd.has("grabbingItem") )
 				grabbedEnt.setPosPixel(footX+dir*10, footY+1);
@@ -123,32 +120,47 @@ class Hero extends Entity {
 				grabbedEnt.spr.rotation = 0;
 				grabbedEnt.setPosPixel(footX-dir*4, footY-8);
 			}
+			else if( cd.has("usingGun") ) {
+				grabbedEnt.zPriorityOffset = 10;
+				grabbedEnt.setSpriteOffset(dir*5, 2);
+				grabbedEnt.spr.rotation = 0;
+			}
 			else {
 				grabbedEnt.setPosCase(cx,cy,xr,yr);
 				if( isGrabbing(en.Item) ) {
+					grabbedEnt.zPriorityOffset = -10;
+					grabbedEnt.dir = dir;
 					grabbedEnt.spr.rotation = dir*0.2;
 					if( isMoving() )
-						grabbedEnt.setSpriteOffset(-dir*4, -3);
+						grabbedEnt.setSpriteOffset(-dir*2, -3);
 					else
 						grabbedEnt.setSpriteOffset(-dir*3, -2);
+
+					if( isGrabbingItem(Gun) ) {
+						grabbedEnt.sprOffX+=dir*6;
+						grabbedEnt.sprOffY-=4;
+						grabbedEnt.spr.rotation = dir*-1.3;
+					}
 				}
 				else if( isGrabbing(en.Mob) ) {
 					grabbedEnt.dir = dir;
 					grabbedEnt.setSpriteOffset(dir*2, 1);
 				}
 			}
+			grabbedEnt.postUpdate();
 		}
 	}
 
 	override function update() {
 		super.update();
 
-
 		var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
+		var leftPushed = leftDist>=0.3;
+		var leftAng = Math.atan2(-ca.lyValue(), ca.lxValue());
 
 		// Throw aiming
 		if( isLocked() && cd.has("throwingItem") ) {
-			if( leftDist>=0.3 && cd.getS("throwingItem")>=0.1 )
+			if( leftPushed && cd.getS("throwingItem")>=0.1 )
 				throwAngle = getThrowAngle();
 			if( !cd.hasSetS("throwFx",0.02) )
 				fx.throwAngle(footX, footY, getThrowAngle());
@@ -156,11 +168,10 @@ class Hero extends Entity {
 
 		if( !isLocked() ) {
 			// Move
-			if( leftDist>=0.3 ) {
-				var a = Math.atan2(-ca.lyValue(), ca.lxValue());
+			if( leftPushed ) {
 				var s = 0.013 * leftDist * tmod;
-				dx+=Math.cos(a)*s;
-				dy+=Math.sin(a)*s;
+				dx+=Math.cos(leftAng)*s;
+				dy+=Math.sin(leftAng)*s;
 				if( ca.lxValue()<0.3 ) dir = -1;
 				if( ca.lxValue()>0.3 ) dir = 1;
 			}
@@ -170,16 +181,46 @@ class Hero extends Entity {
 			}
 
 			// Pick/throw items
-			if( ca.xPressed() && grabbedEnt==null ) {
+			if( grabbedEnt==null && !cd.has("grabLock") ) {
 				var dh = new dn.DecisionHelper(Item.ALL);
-				dh.keepOnly( function(e) return e.isAlive() && !e.isGrabbed() && ( sightCheckEnt(e) && distCase(e)<=1.5 || distCase(e)<=0.8 ) );
+				dh.keepOnly( function(e) return e.isAlive() && !e.isGrabbed() && ( sightCheckEnt(e) && distCase(e)<=1 || distCase(e)<=0.7 ) && !e.cd.has("grabLock"));
 				dh.score( function(e) return -distCase(e) );
 				var e = dh.getBest();
 				if( e!=null )
-					pickItem(e);
+					grab(e);
 			}
-			else if( ca.xPressed() && grabbedEnt!=null )
-				throwGrab();
+			else if( ca.xPressed() && grabbedEnt!=null ) {
+				if( isGrabbing(Item) && grabbedEnt.as(Item).canUse() ) {
+					var i = grabbedEnt.as(Item);
+					switch i.item {
+						case Barrel:
+							throwGrab();
+							consumeItemUse();
+
+						case Gun:
+							// Shoot
+							cancelVelocities();
+							var dh = new dn.DecisionHelper(Mob.ALL);
+							dh.keepOnly( function(e) return e.isAlive() && sightCheckEnt(e) && distCase(e)<=8 );
+							dh.score( function(e) return isLookingAt(e) ? 10 : 0 );
+							dh.score( function(e) return e.hasAlarm() ? 3 : 0 );
+							dh.score( function(e) return -distCase(e)*2 );
+							dh.score( function(e) return leftPushed && M.radDistance(leftAng, angTo(e))<=0.8 ? 50 : 0 );
+							var e = dh.getBest();
+							if( e!=null )
+								lookAt(e);
+
+							var a = e==null ? leftPushed ? leftAng : dirToAng() : angTo(e);
+							new Bullet(this, a);
+							cd.setS("usingGun", 0.2);
+							lockS(0.2);
+							game.camera.shakeS(0.1, 0.2);
+							consumeItemUse();
+					}
+				}
+				if( isGrabbing(Mob) )
+					throwGrab();
+			}
 			else if( ca.bPressed() && grabbedEnt!=null )
 				releaseGrab();
 
@@ -192,7 +233,7 @@ class Hero extends Entity {
 		}
 
 		// Grab enemies
-		if( grabbedEnt==null )
+		if( grabbedEnt==null && !cd.has("grabLock") )
 			for(e in en.Mob.ALL) {
 				if( !e.isAlive() || e.cd.has("grabLock") )
 					continue;
@@ -213,6 +254,7 @@ class Hero extends Entity {
 					var a = angTo(e);
 					e.stunS(0.9);
 					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
+					e.hit(this,1);
 					game.camera.shakeS(0.2);
 					break;
 				}

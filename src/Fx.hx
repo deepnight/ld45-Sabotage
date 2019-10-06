@@ -167,6 +167,20 @@ class Fx extends dn.Process {
 		p.lifeS = 1;
 	}
 
+	public function destroyItem(e:Entity) {
+		var n = 20;
+		for(i in 0...n) {
+			var a = 6.28*i/n + rnd(0,0.3,true);
+			var p = allocTopNormal(getTile("fxFragment"), e.centerX+rnd(0,4,true), e.centerY+rnd(0,4,true));
+			p.colorize(0x848ca5);
+			p.moveAng(a, rnd(1.5,2));
+			p.setFadeS(rnd(0.4,0.9), 0, rnd(0.1,0.2) );
+			p.gy = rnd(0,0.02);
+			p.frict = rnd(0.80,0.83);
+			p.lifeS = rnd(1,1.5);
+		}
+	}
+
 	public function angle(x:Float, y:Float, ang:Float, dist:Float, ?sec=3.0, ?c=0xFF00FF) {
 		#if debug
 		var p = allocTopAdd(getTile("fxLineDir"), x,y);

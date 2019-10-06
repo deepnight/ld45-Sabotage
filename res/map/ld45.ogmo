@@ -158,7 +158,7 @@
         {
           "name": "type",
           "definition": "Enum",
-          "choices": ["barrel"],
+          "choices": ["Barrel", "Gun"],
           "defaults": 0
         }
       ]

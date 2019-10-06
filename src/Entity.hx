@@ -32,6 +32,7 @@ class Entity {
 	public var bumpFrict = 0.93;
 	public var hei : Float = Const.GRID;
 	public var radius = Const.GRID*0.5;
+	public var zPriorityOffset = 0.;
 
 	public var life : Int;
 	public var maxLife : Int;
@@ -184,6 +185,7 @@ class Entity {
 	}
 
 	public inline function dirTo(e:Entity) return e.centerX<centerX ? -1 : 1;
+	public inline function dirToAng() return dir==1 ? 0. : M.PI;
 	public inline function angTo(e:Entity) return Math.atan2(e.footY-footY, e.footX-footX);
 	public inline function isLookingAt(e:Entity) return dir==dirTo(e);
 	public inline function lookAt(e:Entity) dir=dirTo(e);

@@ -31,7 +31,7 @@
           "y": 128,
           "originX": -4,
           "originY": -4,
-          "values": {"type": "barrel"}
+          "values": {"type": "Barrel"}
         },
         {
           "name": "item",
@@ -41,7 +41,7 @@
           "y": 80,
           "originX": -4,
           "originY": -4,
-          "values": {"type": "barrel"}
+          "values": {"type": "Barrel"}
         },
         {
           "name": "item",
@@ -51,7 +51,7 @@
           "y": 192,
           "originX": -4,
           "originY": -4,
-          "values": {"type": "barrel"}
+          "values": {"type": "Barrel"}
         },
         {
           "name": "guard",
@@ -94,6 +94,16 @@
           "y": 96,
           "originX": 0,
           "originY": 0
+        },
+        {
+          "name": "item",
+          "id": 12,
+          "_eid": "29646116",
+          "x": 240,
+          "y": 192,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Gun"}
         }
       ]
     },

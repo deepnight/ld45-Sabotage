@@ -1,9 +1,11 @@
 package en;
 
 class Bullet extends Entity {
+	var source : Entity;
 	public function new(e:Entity, ang:Float, ?spd=1.0) {
 		super(0,0);
 
+		source = e;
 		hei = 0;
 		frict = 1;
 		hasCollisions = false;
@@ -16,10 +18,6 @@ class Bullet extends Entity {
 
 		spr.anim.playAndLoop("bulletSmallMob").setSpeed(0.3);
 	}
-
-	// override function onTouchWall() {
-	// 	super.onTouchWall();
-	// }
 
 	function onBulletHitObstacle() {
 		fx.bulletWall(centerX, centerY, Math.atan2(dy,dx));
@@ -42,10 +40,18 @@ class Bullet extends Entity {
 		if( !level.isValid(cx,cy) )
 			destroy();
 
-		if( checkHit(hero) ) {
+		if( source.is(en.Mob) && checkHit(hero) ) {
 			hero.hit(this, 1);
 			fx.bulletBleed(centerX, centerY, Math.atan2(dy,dx));
 			destroy();
+		}
+		if( source.is(Hero) ) {
+			for(e in Mob.ALL)
+				if( checkHit(e) ) {
+					e.hit(this, 1);
+					fx.bulletBleed(centerX, centerY, Math.atan2(dy,dx));
+					destroy();
+				}
 		}
 	}
 }
