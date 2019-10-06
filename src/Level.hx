@@ -113,6 +113,27 @@ class Level extends dn.Process {
 				continue;
 			}
 
+			// Auto render collisions (time saving!)
+			if( l.name=="tiles" ) {
+				var tile = l.tileset.t;
+				var tg = new h2d.TileGroup(tile, target);
+				for(cy in 0...l.cHei)
+				for(cx in 0...l.cWid) {
+					if( !hasCollision(cx,cy) )
+						continue;
+					var cid = data.layersByName.get("collisions").getIntGrid(cx,cy);
+					if( cid<=0 )
+						continue;
+					tg.add(
+						cx*Const.GRID, cy*Const.GRID, tile.sub(
+							(hasCollision(cx,cy+1)?1:0)*Const.GRID,
+							(3+cid-1)*Const.GRID,
+							Const.GRID, Const.GRID
+						)
+					);
+				}
+			}
+
 			// Default renders
 			switch l.type {
 				case TileLayer: l.render(target);
@@ -120,6 +141,7 @@ class Level extends dn.Process {
 				// case IntGridLayer: #if debug l.render(target, 0.5); #end
 				case _:
 			}
+
 		}
 	}
 
