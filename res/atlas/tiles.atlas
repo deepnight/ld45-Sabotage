@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 barrel0
   rotate: false
-  xy: 211, 138
+  xy: 195, 128
   size: 14, 15
   orig: 16, 16
   offset: 1, 0
@@ -41,21 +41,21 @@ bulletSmallMob0
   index: -1
 bulletSmallMob1
   rotate: false
-  xy: 1, 146
+  xy: 1, 145
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 bulletSmallMob2
   rotate: false
-  xy: 8, 146
+  xy: 8, 145
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 bulletSmallMob3
   rotate: false
-  xy: 15, 146
+  xy: 15, 145
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
@@ -104,7 +104,7 @@ fxFlame0
   index: -1
 fxFlame1
   rotate: false
-  xy: 1, 225
+  xy: 16, 171
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -202,7 +202,7 @@ guardRun1
   index: -1
 guardRun2
   rotate: false
-  xy: 227, 151
+  xy: 211, 138
   size: 14, 15
   orig: 16, 16
   offset: 0, 1
@@ -240,7 +240,7 @@ guardWalk0
   xy: 147, 113
   size: 14, 16
   orig: 16, 16
-  offset: 0, 0
+  offset: 1, 0
   index: -1
 guardWalk1
   rotate: false
@@ -251,14 +251,14 @@ guardWalk1
   index: -1
 guardWalk2
   rotate: false
-  xy: 179, 113
-  size: 14, 16
+  xy: 1, 207
+  size: 13, 16
   orig: 16, 16
-  offset: 1, 0
+  offset: 0, 0
   index: -1
 heroDead0
   rotate: false
-  xy: 12, 225
+  xy: 227, 151
   size: 14, 15
   orig: 16, 16
   offset: 1, 0
@@ -272,7 +272,7 @@ heroDead1
   index: -1
 heroGrab0
   rotate: false
-  xy: 16, 171
+  xy: 16, 152
   size: 14, 15
   orig: 16, 16
   offset: 2, 0
@@ -321,7 +321,7 @@ heroRun0
   index: -1
 heroRun1
   rotate: false
-  xy: 1, 207
+  xy: 1, 225
   size: 13, 16
   orig: 16, 16
   offset: 2, 0
@@ -335,14 +335,14 @@ heroRun2
   index: -1
 heroThrow0
   rotate: false
-  xy: 195, 128
+  xy: 179, 113
   size: 14, 16
   orig: 16, 16
   offset: 1, 0
   index: -1
 heroThrow1
   rotate: false
-  xy: 16, 153
+  xy: 22, 131
   size: 14, 15
   orig: 16, 16
   offset: 2, 0
