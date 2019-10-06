@@ -27,8 +27,8 @@
           "name": "item",
           "id": 3,
           "_eid": "29646116",
-          "x": 208,
-          "y": 128,
+          "x": 128,
+          "y": 192,
           "originX": -4,
           "originY": -4,
           "values": {"type": "Barrel"}
@@ -61,17 +61,17 @@
           "y": 336,
           "originX": 0,
           "originY": 0,
-          "values": {"look": "right"}
+          "values": {"patrol": "up"}
         },
         {
           "name": "guard",
           "id": 15,
           "_eid": "27758560",
-          "x": 336,
+          "x": 384,
           "y": 336,
           "originX": 0,
           "originY": 0,
-          "values": {"look": "left"}
+          "values": {"patrol": "up"}
         },
         {
           "name": "item",
@@ -95,67 +95,23 @@
         },
         {
           "name": "guard",
-          "id": 18,
-          "_eid": "27758560",
-          "x": 432,
-          "y": 176,
-          "originX": 0,
-          "originY": 0,
-          "nodes": [{"x": 288, "y": 176}],
-          "values": {"look": "up"}
-        },
-        {
-          "name": "guard",
-          "id": 19,
-          "_eid": "27758560",
-          "x": 80,
-          "y": 336,
-          "originX": 0,
-          "originY": 0,
-          "nodes": [{"x": 224, "y": 336}],
-          "values": {"look": "up"}
-        },
-        {
-          "name": "guard",
-          "id": 20,
-          "_eid": "27758560",
-          "x": 112,
-          "y": 80,
-          "originX": 0,
-          "originY": 0,
-          "nodes": [{"x": 192, "y": 80}],
-          "values": {"look": "up"}
-        },
-        {
-          "name": "guard",
-          "id": 21,
-          "_eid": "27758560",
-          "x": 192,
-          "y": 112,
-          "originX": 0,
-          "originY": 0,
-          "nodes": [{"x": 112, "y": 112}],
-          "values": {"look": "up"}
-        },
-        {
-          "name": "guard",
           "id": 22,
           "_eid": "27758560",
-          "x": 128,
-          "y": 256,
+          "x": 112,
+          "y": 272,
           "originX": 0,
           "originY": 0,
-          "values": {"look": "up"}
+          "values": {"patrol": "up"}
         },
         {
           "name": "guard",
           "id": 23,
           "_eid": "27758560",
-          "x": 384,
-          "y": 240,
+          "x": 352,
+          "y": 192,
           "originX": 0,
           "originY": 0,
-          "values": {"look": "up"}
+          "values": {"patrol": "up"}
         },
         {
           "name": "guard",
@@ -165,7 +121,7 @@
           "y": 32,
           "originX": 0,
           "originY": 0,
-          "values": {"look": "right"}
+          "values": {"patrol": "left"}
         },
         {
           "name": "guard",
@@ -175,7 +131,7 @@
           "y": 128,
           "originX": 0,
           "originY": 0,
-          "values": {"look": "down"}
+          "values": {"patrol": "up"}
         },
         {
           "name": "door",
@@ -216,6 +172,56 @@
           "originX": 0,
           "originY": 0,
           "values": {"color": "gold"}
+        },
+        {
+          "name": "guard",
+          "id": 33,
+          "_eid": "27758560",
+          "x": 256,
+          "y": 176,
+          "originX": 0,
+          "originY": 0,
+          "values": {"patrol": "right"}
+        },
+        {
+          "name": "guard",
+          "id": 34,
+          "_eid": "27758560",
+          "x": 384,
+          "y": 208,
+          "originX": 0,
+          "originY": 0,
+          "values": {"patrol": "down"}
+        },
+        {
+          "name": "guard",
+          "id": 35,
+          "_eid": "27758560",
+          "x": 112,
+          "y": 96,
+          "originX": 0,
+          "originY": 0,
+          "values": {"patrol": "right"}
+        },
+        {
+          "name": "guard",
+          "id": 36,
+          "_eid": "27758560",
+          "x": 192,
+          "y": 128,
+          "originX": 0,
+          "originY": 0,
+          "values": {"patrol": "left"}
+        },
+        {
+          "name": "guard",
+          "id": 37,
+          "_eid": "27758560",
+          "x": 336,
+          "y": 336,
+          "originX": 0,
+          "originY": 0,
+          "values": {"patrol": "down"}
         }
       ]
     },
