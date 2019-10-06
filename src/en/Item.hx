@@ -15,7 +15,7 @@ class Item extends Entity {
 		maxUses = switch i {
 			case Barrel: 1;
 			case Grenade: 1;
-			case Gun: 2;
+			case Gun: 4;
 			case Knife: 4;
 			case SilverKey: 1;
 			case GoldKey: 1;

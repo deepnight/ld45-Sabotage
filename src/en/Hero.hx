@@ -100,7 +100,7 @@ class Hero extends Entity {
 		grabbedEnt.stunS(1.2);
 		grabbedEnt.cd.setS("grabLock",1);
 		cd.setS("grabLock",0.5);
-		throwAngle = getCleverAngle();
+		throwAngle = getCleverAngle(false, e);
 		cd.setS("throwingItem", getLockS()-0.1);
 	}
 
@@ -166,24 +166,29 @@ class Hero extends Entity {
 		}
 	}
 
-	function getCleverAngle() {
+	function getCleverAngle(forEnemy:Bool, ?exclude:Entity) {
 		var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
 		var leftPushed = leftDist>=0.3;
 		var leftAng = Math.atan2(-ca.lyValue(), ca.lxValue());
 
-		var dh = new dn.DecisionHelper(Mob.ALL);
-		dh.keepOnly( function(e) return e.isAlive() && sightCheckEnt(e) && distCase(e)<=8 && !e.isGrabbed() );
+		var dh = new dn.DecisionHelper(Entity.ALL);
+		// var dh = new dn.DecisionHelper(Mob.ALL);
+		if( forEnemy )
+			dh.keepOnly( function(e) return e.isAlive() && ( e.is(Mob) || e.is(Spike) ));
+		else
+			dh.keepOnly( function(e) return e.isAlive() && e.is(Mob) );
+		dh.keepOnly( function(e) return e.isAlive() && ( exclude==null || e!=exclude ) && sightCheckEnt(e) && distCase(e)<=8 && !e.isGrabbed() );
 		if( leftPushed )
 			dh.remove( function(e) return M.radDistance(leftAng, angTo(e))>1 );
 		dh.score( function(e) return isLookingAt(e) ? 10 : 0 );
-		dh.score( function(e) return e.hasAlarm() ? 3 : 0 );
+		dh.score( function(e) return e.is(Mob) && e.as(Mob).hasAlarm() ? 3 : 0 );
 		dh.score( function(e) return -distCase(e)*2 );
 		if( leftPushed )
 			dh.score( function(e) return M.radDistance(leftAng, angTo(e))<=0.7 ? 50 : 0 );
 
 		var e = dh.getBest();
 		if( e!=null ) {
-			// fx.markerEntity(e, true);
+			fx.markerEntity(e, true);
 			lookAt(e);
 		}
 
@@ -200,7 +205,7 @@ class Hero extends Entity {
 		// Throw aiming
 		if( isLocked() && cd.has("throwingItem") ) {
 			if( leftPushed )
-				throwAngle = getCleverAngle();
+				throwAngle = getCleverAngle(true);
 			if( !cd.hasSetS("throwFx",0.02) )
 				fx.throwAngle(footX, footY, throwAngle);
 		}
@@ -247,7 +252,7 @@ class Hero extends Entity {
 						case Gun:
 							// Shoot
 							cancelVelocities();
-							var a = getCleverAngle();
+							var a = getCleverAngle(false);
 							new Bullet(this, a, 1.5);
 							cd.setS("usingGun", 0.2);
 							lockS(0.2);
@@ -294,23 +299,24 @@ class Hero extends Entity {
 
 			if( grabbedEnt==null && !cd.has("grabLock") && !e.cd.has("grabLock") ) {
 				// Grab mob
-				if( ( !e.hasAlarm() || e.cd.has("recentAlarmStart") || e.isStunned() ) && distCase(e)<=0.75 ) {
+				if( ( !e.hasAlarm() || e.cd.has("allowLastSecondGrab") ) && distCase(e)<=0.75 ) {
 					grab(e);
 					break;
 				}
 
-				if( e.hasAlarm() && !e.cd.has("recentAlarmStart") && distCase(e)<=0.75 && !cd.has("punch") ) {
+				if( e.hasAlarm() && !e.cd.has("allowLastSecondGrab") && distCase(e)<=0.75 && !cd.has("punch") ) {
 					// Melee punch
 					lockS(0.3);
 					cd.setS("punch",0.5);
 					spr.anim.play("heroPunch").setSpeed(0.4);
 					dir = dirTo(e);
 					bump(dir*0.02, 0, 0);
-					var a = angTo(e);
+					// var a = angTo(e);
+					var a = getCleverAngle(true, e);
 					e.stunS(1.2);
 					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
 					// e.hit(this, 1);
-					e.cd.setS("punched",0.4);
+					// e.cd.setS("punched",0.4);
 					game.camera.shakeS(0.2);
 					break;
 				}

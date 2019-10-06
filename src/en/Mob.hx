@@ -170,7 +170,7 @@ class Mob extends Entity {
 		if( !hasAlarm() ) {
 			onAlarmStart();
 			lockS(0.4);
-			cd.setS("recentAlarmStart", getLockS()+0.1);
+			// cd.setS("allowLastSecondGrab", getLockS()+0.1);
 		}
 		lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
 		cd.setS("alarm",sec);
@@ -206,12 +206,12 @@ class Mob extends Entity {
 		// Mob collisions
 		if( ( isMoving() || zr<0 ) && isStunned() )
 			for(e in Mob.ALL)
-				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) && !cd.has("touchLock"+e.uid) ) {
+				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock") && !cd.has("touchLock") ) {
 					e.bumpAwayFrom(this, 0.1, 0.1);
 					e.stunS(3);
 					e.hit(e, cd.has("violentThrow") ? 2 : 1);
 					e.triggerAlarm();
-					e.cd.setS("touchLock"+uid, 1);
+					e.cd.setS("touchLock", 1);
 					if( cd.has("violentThrow") )
 						hit(99);
 					break;
