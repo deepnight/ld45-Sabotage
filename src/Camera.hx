@@ -48,7 +48,7 @@ class Camera extends dn.Process {
 			var ty = target.footY;
 
 			for(e in en.Mob.ALL)
-				if( e.isAlive() && e.hasAlarm() ) {
+				if( e.isAlive() && e.hasAlarm() && e.distCase(target)<=9 ) {
 					tx = ( tx*2 + e.centerX*1 ) / 3;
 					ty = ( ty*2 + e.centerY*1 ) / 3;
 				}
