@@ -46,6 +46,7 @@ class Entity {
     public var spr : HSprite;
 	public var colorAdd : h3d.Vector;
     public var shadow : Null<HSprite>;
+    public var stunSpr : HSprite;
 	var lifeBar : Null<h2d.Flow>;
 	var debugLabel : Null<h2d.Text>;
 	var lastHitSource : Null<Entity>;
@@ -72,6 +73,11 @@ class Entity {
 		spr.colorAdd = colorAdd = new h3d.Vector();
 		enableShadow();
 		initLife(1);
+
+		stunSpr = Assets.tiles.h_get("stun",0, 0.5,0.5);
+		stunSpr.anim.playAndLoop("stun").setSpeed(0.3);
+		stunSpr.alpha = 0.7;
+		game.scroller.add(stunSpr, Const.DP_FX_TOP);
     }
 
 	public function toString() {
@@ -255,6 +261,8 @@ class Entity {
     public function dispose() {
         ALL.remove(this);
 
+		stunSpr.remove();
+
 		colorAdd = null;
 		disableShadow();
 
@@ -324,6 +332,12 @@ class Entity {
         spr.y = (cy+yr-zr)*Const.GRID + sprOffY;
         spr.scaleX = dir*sprScaleX;
         spr.scaleY = sprScaleY;
+
+		stunSpr.visible = isStunned() && !isGrabbed() && ( is(en.Mob) || is(en.Hero) );
+		if( stunSpr.visible ) {
+			stunSpr.x = headX;
+			stunSpr.y = headY+1;
+		}
 
 		if( !cd.has("colorMaintain") ) {
 			colorAdd.r*=Math.pow(0.6,tmod);

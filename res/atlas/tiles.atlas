@@ -20,7 +20,7 @@ bulletMob0
   index: -1
 bulletMob1
   rotate: false
-  xy: 1, 299
+  xy: 91, 283
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -489,21 +489,21 @@ Gun
   index: -1
 heartLoss
   rotate: false
-  xy: 55, 283
+  xy: 119, 283
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 heartOff
   rotate: false
-  xy: 40, 290
+  xy: 100, 285
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 heartOn
   rotate: false
-  xy: 64, 283
+  xy: 91, 292
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -654,6 +654,41 @@ SilverKey
   size: 15, 8
   orig: 16, 16
   offset: 1, 0
+  index: -1
+stun0
+  rotate: false
+  xy: 1, 299
+  size: 10, 8
+  orig: 10, 8
+  offset: 0, 0
+  index: -1
+stun1
+  rotate: false
+  xy: 55, 283
+  size: 10, 8
+  orig: 10, 8
+  offset: 0, 0
+  index: -1
+stun2
+  rotate: false
+  xy: 40, 290
+  size: 10, 8
+  orig: 10, 8
+  offset: 0, 0
+  index: -1
+stun3
+  rotate: false
+  xy: 67, 283
+  size: 10, 8
+  orig: 10, 8
+  offset: 0, 0
+  index: -1
+stun4
+  rotate: false
+  xy: 79, 283
+  size: 10, 8
+  orig: 10, 8
+  offset: 0, 0
   index: -1
 viewCone
   rotate: false

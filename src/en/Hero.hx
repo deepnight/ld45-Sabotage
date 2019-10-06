@@ -281,12 +281,12 @@ class Hero extends Entity {
 
 			if( grabbedEnt==null && !cd.has("grabLock") && !e.cd.has("grabLock") ) {
 				// Grab mob
-				if( ( !e.hasAlarm() || e.cd.has("recentAlarmStart") ) && distCase(e)<=0.5 ) {
+				if( ( !e.hasAlarm() || e.cd.has("recentAlarmStart") || e.isStunned() ) && distCase(e)<=0.75 ) {
 					grab(e);
 					break;
 				}
 
-				if( e.hasAlarm() && !e.cd.has("recentAlarmStart") && distCase(e)<=1 && !cd.has("punch") ) {
+				if( e.hasAlarm() && !e.cd.has("recentAlarmStart") && distCase(e)<=0.75 && !cd.has("punch") ) {
 					// Melee punch
 					lockS(0.3);
 					cd.setS("punch",0.5);
@@ -294,7 +294,7 @@ class Hero extends Entity {
 					dir = dirTo(e);
 					bump(dir*0.02, 0, 0);
 					var a = angTo(e);
-					e.stunS(0.9);
+					e.stunS(1.2);
 					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
 					// e.hit(this, 1);
 					e.cd.setS("punched",0.4);

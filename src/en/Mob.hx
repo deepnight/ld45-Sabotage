@@ -104,7 +104,7 @@ class Mob extends Entity {
 			viewCone.rotation += M.radSubstract(lookAng, viewCone.rotation ) * 0.2 ;
 		viewCone.colorize( hasAlarm() ? sightCheckEnt(hero) ? 0xff0000 : 0xffdd00 : 0x7a9aff );
 
-		if( hasAlarm() && !cd.has("sawHero") && !cd.hasSetS("sweat",0.1) )
+		if( !isStunned() && hasAlarm() && !cd.has("sawHero") && !cd.hasSetS("sweat",0.1) )
 			fx.sweat(this);
 	}
 

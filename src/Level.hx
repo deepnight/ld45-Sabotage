@@ -164,7 +164,7 @@ class Level extends dn.Process {
 					b.alpha += (1-b.alpha)*0.1;
 				if( roofEraseMarks.exists(coordId(cx,cy)) && b.alpha>0 ) {
 					b.alpha += (0-b.alpha)*0.4;
-					if( b.alpha<=0.7 ) {
+					if( b.alpha<=0.4 ) {
 						eraseRoofFrom(cx-1,cy);
 						eraseRoofFrom(cx+1,cy);
 						eraseRoofFrom(cx,cy-1);

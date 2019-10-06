@@ -239,6 +239,22 @@ class Fx extends dn.Process {
 		}
 	}
 
+	public function openDoor(e:en.Door) {
+		var n = 30;
+		for(i in 0...n) {
+			var a = 6.28*i/n + rnd(0,0.3,true);
+			var p = allocTopNormal(getTile("fxFragment"), e.centerX+rnd(0,4,true), e.centerY+rnd(0,4,true));
+			p.colorize(e.gold ? 0xffcc00 : 0x445577);
+			p.moveAng(a, rnd(1.5,3));
+			p.rotation = rnd(0,6.28);
+			p.setFadeS(rnd(0.4,0.9), 0, rnd(0.1,0.2) );
+			p.gy = rnd(0.1,0.2);
+			p.groundY = p.y+rnd(4,9);
+			p.frict = rnd(0.80,0.83);
+			p.lifeS = rnd(1,1.5);
+		}
+	}
+
 	public function angle(x:Float, y:Float, ang:Float, dist:Float, ?sec=3.0, ?c=0xFF00FF) {
 		#if debug
 		var p = allocTopAdd(getTile("fxLineDir"), x,y);

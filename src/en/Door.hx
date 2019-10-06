@@ -4,7 +4,7 @@ class Door extends Entity {
 	public static var ALL : Array<Door> = [];
 
 	var isOpen = false;
-	var gold = false;
+	public var gold = false;
 
 	public function new(x,y, g) {
 		super(x,y);
@@ -55,7 +55,7 @@ class Door extends Entity {
 			if( hero.isGrabbingItem(gold?GoldKey:SilverKey) ) {
 				hero.consumeItemUse();
 				open();
-				fx.destroyItem(this);
+				fx.openDoor(this);
 			}
 		}
 	}
