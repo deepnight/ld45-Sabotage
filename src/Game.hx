@@ -28,7 +28,7 @@ class Game extends Process {
 
 		camera = new Camera();
 		ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
-		level = new Level(ogmoProj.levels[0]);
+		level = new Level(ogmoProj.getLevelName("city0"));
 		fx = new Fx();
 
 		var pt = level.getEntityPt("hero");

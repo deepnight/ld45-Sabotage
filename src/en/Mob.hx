@@ -166,7 +166,7 @@ class Mob extends Entity {
 		// Mob collisions
 		if( ( isMoving() || zr<0 ) && isStunned() )
 			for(e in Mob.ALL)
-				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) ) {
+				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) && !cd.has("touchLock"+e.uid) ) {
 					e.bumpAwayFrom(this, 0.1, 0.1);
 					e.stunS(3);
 					e.hit(e, cd.has("violentThrow") ? 2 : 1);

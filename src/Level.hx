@@ -23,7 +23,7 @@ class Level extends dn.Process {
 
 		for(cy in 0...hei)
 		for(cx in 0...wid)
-			collMap.set( coordId(cx,cy), data.layersByName.get("collisions").getIntGrid(cx,cy)==1 );
+			collMap.set( coordId(cx,cy), data.layersByName.get("collisions").getIntGrid(cx,cy)>=1 );
 
 		for(l in data.layersReversed) {
 			var o = new h2d.Object();
@@ -113,30 +113,8 @@ class Level extends dn.Process {
 			// 	continue;
 			// }
 
-			// Auto render collisions (time saving!)
-			if( l.name=="tiles" ) {
-				var tile = l.tileset.t;
-				var tg = new h2d.TileGroup(tile, target);
-				for(cy in 0...l.cHei)
-				for(cx in 0...l.cWid) {
-					if( !hasCollision(cx,cy) )
-						continue;
-					var cid = data.layersByName.get("collisions").getIntGrid(cx,cy);
-					if( cid<=0 )
-						continue;
-					tg.add(
-						cx*Const.GRID, cy*Const.GRID, tile.sub(
-							(data.layersByName.get("collisions").getIntGrid(cx,cy+1)>0?1:0)*Const.GRID,
-							(3+cid-1)*Const.GRID,
-							Const.GRID, Const.GRID
-						)
-					);
-				}
-			}
-
 			// Auto render roofs
 			if( l.name=="roofs" ) {
-				trace(l);
 				var tile = l.tileset.t;
 				for(cy in 0...l.cHei)
 				for(cx in 0...l.cWid) {
@@ -162,10 +140,35 @@ class Level extends dn.Process {
 
 			// Default renders
 			switch l.type {
-				case TileLayer: l.render(target);
+				case TileLayer: l.render(target, l.name=="add" ? h2d.BlendMode.Add : h2d.BlendMode.Alpha);
 				// case EntityLayer: #if debug l.render(target, 0.5); #end
 				// case IntGridLayer: #if debug l.render(target, 0.5); #end
 				case _:
+			}
+
+			// Auto render collisions (time saving!)
+			if( l.name=="ground" ) {
+				var tile = l.tileset.t;
+				var tg = new h2d.TileGroup(tile, target);
+				for(cy in 0...l.cHei)
+				for(cx in 0...l.cWid) {
+					if( !hasCollision(cx,cy) )
+						continue;
+					var cid = data.layersByName.get("collisions").getIntGrid(cx,cy);
+					if( cid<=0 )
+						continue;
+					tg.add(
+						cx*Const.GRID, cy*Const.GRID, tile.sub(
+							(data.layersByName.get("collisions").getIntGrid(cx,cy+1)>0?1:0)*Const.GRID,
+							(3+cid-1)*Const.GRID,
+							Const.GRID, Const.GRID
+						)
+					);
+
+					// Wall shadows
+					if( data.layersByName.get("collisions").getIntGrid(cx,cy+1)<=0 )
+						tg.addAlpha( cx*Const.GRID, (cy+1)*Const.GRID, 0.3, tile.sub(irnd(3,5)*Const.GRID, 0, Const.GRID, Const.GRID) );
+				}
 			}
 
 		}
