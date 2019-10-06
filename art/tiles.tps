@@ -200,8 +200,23 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">export_tiles/barrel0.png</key>
+            <key type="filename">export_tiles/dirtFull0.png</key>
             <key type="filename">export_tiles/fxCircle.png</key>
+            <key type="filename">export_tiles/fxSweat0.png</key>
+            <key type="filename">export_tiles/guardIdle0.png</key>
+            <key type="filename">export_tiles/guardRun0.png</key>
+            <key type="filename">export_tiles/guardRun1.png</key>
+            <key type="filename">export_tiles/guardRun2.png</key>
+            <key type="filename">export_tiles/guardShoot0.png</key>
+            <key type="filename">export_tiles/guardShoot1.png</key>
+            <key type="filename">export_tiles/guardShootDown0.png</key>
+            <key type="filename">export_tiles/guardShootDown1.png</key>
+            <key type="filename">export_tiles/guardWalk0.png</key>
+            <key type="filename">export_tiles/guardWalk1.png</key>
+            <key type="filename">export_tiles/guardWalk2.png</key>
+            <key type="filename">export_tiles/heroDead0.png</key>
             <key type="filename">export_tiles/heroGrab0.png</key>
+            <key type="filename">export_tiles/heroHit0.png</key>
             <key type="filename">export_tiles/heroIdle0.png</key>
             <key type="filename">export_tiles/heroIdle1.png</key>
             <key type="filename">export_tiles/heroIdle2.png</key>
@@ -223,6 +238,37 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">export_tiles/bulletMob0.png</key>
+            <key type="filename">export_tiles/bulletMob1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,2,4,4</rect>
+                <key>scale9Paddings</key>
+                <rect>2,2,4,4</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/bulletMob2.png</key>
+            <key type="filename">export_tiles/bulletSmallMob0.png</key>
+            <key type="filename">export_tiles/bulletSmallMob1.png</key>
+            <key type="filename">export_tiles/bulletSmallMob2.png</key>
+            <key type="filename">export_tiles/bulletSmallMob3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>1,1,3,3</rect>
+                <key>scale9Paddings</key>
+                <rect>1,1,3,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">export_tiles/empty.png</key>
             <key type="filename">export_tiles/pixel.png</key>
             <struct type="IndividualSpriteSettings">
@@ -234,6 +280,19 @@
                 <rect>0,0,1,1</rect>
                 <key>scale9Paddings</key>
                 <rect>0,0,1,1</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/fxAlarm0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>1,3,3,7</rect>
+                <key>scale9Paddings</key>
+                <rect>1,3,3,7</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -251,7 +310,6 @@
                 <false/>
             </struct>
             <key type="filename">export_tiles/fxFlame0.png</key>
-            <key type="filename">export_tiles/fxFlame1.png</key>
             <key type="filename">export_tiles/fxFlame2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -259,9 +317,22 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>2,3,4,7</rect>
+                <rect>3,4,5,8</rect>
                 <key>scale9Paddings</key>
-                <rect>2,3,4,7</rect>
+                <rect>3,4,5,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/fxFlame1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,4,5,8</rect>
+                <key>scale9Paddings</key>
+                <rect>2,4,5,8</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -342,6 +413,19 @@
                 <rect>11,11,22,22</rect>
                 <key>scale9Paddings</key>
                 <rect>11,11,22,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/heroDead1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,4,11,8</rect>
+                <key>scale9Paddings</key>
+                <rect>6,4,11,8</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
