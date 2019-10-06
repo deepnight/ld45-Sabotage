@@ -227,14 +227,24 @@ class Fx extends dn.Process {
 	}
 
 	public function shoot(x:Float, y:Float, ang:Float, c:UInt) {
-		// Dots
-		for(i in 0...15) {
+		// Dots bullet
+		for(i in 0...20) {
 			var p = allocTopAdd(getTile("pixel"), x+rnd(0,1,true), y+rnd(0,1,true));
-			p.setFadeS(rnd(0.3,0.8), 0, rnd(0.1,0.3));
+			p.setFadeS(rnd(0.6,0.9), 0, rnd(0.1,0.3));
 			p.moveAng(ang+rnd(0,0.1,true), rnd(0.03,2));
 			p.frict = rnd(0.94, 0.96);
 			p.lifeS = rnd(0.1,0.2);
-			p.colorize( Color.interpolateInt(0xffcc00,0xff0000,rnd(0,1)) );
+			p.colorize( Color.interpolateInt(0xffcc00,0xff7700,rnd(0,1)) );
+		}
+		// Dots source
+		for(i in 0...25) {
+			var p = allocTopAdd(getTile("pixel"), x+rnd(0,4,true), y+rnd(0,4,true));
+			p.colorize(0x817da5);
+			p.setFadeS(rnd(0.2,0.5), 0, rnd(0.1,0.3));
+			p.moveAng(ang+rnd(0.1,0.3,true), rnd(0.03,2));
+			// p.moveAwayFrom(x,y, rnd(0.05,0.3));
+			p.frict = rnd(0.94, 0.96);
+			p.lifeS = rnd(0.1,0.2);
 		}
 		// Line
 		var p = allocTopAdd(getTile("fxLineDir"), x,y);

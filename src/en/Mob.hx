@@ -46,6 +46,7 @@ class Mob extends Entity {
 		lookAng = M.PI;
 
 		// Anims
+		spr.anim.registerStateAnim("guardHit", 10, 0.15, function() return isLocked() && cd.has("stun"));
 		spr.anim.registerStateAnim("guardRun", 1, 0.2, function() return isMoving() && hasAlarm());
 		spr.anim.registerStateAnim("guardWalk", 1, 0.2, function() return isMoving());
 		spr.anim.registerStateAnim("guardIdle", 0, 0.4);
@@ -106,6 +107,11 @@ class Mob extends Entity {
 		cd.setS("wasUnderAlarm", Const.INFINITE);
 	}
 
+	public function stunS(t:Float) {
+		lockS(t);
+		cd.setS("stun",t);
+	}
+
 	override function update() {
 		super.update();
 
@@ -140,8 +146,12 @@ class Mob extends Entity {
 				// spr.anim.play(M.radDistance(a,1.57)<=0.8 ? "guardShootDown" : "guardShoot").setSpeed(0.2);
 				spr.anim.play("guardShoot").setSpeed(0.2);
 				dir = hero.centerX>centerX ? 1 : -1;
-				var e = new en.Bullet(this, a);
-				fx.shoot(e.footX, e.footY-2, a, 0xff0000);
+				game.delayer.addS(function() {
+					if( !isAlive() || cd.has("stun") )
+						return;
+					var e = new en.Bullet(this, a);
+					fx.shoot(e.footX, e.footY-2, a, 0xff0000);
+				},0.2);
 				cd.setS("shootLock", 1);
 
 				// for(e in ALL)

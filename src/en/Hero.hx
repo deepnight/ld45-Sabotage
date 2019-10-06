@@ -3,6 +3,7 @@ package en;
 class Hero extends Entity {
 	var ca : dn.heaps.Controller.ControllerAccess;
 	public var item : Null<Item>;
+	public var grabbedEnt: Null<Entity>;
 
 	public function new(x,y) {
 		super(x,y);
@@ -15,7 +16,7 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroIdleBack", 0, 0.4, function() return cd.has("lookingBack"));
 		spr.anim.registerStateAnim("heroIdle", 0, 0.4);
 
-		initLife(3);
+		initLife(30);
 	}
 
 	override function onDamage(dmg:Int) {
@@ -40,6 +41,8 @@ class Hero extends Entity {
 		dropItem();
 		ca.dispose();
 	}
+
+	public inline function isGrabbingSomething() return item!=null || grabbedEnt!=null;
 
 	function dropItem() {
 		if( item!=null ) {
@@ -141,7 +144,41 @@ class Hero extends Entity {
 			}
 			else if( ca.xPressed() && item!=null )
 				throwItem();
+
+			// Punch/pick/use
+			// if( ca.aPressed() ) {
+			// 	lockS(0.2);
+			// 	spr.anim.play("heroPunch").setSpeed(0.3);
+			// 	bump(dir*0.02, 0, 0);
+			// }
 		}
+
+		// Grab enemies
+		if( !isGrabbingSomething() )
+			for(e in en.Mob.ALL) {
+				if( !e.isAlive() )
+					continue;
+
+				if( !e.hasAlarm() && distCase(e)<=0.5 ) {
+					// grab(e);
+					break;
+				}
+
+				if( e.hasAlarm() && distCase(e)<=1 && !cd.has("punch") ) {
+					// Melee punch
+					lockS(0.3);
+					cd.setS("punch",0.5);
+					spr.anim.play("heroPunch").setSpeed(0.4);
+					dir = dirTo(e);
+					bump(dir*0.02, 0, 0);
+					var a = angTo(e);
+					e.stunS(0.9);
+					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
+					game.camera.shakeS(0.2);
+					break;
+				}
+			}
+
 
 		// Lost item
 		if( item!=null && !item.isAlive() )

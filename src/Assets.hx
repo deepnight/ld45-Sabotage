@@ -24,10 +24,12 @@ class Assets {
 		tiles.defineAnim("heroRun", "0(2), 1(1), 2(2), 1(1)");
 		tiles.defineAnim("heroIdle", "0(10), 1(1), 2(8)");
 		tiles.defineAnim("heroThrow", "0(1), 1(999)");
+		tiles.defineAnim("heroPunch", "0(2), 1(1), 2(2), 3(3)");
 
 		tiles.defineAnim("guardRun", "0(2), 1(1), 2(2), 1(1)");
 		tiles.defineAnim("guardWalk", "0(3), 1(1), 2(3), 1(1)");
-		tiles.defineAnim("guardShoot", "1(1), 0(2), 1(4)");
+		tiles.defineAnim("guardShoot", "1(3), 0(1), 1(4)");
 		tiles.defineAnim("guardShootDown", "1(1), 0(2), 1(4)");
+		tiles.defineAnim("guardHit", "0(1), 1(2), 2(9999)	");
 	}
 }
