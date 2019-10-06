@@ -96,7 +96,7 @@ class Mob extends Entity {
 		viewCone.scaleX += ( ( hasAlarm() && sightCheckEnt(hero) ? 0.5 : 0.3 ) - viewCone.scaleX ) * 0.2;
 		viewCone.scaleY += ( ( hasAlarm() && sightCheckEnt(hero) ? 0.2 : 0.3 ) - viewCone.scaleY ) * 0.2;
 		viewCone.alpha += ( ( hasAlarm() ? 0.3 : 0.5 ) - viewCone.alpha ) * 0.2;
-		if( !hasAlarm() )
+		if( !hasAlarm() || isStunned() )
 			viewCone.rotation += M.radSubstract(lookAng,viewCone.rotation)*0.2 ;
 		else if( sightCheckEnt(hero) )
 			viewCone.rotation += M.radSubstract(angTo(hero),viewCone.rotation)*0.2 ;
