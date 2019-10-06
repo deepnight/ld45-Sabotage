@@ -193,6 +193,32 @@ class Fx extends dn.Process {
 		#end
 	}
 
+	public function bloodTail(e:Entity, dir:Int) {
+		var x = e.spr.x;
+		var y = e.spr.y;
+		for(i in 0...15) {
+			var p = allocBgNormal(getTile("pixel"), x+rnd(0,1,true), y+rnd(0,1,true));
+			p.colorize(0x791616);
+			p.setFadeS(rnd(0.3,0.8), 0, rnd(0.1,0.3));
+			p.dx = dir*rnd(0.1,0.4);
+			p.dy = -rnd(0.1, 0.2);
+			p.frict = rnd(0.87, 0.96);
+			p.gy = rnd(0.01,0.05);
+			p.groundY = y+rnd(4,8);
+			p.lifeS = rnd(0.3,1.2);
+		}
+		var p = allocBgNormal(getTile("fxSmoke"), x+rnd(0,2,true), y+rnd(0,2,true));
+		p.setFadeS(rnd(0.3,0.5), 0, rnd(1,2));
+		p.colorize(0x791616);
+		p.rotation = rnd(0,6.28);
+		p.setScale(rnd(0.2,0.3,true));
+		p.scaleMul = rnd(0.97,0.99);
+		p.dr = rnd(0,0.03,true);
+		p.dy = -rnd(0.1,0.2);
+		p.lifeS = rnd(0.3, 0.7);
+		p.frict = 0.96;
+	}
+
 	public function bulletWall(x:Float, y:Float, ang:Float) {
 		// Dots
 		for(i in 0...15) {

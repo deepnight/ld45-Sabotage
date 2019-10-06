@@ -51,6 +51,7 @@ class Mob extends Entity {
 		spr.anim.registerStateAnim("guardRun", 1, 0.2, function() return isMoving() && hasAlarm());
 		spr.anim.registerStateAnim("guardWalk", 1, 0.2, function() return isMoving());
 		spr.anim.registerStateAnim("guardIdle", 0, 0.4);
+		initLife(3);
 	}
 
 	override function dispose() {

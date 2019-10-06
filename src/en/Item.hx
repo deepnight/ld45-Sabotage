@@ -56,6 +56,7 @@ class Item extends Entity {
 			var e = e.as(Mob);
 			e.bump(dirTo(e)*0.15, 0, 0.2);
 			e.stunS(0.4);
+			e.hit(this,1);
 			e.triggerAlarm();
 			onTrigger();
 		}

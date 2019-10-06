@@ -16,7 +16,7 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroIdleBack", 0, 0.4, function() return cd.has("lookingBack"));
 		spr.anim.registerStateAnim("heroIdle", 0, 0.4);
 
-		initLife(30);
+		initLife(3);
 	}
 
 
@@ -74,8 +74,9 @@ class Hero extends Entity {
 	}
 
 	function getThrowAngle() {
-		var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
-		return leftDist<=0.3 ? dir==1?0:M.PI : Math.atan2(-ca.lyValue(), ca.lxValue());
+		return getCleverAngle();
+		// var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
+		// return leftDist<=0.3 ? dir==1?0:M.PI : Math.atan2(-ca.lyValue(), ca.lxValue());
 	}
 
 	var throwAngle : Float;
@@ -86,6 +87,8 @@ class Hero extends Entity {
 		var e = grabbedEnt;
 		game.delayer.addS( function() {
 			if( isAlive() && e.isAlive() ) {
+				if( e.is(Mob) )
+					e.hit(this, 1);
 				releaseGrab();
 				var s = 0.4;
 				e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.03);
@@ -151,6 +154,24 @@ class Hero extends Entity {
 		}
 	}
 
+	function getCleverAngle() {
+		var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
+		var leftPushed = leftDist>=0.3;
+		var leftAng = Math.atan2(-ca.lyValue(), ca.lxValue());
+
+		var dh = new dn.DecisionHelper(Mob.ALL);
+		dh.keepOnly( function(e) return e.isAlive() && sightCheckEnt(e) && distCase(e)<=8 );
+		dh.score( function(e) return isLookingAt(e) ? 10 : 0 );
+		dh.score( function(e) return e.hasAlarm() ? 3 : 0 );
+		dh.score( function(e) return -distCase(e)*2 );
+		dh.score( function(e) return leftPushed && M.radDistance(leftAng, angTo(e))<=1 ? 50 : 0 );
+		var e = dh.getBest();
+		if( e!=null )
+			lookAt(e);
+
+		return e==null ? leftPushed ? leftAng : dirToAng() : angTo(e);
+	}
+
 	override function update() {
 		super.update();
 
@@ -189,7 +210,7 @@ class Hero extends Entity {
 				if( e!=null )
 					grab(e);
 			}
-			else if( ca.xPressed() && grabbedEnt!=null ) {
+			else if( ( ca.xPressed() || ca.aPressed() ) && grabbedEnt!=null ) {
 				if( isGrabbing(Item) && grabbedEnt.as(Item).canUse() ) {
 					var i = grabbedEnt.as(Item);
 					switch i.item {
@@ -200,17 +221,7 @@ class Hero extends Entity {
 						case Gun:
 							// Shoot
 							cancelVelocities();
-							var dh = new dn.DecisionHelper(Mob.ALL);
-							dh.keepOnly( function(e) return e.isAlive() && sightCheckEnt(e) && distCase(e)<=8 );
-							dh.score( function(e) return isLookingAt(e) ? 10 : 0 );
-							dh.score( function(e) return e.hasAlarm() ? 3 : 0 );
-							dh.score( function(e) return -distCase(e)*2 );
-							dh.score( function(e) return leftPushed && M.radDistance(leftAng, angTo(e))<=0.8 ? 50 : 0 );
-							var e = dh.getBest();
-							if( e!=null )
-								lookAt(e);
-
-							var a = e==null ? leftPushed ? leftAng : dirToAng() : angTo(e);
+							var a = getCleverAngle();
 							new Bullet(this, a, 1.5);
 							cd.setS("usingGun", 0.2);
 							lockS(0.2);
@@ -254,6 +265,7 @@ class Hero extends Entity {
 					var a = angTo(e);
 					e.stunS(0.9);
 					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
+					e.hit(this, 1);
 					game.camera.shakeS(0.2);
 					break;
 				}

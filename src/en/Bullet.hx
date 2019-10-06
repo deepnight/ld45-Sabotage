@@ -48,7 +48,7 @@ class Bullet extends Entity {
 		if( source.is(Hero) ) {
 			for(e in Mob.ALL)
 				if( checkHit(e) ) {
-					e.hit(this, 1);
+					e.hit(this, 3);
 					fx.bulletBleed(centerX, centerY, Math.atan2(dy,dx));
 					destroy();
 				}

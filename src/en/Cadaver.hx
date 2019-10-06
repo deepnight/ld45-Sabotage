@@ -18,19 +18,15 @@ class Cadaver extends Entity {
 
 	override function onZLand() {
 		super.onZLand();
-		// dz = 0;
+		cd.setS("landed", Const.INFINITE);
 		spr.setFrame(1);
-		// if( !cd.hasSetS("releaseLoot", Const.INFINITE) )
-			// cd.setS("lootLock",0.1);
 		cd.unset("lootLock");
 	}
 
 	override function postUpdate() {
 		super.postUpdate();
-		// if( zr>=0.1 || dz>0 )
-		// 	spr.setFrame(0);
-		// else
-		// 	spr.setFrame(1);
+		if( !cd.has("landed") )
+			fx.bloodTail(this, M.sign(dxTotal));
 	}
 
 	override function update() {

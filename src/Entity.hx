@@ -45,6 +45,7 @@ class Entity {
 
     public var spr : HSprite;
     public var shadow : Null<HSprite>;
+	var lifeBar : Null<h2d.Flow>;
 	var debugLabel : Null<h2d.Text>;
 	var lastHitSource : Null<Entity>;
 	var lastHitAng(get,never) : Float;
@@ -75,10 +76,32 @@ class Entity {
 
 	public function initLife(v) {
 		life = maxLife = v;
+		renderLife();
+	}
+
+	public function renderLife() {
+		if( lifeBar==null ) {
+			lifeBar = new h2d.Flow();
+			game.scroller.add(lifeBar, Const.DP_UI);
+			lifeBar.alpha = 0;
+			lifeBar.verticalAlign = Middle;
+		}
+
+		lifeBar.removeChildren();
+		for(i in 0...maxLife)
+			Assets.tiles.getBitmap(i+1<=life ? "heartOn" : "heartOff", lifeBar);
 	}
 
 	public function heal(v) {
 		life = M.iclamp(life+v, 0, maxLife);
+		showLifeChange();
+	}
+
+	function showLifeChange() {
+		lifeBar.alpha = 1;
+		cd.setS("showLifeBar", Const.INFINITE);
+		cd.setS("showLifeChangeLock",0.12);
+		cd.setS("showLifeChange",Const.INFINITE);
 	}
 
 	public function hit(?from:Entity, dmg) {
@@ -87,6 +110,7 @@ class Entity {
 
 		lastHitSource = from;
 		life = M.iclamp(life-dmg, 0, maxLife);
+		showLifeChange();
 		onDamage(dmg);
 		if( life<=0 )
 			onDie();
@@ -220,6 +244,9 @@ class Entity {
 
 		disableShadow();
 
+		if( lifeBar!=null )
+			lifeBar.remove();
+
 		spr.remove();
 		spr = null;
 
@@ -278,6 +305,20 @@ class Entity {
         spr.y = (cy+yr-zr)*Const.GRID + sprOffY;
         spr.scaleX = dir*sprScaleX;
         spr.scaleY = sprScaleY;
+
+		if( cd.has("showLifeChange") && !cd.has("showLifeChangeLock") ) {
+			cd.unset("showLifeChange");
+			renderLife();
+			lifeBar.alpha = 1;
+			cd.setS("showLifeBar", 1);
+		}
+
+		if( lifeBar!=null ) {
+			lifeBar.x = Std.int( headX - lifeBar.outerWidth*0.5 );
+			lifeBar.y = Std.int( headY - lifeBar.outerHeight );
+			if( !cd.has("showLifeBar") )
+				lifeBar.alpha += (0-lifeBar.alpha)*0.03;
+		}
 
 		if( shadow!=null ) {
 			shadow.set(spr.lib, spr.groupName, spr.frame);
