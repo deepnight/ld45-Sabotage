@@ -78,7 +78,7 @@
           "name": "hero",
           "id": 7,
           "_eid": "27361764",
-          "x": 192,
+          "x": 112,
           "y": 80,
           "originX": -2,
           "originY": -2
@@ -98,7 +98,7 @@
           "id": 9,
           "_eid": "29646116",
           "x": 64,
-          "y": 80,
+          "y": 48,
           "originX": -4,
           "originY": -4,
           "values": {"type": "SilverKey"}
