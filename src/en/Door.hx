@@ -12,6 +12,11 @@ class Door extends Entity {
 		hasCollisions = false;
 
 		spr.set(level.hasCollision(cx,cy+1) ? "doorV" : "doorH");
+		if( level.hasCollision(cx,cy+1) )
+			if( level.hasRoof(cx+1,cy) )
+				xr = 0.8;
+			else
+				xr = 0.2;
 		updateCollisions();
 		disableShadow();
 	}
@@ -31,9 +36,18 @@ class Door extends Entity {
 		isOpen = true;
 		updateCollisions();
 	}
+	override function postUpdate() {
+		super.postUpdate();
+		if( cd.has("shake") ) {
+			spr.x +=Math.cos(ftime*2) * cd.getRatio("shake")*1;
+		}
+	}
 
 	override function update() {
 		cancelVelocities();
 		super.update();
+
+		if( !isOpen && ( hero.at(cx,cy-1) || hero.at(cx,cy+1) || hero.at(cx-1,cy) || hero.at(cx+1,cy) ) && !cd.hasSetS("heroShake",0.4) )
+			cd.setS("shake", 0.2);
 	}
 }
