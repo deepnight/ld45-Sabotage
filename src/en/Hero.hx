@@ -144,7 +144,7 @@ class Hero extends Entity {
 			// Move
 			if( leftDist>=0.3 ) {
 				var a = Math.atan2(-ca.lyValue(), ca.lxValue());
-				var s = 0.01 * leftDist * tmod;
+				var s = 0.013 * leftDist * tmod;
 				dx+=Math.cos(a)*s;
 				dy+=Math.sin(a)*s;
 				if( ca.lxValue()<0.3 ) dir = -1;

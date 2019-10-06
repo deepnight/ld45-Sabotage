@@ -68,7 +68,7 @@ class Mob extends Entity {
 
 		viewCone.x = footX;
 		viewCone.y = footY;
-		viewCone.visible = !level.hasVisibleRoof(cx,cy) && !isGrabbed();
+		viewCone.visible = zr<=0.4 && !level.hasVisibleRoof(cx,cy) && !isGrabbed();
 
 		viewCone.scaleX += ( ( hasAlarm() && sightCheckEnt(hero) ? 0.5 : 0.3 ) - viewCone.scaleX ) * 0.2;
 		viewCone.scaleY += ( ( hasAlarm() && sightCheckEnt(hero) ? 0.2 : 0.3 ) - viewCone.scaleY ) * 0.2;
@@ -127,13 +127,13 @@ class Mob extends Entity {
 					fx.angle(footX, footY, lookAng+viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
 					fx.angle(footX, footY, lookAng-viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
 				}
-				if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=viewDist ) {
+				if( isGrabbed() || sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=viewDist ) {
 					cd.setS("sawHero", 0.5);
 					cd.setS("canShoot", 0.3);
 				}
 
 				// Continue to track hero longer after last sight
-				if( cd.has("sawHero") ) {
+				if( !isStunned() && cd.has("sawHero") ) {
 					lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
 					triggerAlarm();
 				}
