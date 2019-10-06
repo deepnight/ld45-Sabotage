@@ -136,7 +136,14 @@
       "nodeDisplay": 1,
       "nodeGhost": true,
       "tags": [],
-      "values": []
+      "values": [
+        {
+          "name": "look",
+          "definition": "Enum",
+          "choices": ["up", "left", "down", "right"],
+          "defaults": 0
+        }
+      ]
     },
     {
       "exportID": "29646116",
@@ -187,42 +194,6 @@
           "defaults": 0
         }
       ]
-    },
-    {
-      "exportID": "30641164",
-      "name": "roofZone",
-      "limit": -1,
-      "size": {"x": 16, "y": 16},
-      "origin": {"x": 0, "y": 0},
-      "originAnchored": true,
-      "shape": {
-        "label": "Rectangle",
-        "points": [
-          {"x": -1, "y": -1},
-          {"x": 1, "y": -1},
-          {"x": -1, "y": 1},
-          {"x": 1, "y": -1},
-          {"x": -1, "y": 1},
-          {"x": 1, "y": 1}
-        ]
-      },
-      "color": "#714a2dff",
-      "tileX": true,
-      "tileY": true,
-      "tileSize": {"x": 16, "y": 16},
-      "resizeableX": true,
-      "resizeableY": true,
-      "rotatable": false,
-      "rotationDegrees": 360,
-      "canFlipX": false,
-      "canFlipY": false,
-      "canSetColor": false,
-      "hasNodes": false,
-      "nodeLimit": 0,
-      "nodeDisplay": 0,
-      "nodeGhost": false,
-      "tags": [],
-      "values": []
     },
     {
       "exportID": "37529914",
