@@ -154,12 +154,15 @@ class Fx extends dn.Process {
 	public function alarm(x:Float, y:Float) {
 		var p = allocTopNormal(getTile("fxAlarm"), x,y);
 		p.setCenterRatio(0.5,1);
-		// p.setFadeS(1, 0, 0.2);
-		// p.colorize(c);
-		// p.setScale(0.03);
-		// p.ds = 0.03;
-		// p.dsFrict = 0.83;
 		p.dy = -3;
+		p.frict = 0.8;
+		p.lifeS = 1;
+	}
+
+	public function question(x:Float, y:Float) {
+		var p = allocTopNormal(getTile("fxQuestion"), x,y);
+		p.setCenterRatio(0.5,1);
+		p.dy = -1;
 		p.frict = 0.8;
 		p.lifeS = 1;
 	}
@@ -289,6 +292,14 @@ class Fx extends dn.Process {
 		p.colorize(c);
 		p.setScale(0.25);
 		p.lifeS = 0;
+	}
+
+	public function sweat(e:Entity) {
+		var p = allocBgNormal(getTile("fxSweat"), e.headX-e.dir*2+rnd(0,1,true), e.headY+rnd(0,1,true));
+		p.setFadeS(rnd(0.4,0.6), 0, 0.06);
+		p.rotation = rnd(0,0.1,true);
+		p.scaleX = e.dir;
+		p.lifeS = rnd(0.06,0.15);
 	}
 
 	public function fire(x:Float, y:Float) {

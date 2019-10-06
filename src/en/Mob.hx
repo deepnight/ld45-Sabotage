@@ -80,6 +80,9 @@ class Mob extends Entity {
 		else
 			viewCone.rotation += M.radSubstract(lookAng, viewCone.rotation ) * 0.2 ;
 		viewCone.colorize( hasAlarm() ? sightCheckEnt(hero) ? 0xff0000 : 0xffdd00 : 0x7a9aff );
+
+		if( hasAlarm() && !cd.has("sawHero") && !cd.hasSetS("sweat",0.1) )
+			fx.sweat(this);
 	}
 
 	function onAlarmStart() {
@@ -94,6 +97,8 @@ class Mob extends Entity {
 		for(i in 0...patrolPts.length)
 			if( patrolPts[i].is(t.cx,t.cy) )
 				curPatrolIdx = i;
+		fx.question(headX, headY);
+		lockS(0.4);
 	}
 
 	public inline function hasAlarm() {
@@ -118,6 +123,9 @@ class Mob extends Entity {
 			cd.unset("wasUnderAlarm");
 		}
 
+		if( isGrabbed() )
+			cd.setS("sawHero", 1);
+
 		if( !isGrabbed() ) {
 			if( hero.isAlive() ) {
 				// See hero
@@ -127,8 +135,8 @@ class Mob extends Entity {
 					fx.angle(footX, footY, lookAng+viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
 					fx.angle(footX, footY, lookAng-viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
 				}
-				if( isGrabbed() || sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=viewDist ) {
-					cd.setS("sawHero", 0.5);
+				if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=viewDist ) {
+					cd.setS("sawHero", 0.5, false);
 					cd.setS("canShoot", 0.3);
 				}
 

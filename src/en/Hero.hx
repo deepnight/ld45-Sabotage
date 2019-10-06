@@ -18,10 +18,24 @@ class Hero extends Entity {
 		initLife(30);
 	}
 
+
+	override function hit(?from:Entity, dmg:Int) {
+		if( isGrabbing(en.Mob) ) {
+			var e = grabbedEnt;
+			releaseGrab();
+			e.hit(from, dmg);
+			if( from!=null )
+				bump(from.dirTo(this)*0.1, 0, 0);
+			lockS(0.1);
+		}
+		else
+			super.hit(from, dmg);
+	}
+
 	override function onDamage(dmg:Int) {
 		super.onDamage(dmg);
 		releaseGrab();
-		fx.flashBangS(0xff0000,0.2, 0.25);
+		fx.flashBangS(0xff0000,0.3, 0.4);
 		if( lastHitSource!=null ) {
 			var a = lastHitAng;
 			bump(Math.cos(a)*0.07, Math.sin(a)*0.01, 0.1);

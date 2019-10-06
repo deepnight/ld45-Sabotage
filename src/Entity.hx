@@ -185,6 +185,8 @@ class Entity {
 
 	public inline function dirTo(e:Entity) return e.centerX<centerX ? -1 : 1;
 	public inline function angTo(e:Entity) return Math.atan2(e.footY-footY, e.footX-footX);
+	public inline function isLookingAt(e:Entity) return dir==dirTo(e);
+	public inline function lookAt(e:Entity) dir=dirTo(e);
 
 	public inline function distCase(e:Entity) {
 		return M.dist(cx+xr, cy+yr, e.cx+e.xr, e.cy+e.yr);
