@@ -7,6 +7,7 @@ class Cadaver extends Entity {
 		frict = 0.92;
 
 		spr.set(sprId,0);
+		dir = -e.lastHitDir;
 
 		var a = e.lastHitAng;
 		bump(Math.cos(a)*0.3, Math.sin(a)*0.2, rnd(0.2,0.3));

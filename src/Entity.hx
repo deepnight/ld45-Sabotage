@@ -45,6 +45,7 @@ class Entity {
 	var debugLabel : Null<h2d.Text>;
 	var lastHitSource : Null<Entity>;
 	var lastHitAng(get,never) : Float;
+	var lastHitDir(get,never) : Int;
 
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
@@ -92,10 +93,14 @@ class Entity {
 		destroy();
 	}
 
-	function get_lastHitAng() {
+	inline function get_lastHitAng() {
 		return
 			lastHitSource==null ? ( dir==1 ? M.PI : 0 )
 			: lastHitSource.is(en.Bullet) ? Math.atan2(lastHitSource.dy,lastHitSource.dx) : lastHitSource.angTo(this);
+	}
+
+	inline function get_lastHitDir() {
+		return M.radDistance(lastHitAng,0)<=M.PIHALF ? 1 : -1;
 	}
 
 	public function disableShadow() {
