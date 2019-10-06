@@ -18,7 +18,7 @@ class Level extends dn.Process {
 	var texts : h2d.Object;
 	public var pf : dn.PathFinder;
 
-	public var noMobs = false;
+	public var specialEndingCondition = false;
 
 	public function new(lid:Int, l:ogmo.Level) {
 		super(Game.ME);

@@ -3,6 +3,7 @@ package en;
 class Mob extends Entity {
 	public static var ALL : Array<Mob> = [];
 
+	var loot : Null<ItemType>;
 	var patrolPts : Array<CPoint> = [];
 	var lastAlarmPt : CPoint;
 	var curPatrolIdx = 0;
@@ -16,6 +17,10 @@ class Mob extends Entity {
 		super(x,y);
 		ALL.push(this);
 		lastAlarmPt = new CPoint(cx,cy);
+
+		if( data.getStr("loot")!=null )
+			loot = Type.createEnum(ItemType, data.getStr("loot"));
+
 
 		dir = Std.random(2)*2-1;
 		lookAng = dirToAng();
@@ -111,7 +116,7 @@ class Mob extends Entity {
 
 	override function onDie() {
 		super.onDie();
-		new en.Cadaver(this, "guardDead");
+		new en.Cadaver(this, "guardDead", loot);
 		for(e in ALL)
 			if( e!=this && e.isAlive() && distCase(e)<=4 && sightCheckEnt(e) )
 				e.triggerAlarm();

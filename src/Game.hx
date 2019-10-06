@@ -29,12 +29,11 @@ class Game extends Process {
 		camera = new Camera();
 		fx = new Fx();
 
-		startLevel(0);
+		startLevel(-1);
 	}
 
 
 	public function startLevel(id:Int) {
-		trace(id);
 		var mask = new h2d.Bitmap(h2d.Tile.fromColor(0x0));
 		root.add(mask, Const.DP_MASK);
 		mask.scaleX = M.ceil( w()/Const.SCALE );
@@ -50,7 +49,7 @@ class Game extends Process {
 		}
 
 		ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
-		var data = ogmoProj.getLevelName("level"+id);
+		var data = ogmoProj.getLevelName(id<0 ? "intro" : "level"+id);
 		while( data==null ) {
 			id--;
 			data = ogmoProj.getLevelName("level"+id);
@@ -62,6 +61,7 @@ class Game extends Process {
 		camera.target = hero;
 		camera.recenter();
 
+		for(e in level.getEntities("exit")) new en.Exit(e.cx, e.cy);
 		for(e in level.getEntities("door")) new en.Door(e.cx, e.cy, e.getStr("color")=="gold");
 		for(e in level.getEntities("guard")) new en.Mob(e.cx, e.cy, e);
 		for(e in level.getEntities("item")) new en.Item(e.cx, e.cy, e.getEnum("type",ItemType));
@@ -69,9 +69,10 @@ class Game extends Process {
 		for(e in level.getEntities("spikesFragile")) new en.Spike(e.cx, e.cy, true);
 
 		if( en.Mob.ALL.length==0 )
-			level.noMobs = true;
+			level.specialEndingCondition = true;
 
-		bigText("Level "+(id+1));
+		if( id>=0 )
+			bigText("Level "+(id+1));
 		cd.unset("levelDone");
 	}
 
@@ -124,7 +125,7 @@ class Game extends Process {
 		gc();
 
 		// Victory check
-		if( !level.noMobs ) {
+		if( !level.specialEndingCondition ) {
 			var any = false;
 			for(e in Mob.ALL)
 				if( e.isAlive() ) {

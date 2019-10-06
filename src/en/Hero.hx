@@ -135,13 +135,13 @@ class Hero extends Entity {
 				grabbedEnt.setSpriteOffset(-dir*4, -8);
 			}
 			else if( cd.has("usingGun") ) {
-				grabbedEnt.zPriorityOffset = 10;
+				grabbedEnt.zPriorityOffset = 20;
 				grabbedEnt.setSpriteOffset(dir*5, 2);
 				grabbedEnt.dir = dir;
 				grabbedEnt.spr.rotation = 0;
 			}
 			else if( isGrabbingItem(Knife) ) {
-				grabbedEnt.zPriorityOffset = 10;
+				grabbedEnt.zPriorityOffset = 20;
 				if( cd.has("knifePunching") )
 					grabbedEnt.setSpriteOffset(dir*10, -5);
 				else
@@ -166,6 +166,7 @@ class Hero extends Entity {
 					}
 				}
 				else if( isGrabbing(en.Mob) ) {
+					grabbedEnt.zPriorityOffset = 20;
 					grabbedEnt.dir = dir;
 					grabbedEnt.setSpriteOffset(dir*2, 1);
 				}
@@ -196,7 +197,7 @@ class Hero extends Entity {
 
 		var e = dh.getBest();
 		if( e!=null ) {
-			fx.markerEntity(e, true);
+			// fx.markerEntity(e, true);
 			lookAt(e);
 		}
 
