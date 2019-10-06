@@ -218,7 +218,7 @@ class Mob extends Entity {
 
 			for(e in Mob.ALL)
 				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock") && !cd.has("touchLock") ) {
-					e.bumpAwayFrom(this, 0.1, 0.1);
+					e.bumpAwayFrom(this, 0.25, 0.1);
 					e.stunS(3);
 					e.hit(e, cd.has("violentThrow") ? 2 : 1);
 					e.triggerAlarm();
