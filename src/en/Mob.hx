@@ -73,7 +73,7 @@ class Mob extends Entity {
 		super.onDie();
 		new en.Cadaver(this, "guardDead");
 		for(e in ALL)
-			if( e!=this && e.isAlive() && distCase(e)<=7 && sightCheckEnt(e) )
+			if( e!=this && e.isAlive() && distCase(e)<=4 && sightCheckEnt(e) )
 				e.triggerAlarm();
 	}
 
@@ -113,7 +113,8 @@ class Mob extends Entity {
 		for(i in 0...patrolPts.length)
 			if( patrolPts[i].is(t.cx,t.cy) )
 				curPatrolIdx = i;
-		fx.question(headX, headY);
+		if( !isStunned() && zr==0 )
+			fx.question(headX, headY);
 		lockS(0.4);
 	}
 
@@ -133,6 +134,23 @@ class Mob extends Entity {
 	}
 
 
+	override function onTouchWall(wallDirX:Int, wallDirY:Int) {
+		super.onTouchWall(wallDirX, wallDirY);
+		if( cd.has("violentThrow") ) {
+			hit(99);
+			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX));
+			cd.unset("violentThrow");
+		}
+		if( cd.has("punched") ) {
+			hit(1);
+			cancelVelocities();
+			bump(-wallDirX*0.2, -wallDirY*0.1, 0.1);
+			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX));
+			cd.unset("punched");
+		}
+	}
+
+
 	override function update() {
 		super.update();
 
@@ -141,15 +159,17 @@ class Mob extends Entity {
 			cd.unset("wasUnderAlarm");
 		}
 
-		// Entity collisions
+		// Mob collisions
 		if( ( isMoving() || zr<0 ) && isStunned() )
 			for(e in Mob.ALL)
 				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) ) {
 					e.bumpAwayFrom(this, 0.1, 0.1);
-					e.stunS(0.4);
+					e.stunS(3);
 					e.hit(e,1);
 					e.triggerAlarm();
 					e.cd.setS("touchLock"+uid, 1);
+					if( cd.has("violentThrow") )
+						hit(99);
 					break;
 				}
 

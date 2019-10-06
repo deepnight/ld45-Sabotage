@@ -78,12 +78,6 @@ class Hero extends Entity {
 		cd.setS("grabLock",0.5);
 	}
 
-	function getThrowAngle() {
-		return getCleverAngle();
-		// var leftDist = M.dist(0,0, ca.lxValue(), ca.lyValue());
-		// return leftDist<=0.3 ? dir==1?0:M.PI : Math.atan2(-ca.lyValue(), ca.lxValue());
-	}
-
 	function throwGrab() {
 		if( grabbedEnt==null || !grabbedEnt.isAlive() )
 			return;
@@ -94,13 +88,16 @@ class Hero extends Entity {
 				releaseGrab();
 				var s = 0.4;
 				e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.03);
+				if( e.is(Mob) )
+					e.cd.setS("violentThrow",1.2);
+					// e.hit(this, 99);
 			}
-		}, 0.25);
-		lockS(0.3);
+		}, 0.15);
+		lockS(0.25);
 		grabbedEnt.stunS(1.2);
 		grabbedEnt.cd.setS("grabLock",1);
 		cd.setS("grabLock",0.5);
-		throwAngle = getThrowAngle();
+		throwAngle = getCleverAngle();
 		cd.setS("throwingItem", getLockS()-0.1);
 	}
 
@@ -172,14 +169,20 @@ class Hero extends Entity {
 		var leftAng = Math.atan2(-ca.lyValue(), ca.lxValue());
 
 		var dh = new dn.DecisionHelper(Mob.ALL);
-		dh.keepOnly( function(e) return e.isAlive() && sightCheckEnt(e) && distCase(e)<=8 );
+		dh.keepOnly( function(e) return e.isAlive() && sightCheckEnt(e) && distCase(e)<=8 && !e.isGrabbed() );
+		if( leftPushed )
+			dh.remove( function(e) return M.radDistance(leftAng, angTo(e))>1 );
 		dh.score( function(e) return isLookingAt(e) ? 10 : 0 );
 		dh.score( function(e) return e.hasAlarm() ? 3 : 0 );
 		dh.score( function(e) return -distCase(e)*2 );
-		dh.score( function(e) return leftPushed && M.radDistance(leftAng, angTo(e))<=1 ? 50 : 0 );
+		if( leftPushed )
+			dh.score( function(e) return M.radDistance(leftAng, angTo(e))<=0.7 ? 50 : 0 );
+
 		var e = dh.getBest();
-		if( e!=null )
+		if( e!=null ) {
+			// fx.markerEntity(e, true);
 			lookAt(e);
+		}
 
 		return e==null ? leftPushed ? leftAng : dirToAng() : angTo(e);
 	}
@@ -193,16 +196,16 @@ class Hero extends Entity {
 
 		// Throw aiming
 		if( isLocked() && cd.has("throwingItem") ) {
-			if( leftPushed && cd.getS("throwingItem")>=0.1 )
-				throwAngle = getThrowAngle();
+			if( leftPushed )
+				throwAngle = getCleverAngle();
 			if( !cd.hasSetS("throwFx",0.02) )
-				fx.throwAngle(footX, footY, getThrowAngle());
+				fx.throwAngle(footX, footY, throwAngle);
 		}
 
 		if( !isLocked() ) {
 			// Move
-			if( leftPushed && !isGrabbingItem(Barrel) ) {
-				var s = 0.013 * leftDist * tmod;
+			if( leftPushed ) {
+				var s = 0.014 * leftDist * tmod * ( isGrabbing(Item) ? 1-grabbedEnt.as(Item).getSpeedReductionOnGrab() : 1.0 );
 				dx+=Math.cos(leftAng)*s;
 				dy+=Math.sin(leftAng)*s;
 				if( ca.lxValue()<0.3 ) dir = -1;
@@ -216,7 +219,7 @@ class Hero extends Entity {
 			if( grabbedEnt==null && !cd.has("grabLock") ) {
 				// Pick item
 				var dh = new dn.DecisionHelper(Item.ALL);
-				dh.keepOnly( function(e) return e.canGrab() && distCase(e)<=0.6 );
+				dh.keepOnly( function(e) return e.canGrab() && distCase(e)<=e.getGrabDist() && sightCheckEnt(e) );
 				dh.score( function(e) return -distCase(e) );
 				var e = dh.getBest();
 				if( e!=null )
@@ -268,7 +271,7 @@ class Hero extends Entity {
 				continue;
 
 			if( isGrabbingItem(Knife) && distCase(e)<=0.8 && !e.cd.hasSetS("knifeHit", 0.2) ) {
-				e.hit(this, 1);
+				e.hit(this, 2);
 				e.bumpAwayFrom(this, 0.1);
 				e.stunS(1.5);
 				fx.hit(e, dirTo(e));
@@ -296,6 +299,7 @@ class Hero extends Entity {
 					e.stunS(0.9);
 					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
 					// e.hit(this, 1);
+					e.cd.setS("punched",0.4);
 					game.camera.shakeS(0.2);
 					break;
 				}

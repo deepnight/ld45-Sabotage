@@ -16,7 +16,21 @@ class Item extends Entity {
 			case Barrel: 1;
 			case Grenade: 1;
 			case Gun: 2;
-			case Knife: 9;
+			case Knife: 4;
+		}
+	}
+
+	public function getGrabDist() : Float {
+		return switch item {
+			case Barrel: 0.5;
+			case _: 1.1;
+		}
+	}
+
+	public function getSpeedReductionOnGrab() : Float {
+		return switch item {
+			case Barrel: 0.55;
+			case _: 0.;
 		}
 	}
 

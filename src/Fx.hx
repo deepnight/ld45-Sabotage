@@ -167,6 +167,21 @@ class Fx extends dn.Process {
 		p.lifeS = 1;
 	}
 
+	public function wallImpact(x:Float, y:Float, a:Float) {
+		for(i in 0...15) {
+			var a = a + M.PI + rnd(0,M.PIHALF,true);
+			var p = allocTopAdd(getTile("fxLineDir"), x+rnd(0,6,true), y+rnd(0,6,true));
+			p.setCenterRatio(1,0.5);
+			p.colorAnimS(0xff9900, 0xff0000, rnd(0.2,0.4));
+			p.moveAng(a, rnd(4,5));
+			p.rotation = p.getMoveAng();
+			p.scaleX = rnd(0.4,0.6);
+			p.scaleXMul = rnd(0.92,0.97);
+			p.frict = rnd(0.7,0.8);
+			p.lifeS = rnd(0.2, 0.4);
+		}
+	}
+
 	public function explosion(ox:Float, oy:Float, r:Float) {
 		flashBangS(0xffcc00, 0.1, 0.7);
 		// Bigs

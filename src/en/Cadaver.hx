@@ -2,6 +2,7 @@ package en;
 
 class Cadaver extends Entity {
 	public var loot : Null<ItemType>;
+
 	public function new(e:Entity, sprId:String, ?l:ItemType) {
 		super(0,0);
 		loot = l;
@@ -12,7 +13,10 @@ class Cadaver extends Entity {
 		dir = -e.lastHitDir;
 
 		var a = e.lastHitAng;
-		bump(Math.cos(a)*0.3, Math.sin(a)*0.2, rnd(0.2,0.3));
+		if( e.lastHitSource!=null )
+			bump(Math.cos(a)*rnd(0.35,0.45), Math.sin(a)*0.2, rnd(0.11,0.15));
+		else
+			bump(Math.cos(a)*rnd(0.1,0.2), Math.sin(a)*0.1, rnd(0.14,0.17));
 		cd.setS("lootLock", Const.INFINITE);
 	}
 
@@ -31,6 +35,20 @@ class Cadaver extends Entity {
 
 	override function update() {
 		super.update();
+
+
+		// Mob collisions
+		if( !cd.has("landed") )
+			for(e in Mob.ALL)
+				if( e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) ) {
+					e.bumpAwayFrom(this, 0.1, 0.1);
+					e.stunS(3);
+					e.hit(e,1);
+					e.triggerAlarm();
+					e.cd.setS("touchLock"+uid, 1);
+					break;
+				}
+
 		if( loot!=null && !cd.has("lootLock") ) {
 			var e = new Item(cx,cy, loot);
 			e.setPosCase(cx,cy,xr,yr);
