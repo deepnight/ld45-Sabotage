@@ -25,7 +25,7 @@ class Bullet extends Entity {
 	}
 
 	function checkHit(e:Entity) {
-		return e.isAlive() && isAlive()
+		return e.isAlive() && isAlive() && e!=source
 			&& footX>=e.footX-3 && footX<=e.footX+3
 			&& footY>=e.headY+2 && footY<=e.footY;
 	}
@@ -45,13 +45,12 @@ class Bullet extends Entity {
 			fx.bulletBleed(centerX, centerY, Math.atan2(dy,dx));
 			destroy();
 		}
-		if( source.is(Hero) ) {
+		// if( source.is(Hero) )
 			for(e in Mob.ALL)
 				if( checkHit(e) ) {
 					e.hit(this, 3);
 					fx.bulletBleed(centerX, centerY, Math.atan2(dy,dx));
 					destroy();
 				}
-		}
 	}
 }

@@ -44,6 +44,7 @@ class Entity {
 	public var sprOffY = 0.;
 
     public var spr : HSprite;
+	public var colorAdd : h3d.Vector;
     public var shadow : Null<HSprite>;
 	var lifeBar : Null<h2d.Flow>;
 	var debugLabel : Null<h2d.Text>;
@@ -68,6 +69,7 @@ class Entity {
         spr = new HSprite(Assets.tiles);
         Game.ME.scroller.add(spr, Const.DP_MAIN);
 		spr.setCenterRatio(0.5,1);
+		spr.colorAdd = colorAdd = new h3d.Vector();
 		enableShadow();
 		initLife(1);
     }
@@ -186,6 +188,10 @@ class Entity {
 		yr = (y-cy*Const.GRID)/Const.GRID;
 	}
 
+	public inline function bumpAwayFrom(e:Entity, spd:Float, ?spdZ=0.) {
+		var a = e.angTo(this);
+		bump(Math.cos(a)*spd, Math.sin(a)*spd*0.5, spdZ);
+	}
 	public function bump(x:Float,y:Float,z:Float) {
 		bdx+=x;
 		bdy+=y;
@@ -246,6 +252,7 @@ class Entity {
     public function dispose() {
         ALL.remove(this);
 
+		colorAdd = null;
 		disableShadow();
 
 		if( lifeBar!=null )
@@ -304,11 +311,22 @@ class Entity {
 		}
 	}
 
+	public function blink(c:UInt) {
+		colorAdd.setColor(c);
+		cd.setS("colorMaintain",0.03);
+	}
+
     public function postUpdate() {
         spr.x = (cx+xr)*Const.GRID + sprOffX;
         spr.y = (cy+yr-zr)*Const.GRID + sprOffY;
         spr.scaleX = dir*sprScaleX;
         spr.scaleY = sprScaleY;
+
+		if( !cd.has("colorMaintain") ) {
+			colorAdd.r*=Math.pow(0.6,tmod);
+			colorAdd.g*=Math.pow(0.6,tmod);
+			colorAdd.b*=Math.pow(0.6,tmod);
+		}
 
 		if( cd.has("showLifeChange") && !cd.has("showLifeChangeLock") ) {
 			cd.unset("showLifeChange");
@@ -340,22 +358,9 @@ class Entity {
 	function onTouchWall() {}
 	function onZLand() {}
 
-	function onTouchEntity(e:Entity, violent:Bool) {}
-
     public function update() {
 		var wallSlide = 0.005;
 		var wallSlideTolerance = 0.015;
-
-		// Entity collisions
-		if( hasCollisions && ( isMoving() || zr<0 ) )
-			for(e in Entity.ALL)
-				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) ) {
-					onTouchEntity(e, isStunned());
-					e.onTouchEntity(this, isStunned());
-					e.cd.setS("touchLock"+uid, 1);
-					cd.setS("touchLock"+e.uid, 1);
-					break;
-				}
 
 		// X
 		var steps = M.ceil( M.fabs(dxTotal*tmod) );

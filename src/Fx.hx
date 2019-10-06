@@ -170,7 +170,7 @@ class Fx extends dn.Process {
 	public function explosion(ox:Float, oy:Float, r:Float) {
 		flashBangS(0xffcc00, 0.1, 0.7);
 		// Bigs
-		var n = 10;
+		var n = 14;
 		for(i in 0...n) {
 			var dist = r*rnd(0.01,0.6);
 			var a = rnd(0,6.28);
@@ -179,9 +179,8 @@ class Fx extends dn.Process {
 			var p = allocTopAdd(getTile("fxExplosion"), x,y);
 			p.playAnimAndKill(Assets.tiles, "fxExplosion", rnd(0.7,0.8));
 			p.rotation = rnd(0,6.28);
-			var d = 0.4*i/n + rnd(0,0.06,true);
 			p.setScale(rnd(0.7,1.1,true));
-			p.delayS = d;
+			p.delayS = i<=4 ? 0 : 0.25*i/n + rnd(0,0.03,true);
 		}
 		// Smokes
 		var n = 20;
@@ -235,6 +234,39 @@ class Fx extends dn.Process {
 		p.scaleX = dist/p.t.width;
 		p.lifeS = sec;
 		#end
+	}
+
+	function _bloodLand(p:HParticle) {
+		p.gy = 0;
+		p.dy = 0;
+		p.scaleX = rnd(1,3);
+	}
+
+	public function hit(e:Entity, dir:Int) {
+		var x = e.spr.x;
+		var y = e.spr.y;
+		for(i in 0...25) {
+			var p = allocTopNormal(getTile("pixel"), x+rnd(0,1,true), y+rnd(0,1,true));
+			p.colorize(0x791616);
+			p.setFadeS(rnd(0.3,0.8), 0, rnd(0.1,0.3));
+			p.dx = -dir*rnd(1,5);
+			p.dy = -rnd(2, 2.5);
+			p.frict = rnd(0.92, 0.96);
+			p.gy = rnd(0.04,0.12);
+			p.groundY = y+rnd(4,8);
+			p.lifeS = rnd(0.3,1.2);
+			p.onBounce = function() _bloodLand(p);
+		}
+		var p = allocBgNormal(getTile("fxSmoke"), x+rnd(0,2,true), y+rnd(0,2,true));
+		p.setFadeS(rnd(0.3,0.5), 0, rnd(1,2));
+		p.colorize(0x791616);
+		p.rotation = rnd(0,6.28);
+		p.setScale(rnd(0.2,0.3,true));
+		p.scaleMul = rnd(0.97,0.99);
+		p.dr = rnd(0,0.03,true);
+		p.dy = -rnd(0.1,0.2);
+		p.lifeS = rnd(0.3, 0.7);
+		p.frict = 0.96;
 	}
 
 	public function bloodTail(e:Entity, dir:Int) {

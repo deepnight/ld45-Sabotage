@@ -3,6 +3,7 @@ package en;
 class Hero extends Entity {
 	var ca : dn.heaps.Controller.ControllerAccess;
 	public var grabbedEnt: Null<Entity>;
+	var throwAngle : Float;
 
 	public function new(x,y) {
 		super(x,y);
@@ -83,7 +84,6 @@ class Hero extends Entity {
 		// return leftDist<=0.3 ? dir==1?0:M.PI : Math.atan2(-ca.lyValue(), ca.lxValue());
 	}
 
-	var throwAngle : Float;
 	function throwGrab() {
 		if( grabbedEnt==null || !grabbedEnt.isAlive() )
 			return;
@@ -91,8 +91,6 @@ class Hero extends Entity {
 		var e = grabbedEnt;
 		game.delayer.addS( function() {
 			if( isAlive() && e.isAlive() ) {
-				if( e.is(Mob) )
-					e.hit(this, 1);
 				releaseGrab();
 				var s = 0.4;
 				e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.03);
@@ -121,19 +119,29 @@ class Hero extends Entity {
 		super.postUpdate();
 
 		if( grabbedEnt!=null ) {
+			grabbedEnt.setPosCase(cx,cy,xr,yr);
 			if( cd.has("grabbingItem") )
-				grabbedEnt.setPosPixel(footX+dir*10, footY+1);
+				grabbedEnt.setSpriteOffset(dir*10, 1);
 			else if( cd.has("throwingItem") ) {
 				grabbedEnt.spr.rotation = 0;
-				grabbedEnt.setPosPixel(footX-dir*4, footY-8);
+				grabbedEnt.setSpriteOffset(-dir*4, -8);
 			}
 			else if( cd.has("usingGun") ) {
 				grabbedEnt.zPriorityOffset = 10;
 				grabbedEnt.setSpriteOffset(dir*5, 2);
+				grabbedEnt.dir = dir;
+				grabbedEnt.spr.rotation = 0;
+			}
+			else if( isGrabbingItem(Knife) ) {
+				grabbedEnt.zPriorityOffset = 10;
+				if( cd.has("knifePunching") )
+					grabbedEnt.setSpriteOffset(dir*10, -5);
+				else
+					grabbedEnt.setSpriteOffset(dir*5, -4);
+				grabbedEnt.dir = dir;
 				grabbedEnt.spr.rotation = 0;
 			}
 			else {
-				grabbedEnt.setPosCase(cx,cy,xr,yr);
 				if( isGrabbing(en.Item) ) {
 					grabbedEnt.zPriorityOffset = -10;
 					grabbedEnt.dir = dir;
@@ -193,7 +201,7 @@ class Hero extends Entity {
 
 		if( !isLocked() ) {
 			// Move
-			if( leftPushed ) {
+			if( leftPushed && !isGrabbingItem(Barrel) ) {
 				var s = 0.013 * leftDist * tmod;
 				dx+=Math.cos(leftAng)*s;
 				dy+=Math.sin(leftAng)*s;
@@ -205,10 +213,10 @@ class Hero extends Entity {
 				dy *= Math.pow(0.6,tmod);
 			}
 
-			// Pick/throw items
 			if( grabbedEnt==null && !cd.has("grabLock") ) {
+				// Pick item
 				var dh = new dn.DecisionHelper(Item.ALL);
-				dh.keepOnly( function(e) return e.isAlive() && !e.isGrabbed() && ( sightCheckEnt(e) && distCase(e)<=1 || distCase(e)<=0.7 ) && !e.cd.has("grabLock"));
+				dh.keepOnly( function(e) return e.canGrab() && distCase(e)<=0.6 );
 				dh.score( function(e) return -distCase(e) );
 				var e = dh.getBest();
 				if( e!=null )
@@ -218,7 +226,7 @@ class Hero extends Entity {
 				if( isGrabbing(Item) && grabbedEnt.as(Item).canUse() ) {
 					var i = grabbedEnt.as(Item);
 					switch i.item {
-						case Barrel:
+						case Barrel, Grenade:
 							throwGrab();
 							consumeItemUse();
 
@@ -231,6 +239,8 @@ class Hero extends Entity {
 							lockS(0.2);
 							game.camera.shakeS(0.1, 0.2);
 							consumeItemUse();
+
+						case Knife:
 					}
 				}
 				if( isGrabbing(Mob) )
@@ -253,12 +263,22 @@ class Hero extends Entity {
 			// }
 		}
 
-		// Grab enemies
-		if( grabbedEnt==null && !cd.has("grabLock") )
-			for(e in en.Mob.ALL) {
-				if( !e.isAlive() || e.cd.has("grabLock") )
-					continue;
+		for(e in en.Mob.ALL) {
+			if( !e.isAlive() )
+				continue;
 
+			if( isGrabbingItem(Knife) && distCase(e)<=0.8 && !e.cd.hasSetS("knifeHit", 0.2) ) {
+				e.hit(this, 1);
+				e.bumpAwayFrom(this, 0.1);
+				e.stunS(1.5);
+				fx.hit(e, dirTo(e));
+				lockS(0.15);
+				spr.anim.play("heroPunch").setSpeed(0.8);
+				cd.setS("knifePunching",0.2);
+				consumeItemUse();
+			}
+
+			if( grabbedEnt==null && !cd.has("grabLock") && !e.cd.has("grabLock") ) {
 				// Grab mob
 				if( ( !e.hasAlarm() || e.cd.has("recentAlarmStart") ) && distCase(e)<=0.5 ) {
 					grab(e);
@@ -275,11 +295,12 @@ class Hero extends Entity {
 					var a = angTo(e);
 					e.stunS(0.9);
 					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
-					e.hit(this, 1);
+					// e.hit(this, 1);
 					game.camera.shakeS(0.2);
 					break;
 				}
 			}
+		}
 
 
 		// Lost item

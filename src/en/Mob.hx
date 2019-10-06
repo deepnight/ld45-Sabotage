@@ -17,6 +17,9 @@ class Mob extends Entity {
 		ALL.push(this);
 		lastAlarmPt = new CPoint(cx,cy);
 
+		dir = Std.random(2)*2-1;
+		lookAng = dirToAng();
+
 		// Parse patrol
 		var lastPt = new CPoint(cx,cy);
 		for(n in data.nodes) {
@@ -43,7 +46,6 @@ class Mob extends Entity {
 		game.scroller.add(viewCone, Const.DP_BG);
 		game.scroller.under(viewCone);
 		viewCone.setScale(0.2);
-		lookAng = M.PI;
 
 		// Anims
 		spr.anim.registerStateAnim("guardGrabbed", 20, 0.1, function() return isGrabbed());
@@ -52,6 +54,11 @@ class Mob extends Entity {
 		spr.anim.registerStateAnim("guardWalk", 1, 0.2, function() return isMoving());
 		spr.anim.registerStateAnim("guardIdle", 0, 0.4);
 		initLife(3);
+	}
+
+	override function onDamage(dmg:Int) {
+		super.onDamage(dmg);
+		triggerAlarm();
 	}
 
 	override function dispose() {
@@ -65,6 +72,9 @@ class Mob extends Entity {
 	override function onDie() {
 		super.onDie();
 		new en.Cadaver(this, "guardDead");
+		for(e in ALL)
+			if( e!=this && e.isAlive() && distCase(e)<=7 && sightCheckEnt(e) )
+				e.triggerAlarm();
 	}
 
 	function goto(x,y) {
@@ -122,16 +132,6 @@ class Mob extends Entity {
 		cd.setS("wasUnderAlarm", Const.INFINITE);
 	}
 
-	override function onTouchEntity(e:Entity, violent:Bool) {
-		super.onTouchEntity(e, violent);
-
-		if( violent ) {
-			bump(e.dirTo(this)*0.15, 0, 0.2);
-			stunS(0.4);
-			hit(e,1);
-			triggerAlarm();
-		}
-	}
 
 	override function update() {
 		super.update();
@@ -140,6 +140,18 @@ class Mob extends Entity {
 			onAlarmEnd();
 			cd.unset("wasUnderAlarm");
 		}
+
+		// Entity collisions
+		if( ( isMoving() || zr<0 ) && isStunned() )
+			for(e in Mob.ALL)
+				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) ) {
+					e.bumpAwayFrom(this, 0.1, 0.1);
+					e.stunS(0.4);
+					e.hit(e,1);
+					e.triggerAlarm();
+					e.cd.setS("touchLock"+uid, 1);
+					break;
+				}
 
 		if( isGrabbed() )
 			cd.setS("sawHero", 1);
