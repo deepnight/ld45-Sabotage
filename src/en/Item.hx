@@ -17,6 +17,8 @@ class Item extends Entity {
 			case Grenade: 1;
 			case Gun: 2;
 			case Knife: 4;
+			case SilverKey: 1;
+			case GoldKey: 1;
 		}
 	}
 
@@ -108,10 +110,12 @@ class Item extends Entity {
 		if( isMoving() || zr<0 )
 			for(e in Mob.ALL)
 				if( e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) ) {
-					e.bump(dirTo(e)*0.15, 0, 0.2);
-					e.stunS(0.4);
-					e.hit(e,1);
-					e.triggerAlarm();
+					if( cd.has("violentThrow") ) {
+						e.bump(dirTo(e)*0.15, 0, 0.2);
+						e.stunS(0.4);
+						e.hit(e,1);
+						e.triggerAlarm();
+					}
 					e.cd.setS("touchLock"+uid, 1);
 					onTrigger();
 					break;

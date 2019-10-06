@@ -43,7 +43,7 @@ class Game extends Process {
 			new en.Item(e.cx, e.cy, e.getEnum("type",ItemType));
 
 		for(e in level.getEntities("door"))
-			new en.Door(e.cx, e.cy);
+			new en.Door(e.cx, e.cy, e.getStr("color")=="gold");
 	}
 
 	public function onCdbReload() {

@@ -3,4 +3,6 @@ enum ItemType {
 	Gun;
 	Knife;
 	Grenade;
+	GoldKey;
+	SilverKey;
 }

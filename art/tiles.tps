@@ -200,10 +200,14 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">export_tiles/Barrel.png</key>
+            <key type="filename">export_tiles/GoldKey.png</key>
             <key type="filename">export_tiles/Grenade.png</key>
             <key type="filename">export_tiles/Gun.png</key>
             <key type="filename">export_tiles/Knife.png</key>
+            <key type="filename">export_tiles/SilverKey.png</key>
             <key type="filename">export_tiles/dirtFull0.png</key>
+            <key type="filename">export_tiles/doorH.png</key>
+            <key type="filename">export_tiles/doorSilverH.png</key>
             <key type="filename">export_tiles/fxCircle.png</key>
             <key type="filename">export_tiles/fxSweat0.png</key>
             <key type="filename">export_tiles/fxSweat1.png</key>
@@ -284,6 +288,32 @@
                 <rect>1,1,3,3</rect>
                 <key>scale9Paddings</key>
                 <rect>1,1,3,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/doorSilverV.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,6,8,12</rect>
+                <key>scale9Paddings</key>
+                <rect>4,6,8,12</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/doorV.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,5,8,10</rect>
+                <key>scale9Paddings</key>
+                <rect>4,5,8,10</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

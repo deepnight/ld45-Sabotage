@@ -88,9 +88,7 @@ class Hero extends Entity {
 				releaseGrab();
 				var s = 0.4;
 				e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.03);
-				if( e.is(Mob) )
-					e.cd.setS("violentThrow",1.2);
-					// e.hit(this, 99);
+				e.cd.setS("violentThrow",1.2);
 			}
 		}, 0.15);
 		lockS(0.25);
@@ -243,7 +241,7 @@ class Hero extends Entity {
 							game.camera.shakeS(0.1, 0.2);
 							consumeItemUse();
 
-						case Knife:
+						case Knife, GoldKey, SilverKey:
 					}
 				}
 				if( isGrabbing(Mob) )
