@@ -60,7 +60,7 @@ class Item extends Entity {
 		}
 	}
 
-	function trigger(sec:Float) {
+	public function trigger(sec:Float) {
 		cd.setS("trigger", sec);
 		maxUses = 0;
 	}

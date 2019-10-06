@@ -52,6 +52,8 @@ class Hero extends Entity {
 	override function onDie() {
 		super.onDie();
 		new en.Cadaver(this, "heroDead");
+		fx.flashBangS(0xff0000,0.4, 10);
+		game.delayer.addS("restart", function() game.startLevel(level.lid), 1);
 	}
 
 	override function dispose() {
@@ -152,8 +154,8 @@ class Hero extends Entity {
 						grabbedEnt.setSpriteOffset(-dir*3, -2);
 
 					if( isGrabbingItem(Gun) ) {
-						grabbedEnt.sprOffX+=dir*6;
-						grabbedEnt.sprOffY-=4;
+						grabbedEnt.sprOffX+=dir*4;
+						grabbedEnt.sprOffY-=5;
 						grabbedEnt.spr.rotation = dir*-1.3;
 					}
 				}
@@ -174,7 +176,7 @@ class Hero extends Entity {
 		var dh = new dn.DecisionHelper(Entity.ALL);
 		// var dh = new dn.DecisionHelper(Mob.ALL);
 		if( forEnemy )
-			dh.keepOnly( function(e) return e.isAlive() && ( e.is(Mob) || e.is(Spike) ));
+			dh.keepOnly( function(e) return e.isAlive() && ( e.is(Mob) || e.is(Spike) || e.is(Item) && e.as(Item).item==Barrel ));
 		else
 			dh.keepOnly( function(e) return e.isAlive() && e.is(Mob) );
 		dh.keepOnly( function(e) return e.isAlive() && ( exclude==null || e!=exclude ) && sightCheckEnt(e) && distCase(e)<=8 && !e.isGrabbed() );

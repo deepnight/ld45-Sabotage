@@ -5,6 +5,7 @@ class Level extends dn.Process {
 	public var wid(get,never) : Int; inline function get_wid() return M.ceil(data.pxWid/Const.GRID);
 	public var hei(get,never) : Int; inline function get_hei() return M.ceil(data.pxHei/Const.GRID);
 
+	public var lid : Int;
 	var invalidatedColls = true;
 	var invalidated = true;
 	var data : ogmo.Level;
@@ -16,8 +17,9 @@ class Level extends dn.Process {
 	var roofBitmaps : Map<Int, h2d.Bitmap> = new Map();
 	public var pf : dn.PathFinder;
 
-	public function new(l:ogmo.Level) {
+	public function new(lid:Int, l:ogmo.Level) {
 		super(Game.ME);
+		this.lid = lid;
 		data = l;
 		createRootInLayers(game.scroller, Const.DP_BG);
 

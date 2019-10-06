@@ -157,8 +157,8 @@ class Mob extends Entity {
 		for(i in 0...patrolPts.length)
 			if( patrolPts[i].is(t.cx,t.cy) )
 				curPatrolIdx = i;
-		if( !isStunned() && zr==0 )
-			fx.question(headX, headY);
+		// if( !isStunned() && zr==0 )
+		// 	fx.question(headX, headY);
 		lockS(0.4);
 	}
 
@@ -204,7 +204,15 @@ class Mob extends Entity {
 		}
 
 		// Mob collisions
-		if( ( isMoving() || zr<0 ) && isStunned() )
+		if( ( isMoving() || zr<0 ) && isStunned() ) {
+			for(e in Item.ALL)
+				if( e.isAlive() && distCase(e)<=1.3 && e.item==Barrel ) {
+					bumpAwayFrom(e, 0.03);
+					e.bumpAwayFrom(this,0.06);
+					e.trigger(1);
+					cd.setS("touchLock"+e.uid, 0.6);
+				}
+
 			for(e in Mob.ALL)
 				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock") && !cd.has("touchLock") ) {
 					e.bumpAwayFrom(this, 0.1, 0.1);
@@ -216,6 +224,7 @@ class Mob extends Entity {
 						hit(99);
 					break;
 				}
+		}
 
 		if( isGrabbed() )
 			cd.setS("sawHero", 1);
