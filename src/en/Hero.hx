@@ -2,7 +2,6 @@ package en;
 
 class Hero extends Entity {
 	var ca : dn.heaps.Controller.ControllerAccess;
-	public var item : Null<Item>;
 	public var grabbedEnt: Null<Entity>;
 
 	public function new(x,y) {
@@ -21,7 +20,7 @@ class Hero extends Entity {
 
 	override function onDamage(dmg:Int) {
 		super.onDamage(dmg);
-		dropItem();
+		releaseGrab();
 		fx.flashBangS(0xff0000,0.2, 0.25);
 		if( lastHitSource!=null ) {
 			var a = lastHitAng;
@@ -38,18 +37,16 @@ class Hero extends Entity {
 
 	override function dispose() {
 		super.dispose();
-		dropItem();
+		releaseGrab();
 		ca.dispose();
 	}
 
-	public inline function isGrabbingSomething() return item!=null || grabbedEnt!=null;
-
-	function dropItem() {
-		if( item!=null ) {
-			item.setPosCase(cx,cy,xr,yr);
-			item.dx = -dir*0.1;
-			item.spr.rotation = 0;
-			item = null;
+	function releaseGrab() {
+		if( grabbedEnt!=null ) {
+			grabbedEnt.setPosCase(cx,cy,xr,yr);
+			grabbedEnt.dx = -dir*0.1;
+			grabbedEnt.spr.rotation = 0;
+			grabbedEnt = null;
 		}
 	}
 
@@ -59,47 +56,48 @@ class Hero extends Entity {
 	}
 
 	var throwAngle : Float;
-	function throwItem() {
-		if( item!=null ) {
-			var e = item;
-			game.delayer.addS( function() {
-				if( isAlive() && e.isAlive() ) {
-					dropItem();
-					var s = 0.4;
-					e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.3);
-				}
-			}, 0.25);
-			lockS(0.3);
-			throwAngle = getThrowAngle();
-			cd.setS("throwingItem", getLockS()-0.1);
-		}
+	function throwGrab() {
+		if( grabbedEnt==null )
+			return;
+
+		var e = grabbedEnt;
+		game.delayer.addS( function() {
+			if( isAlive() && e.isAlive() ) {
+				releaseGrab();
+				var s = 0.4;
+				e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.3);
+			}
+		}, 0.25);
+		lockS(0.3);
+		throwAngle = getThrowAngle();
+		cd.setS("throwingItem", getLockS()-0.1);
 	}
 
 	function pickItem(e:Item) {
-		dropItem();
+		releaseGrab();
 		dx*=0.3;
 		dy*=0.3;
 		dir = dirTo(e);
-		item = e;
+		grabbedEnt = e;
 		lockS(0.3);
 		cd.setS("grabbingItem", getLockS()-0.1);
 	}
 
 	override function postUpdate() {
 		super.postUpdate();
-		if( item!=null ) {
+		if( grabbedEnt!=null ) {
 			if( cd.has("grabbingItem") )
-				item.setPosPixel(footX+dir*10, footY+1);
+				grabbedEnt.setPosPixel(footX+dir*10, footY+1);
 			else if( cd.has("throwingItem") ) {
-				item.spr.rotation = 0;
-				item.setPosPixel(footX-dir*4, footY-8);
+				grabbedEnt.spr.rotation = 0;
+				grabbedEnt.setPosPixel(footX-dir*4, footY-8);
 			}
 			else {
-				item.spr.rotation = dir*0.2;
+				grabbedEnt.spr.rotation = dir*0.2;
 				if( isMoving() )
-					item.setPosPixel(footX-dir*4, footY-3);
+					grabbedEnt.setPosPixel(footX-dir*4, footY-3);
 				else
-					item.setPosPixel(footX-dir*3, footY-2);
+					grabbedEnt.setPosPixel(footX-dir*3, footY-2);
 			}
 		}
 	}
@@ -133,8 +131,8 @@ class Hero extends Entity {
 				dy *= Math.pow(0.6,tmod);
 			}
 
-			// Items
-			if( ca.xPressed() && item==null ) {
+			// Pick/throw items
+			if( ca.xPressed() && grabbedEnt==null ) {
 				var dh = new dn.DecisionHelper(Item.ALL);
 				dh.keepOnly( function(e) return e.isAlive() && !e.isGrabbed() && ( sightCheckEnt(e) && distCase(e)<=1.5 || distCase(e)<=0.8 ) );
 				dh.score( function(e) return -distCase(e) );
@@ -142,8 +140,10 @@ class Hero extends Entity {
 				if( e!=null )
 					pickItem(e);
 			}
-			else if( ca.xPressed() && item!=null )
-				throwItem();
+			else if( ca.xPressed() && grabbedEnt!=null )
+				throwGrab();
+			else if( ca.bPressed() && grabbedEnt!=null )
+				releaseGrab();
 
 			// Punch/pick/use
 			// if( ca.aPressed() ) {
@@ -154,7 +154,7 @@ class Hero extends Entity {
 		}
 
 		// Grab enemies
-		if( !isGrabbingSomething() )
+		if( grabbedEnt==null )
 			for(e in en.Mob.ALL) {
 				if( !e.isAlive() )
 					continue;
@@ -181,13 +181,13 @@ class Hero extends Entity {
 
 
 		// Lost item
-		if( item!=null && !item.isAlive() )
-			item = null;
+		if( grabbedEnt!=null && !grabbedEnt.isAlive() )
+			grabbedEnt = null;
 
-		if( ca.yPressed() )
-			dn.Bresenham.iterateDisc(cx,cy, 4, function(cx,cy) {
-				level.damage(cx,cy, 0.35);
-			});
+		// if( ca.yPressed() )
+		// 	dn.Bresenham.iterateDisc(cx,cy, 4, function(cx,cy) {
+		// 		level.damage(cx,cy, 0.35);
+			// });
 
 		// Roof anim
 		if( level.hasRoof(cx,cy) )

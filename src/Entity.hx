@@ -68,6 +68,8 @@ class Entity {
 		initLife(1);
     }
 
+	public function isGrabbed() return hero.isAlive() && hero.grabbedEnt==this;
+
 	public function initLife(v) {
 		life = maxLife = v;
 	}

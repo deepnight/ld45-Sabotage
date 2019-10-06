@@ -12,8 +12,6 @@ class Item extends Entity {
 		});
 	}
 
-	public function isGrabbed() return hero.item==this;
-
 	override function dispose() {
 		super.dispose();
 		ALL.remove(this);
