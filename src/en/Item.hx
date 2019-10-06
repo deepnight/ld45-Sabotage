@@ -46,19 +46,27 @@ class Item extends Entity {
 		ALL.remove(this);
 	}
 
-	function selfDestruct() {
+	function onSelfDestruct() {
 		fx.destroyItem(this);
 		destroy();
 	}
 
 	function onTouchEntity(e:Entity) {
-		trace(e);
 		if( e.is(Mob) ) {
 			var e = e.as(Mob);
 			e.bump(dirTo(e)*0.15, 0, 0.2);
 			e.stunS(0.4);
 			e.triggerAlarm();
+			onTrigger();
 		}
+	}
+
+	function onTrigger() {
+		switch item {
+			case Barrel:
+			case Gun:
+		}
+		destroy();
 	}
 
 	override function update() {
@@ -68,17 +76,18 @@ class Item extends Entity {
 			for(e in Entity.ALL)
 				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock") ) {
 					onTouchEntity(e);
-					e.cd.setS("touchLock", 0.5);
+					e.cd.setS("touchLock", 1);
 					break;
 				}
 
 		if( isDepleted() && cd.has("selfDestructing") && !cd.has("selfDestruct") )
-			selfDestruct();
+			onSelfDestruct();
+
 
 		switch item {
 			case Barrel:
 				if( isDepleted() && !cd.has("trigger") )
-					destroy();
+					onTrigger();
 
 			case Gun:
 		}

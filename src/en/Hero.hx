@@ -35,7 +35,7 @@ class Hero extends Entity {
 
 	override function onDamage(dmg:Int) {
 		super.onDamage(dmg);
-		releaseGrab();
+		// releaseGrab();
 		fx.flashBangS(0xff0000,0.3, 0.4);
 		if( lastHitSource!=null ) {
 			var a = lastHitAng;
@@ -61,7 +61,7 @@ class Hero extends Entity {
 	public inline function consumeItemUse() if( isGrabbing(en.Item) ) grabbedEnt.as(Item).consumeUse();
 
 	function releaseGrab() {
-		if( grabbedEnt!=null ) {
+		if( grabbedEnt!=null && grabbedEnt.isAlive() ) {
 			grabbedEnt.setPosCase(cx,cy,xr,yr);
 			grabbedEnt.bump(dir*0.06, 0, 0.2);
 			grabbedEnt.stunS(0.4);
@@ -80,7 +80,7 @@ class Hero extends Entity {
 
 	var throwAngle : Float;
 	function throwGrab() {
-		if( grabbedEnt==null )
+		if( grabbedEnt==null || !grabbedEnt.isAlive() )
 			return;
 
 		var e = grabbedEnt;
@@ -254,7 +254,7 @@ class Hero extends Entity {
 					var a = angTo(e);
 					e.stunS(0.9);
 					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
-					e.hit(this,1);
+					// e.hit(this,1);
 					game.camera.shakeS(0.2);
 					break;
 				}

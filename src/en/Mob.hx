@@ -63,7 +63,7 @@ class Mob extends Entity {
 
 	override function onDie() {
 		super.onDie();
-		new en.Cadaver(this, "guardDead", Gun);
+		new en.Cadaver(this, "guardDead");
 	}
 
 	function goto(x,y) {
@@ -138,7 +138,7 @@ class Mob extends Entity {
 		if( !isGrabbed() ) {
 			if( hero.isAlive() ) {
 				// See hero
-				var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.3;
+				var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.4;
 				var viewDist = hasAlarm() ? 11 : 6;
 				if( ui.Console.ME.hasFlag("cone") ) {
 					fx.angle(footX, footY, lookAng+viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
