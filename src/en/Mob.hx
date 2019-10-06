@@ -207,9 +207,10 @@ class Mob extends Entity {
 		if( ( isMoving() || zr<0 ) && isStunned() ) {
 			for(e in Item.ALL)
 				if( e.isAlive() && distCase(e)<=1.3 && e.item==Barrel ) {
+					// cancelVelocities();
 					bumpAwayFrom(e, 0.03);
-					e.bumpAwayFrom(this,0.06);
-					e.trigger(1);
+					e.bumpAwayFrom(this,0.02);
+					e.trigger(0.65);
 					cd.setS("touchLock"+e.uid, 0.6);
 				}
 
@@ -232,8 +233,8 @@ class Mob extends Entity {
 		if( !isGrabbed() ) {
 			if( hero.isAlive() ) {
 				// See hero
-				var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.4;
-				var viewDist = hasAlarm() ? 11 : 6;
+				var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.2;
+				var viewDist = hasAlarm() ? 9 : 4;
 				if( ui.Console.ME.hasFlag("cone") ) {
 					fx.angle(footX, footY, lookAng+viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
 					fx.angle(footX, footY, lookAng-viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);

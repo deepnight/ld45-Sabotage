@@ -144,6 +144,8 @@ class Game extends Process {
 			#if debug
 			if( ca.isKeyboardPressed(Key.R) )
 				startLevel(level.lid);
+			if( ca.isKeyboardPressed(Key.N) )
+				startLevel(level.lid+1);
 			if( ca.isKeyboardPressed(Key.K) )
 				for(e in Mob.ALL) e.hit(999);
 			#end

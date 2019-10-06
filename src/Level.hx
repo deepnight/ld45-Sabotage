@@ -42,6 +42,16 @@ class Level extends dn.Process {
 		pf = new dn.PathFinder(wid, hei);
 	}
 
+	override function onDispose() {
+		super.onDispose();
+		for(l in layerRenders)
+			l.remove();
+		for(e in roofBitmaps)
+			e.remove();
+		data = null;
+		pf.destroy();
+	}
+
 	public inline function getDamage(cx,cy) {
 		return isValid(cx,cy) && damageMap.exists(coordId(cx,cy)) ? damageMap.get(coordId(cx,cy)) : 0.;
 	}

@@ -13,7 +13,7 @@ class Hero extends Entity {
 
 		spr.anim.registerStateAnim("heroHit", 10, function() return isLocked() && cd.has("recentHit") );
 		spr.anim.registerStateAnim("heroUseGun", 2, 0.05, function() return isLocked() && cd.has("usingGun") );
-		spr.anim.registerStateAnim("heroThrow", 2, 0.05, function() return isLocked() && cd.has("throwingItem") );
+		spr.anim.registerStateAnim("heroThrow", 2, 0.10, function() return isLocked() && cd.has("throwingItem") );
 		spr.anim.registerStateAnim("heroGrab", 2, function() return isLocked() && cd.has("grabbingItem") );
 		spr.anim.registerStateAnim("heroRun", 1, 0.2, function() return isMoving());
 		spr.anim.registerStateAnim("heroIdleBack", 0, 0.4, function() return cd.has("lookingBack"));
@@ -52,7 +52,7 @@ class Hero extends Entity {
 	override function onDie() {
 		super.onDie();
 		new en.Cadaver(this, "heroDead");
-		fx.flashBangS(0xff0000,0.4, 10);
+		fx.flashBangS(0xff0000, 0.3, 2);
 		game.delayer.addS("restart", function() game.startLevel(level.lid), 1);
 	}
 
@@ -97,8 +97,8 @@ class Hero extends Entity {
 				e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.03);
 				e.cd.setS("violentThrow",1.2);
 			}
-		}, 0.15);
-		lockS(0.25);
+		}, 0.1);
+		lockS(0.2);
 		grabbedEnt.stunS(1.2);
 		grabbedEnt.cd.setS("grabLock",1);
 		cd.setS("grabLock",0.5);
@@ -113,8 +113,8 @@ class Hero extends Entity {
 		dir = dirTo(e);
 		e.cancelVelocities();
 		grabbedEnt = e;
-		lockS(0.3);
-		cd.setS("grabbingItem", getLockS()-0.1);
+		lockS(0.09);
+		cd.setS("grabbingItem", getLockS());
 	}
 
 	override function postUpdate() {
@@ -301,7 +301,7 @@ class Hero extends Entity {
 
 			if( grabbedEnt==null && !cd.has("grabLock") && !e.cd.has("grabLock") ) {
 				// Grab mob
-				if( ( !e.hasAlarm() || e.cd.has("allowLastSecondGrab") ) && distCase(e)<=0.75 ) {
+				if( ( !e.hasAlarm() || e.cd.has("allowLastSecondGrab") || e.isStunned() ) && distCase(e)<=0.75 ) {
 					grab(e);
 					break;
 				}
