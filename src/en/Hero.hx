@@ -8,11 +8,31 @@ class Hero extends Entity {
 		super(x,y);
 		ca = Main.ME.controller.createAccess("hero");
 
+		spr.anim.registerStateAnim("heroHit", 10, function() return isLocked() && cd.has("recentHit") );
 		spr.anim.registerStateAnim("heroThrow", 2, 0.05, function() return isLocked() && cd.has("throwingItem") );
 		spr.anim.registerStateAnim("heroGrab", 2, function() return isLocked() && cd.has("grabbingItem") );
 		spr.anim.registerStateAnim("heroRun", 1, 0.2, function() return isMoving());
 		spr.anim.registerStateAnim("heroIdleBack", 0, 0.4, function() return cd.has("lookingBack"));
 		spr.anim.registerStateAnim("heroIdle", 0, 0.4);
+
+		initLife(3);
+	}
+
+	override function onDamage(dmg:Int) {
+		super.onDamage(dmg);
+		dropItem();
+		fx.flashBangS(0xff0000,0.2, 0.25);
+		if( lastHitSource!=null ) {
+			var a = lastHitAng;
+			bump(Math.cos(a)*0.07, Math.sin(a)*0.01, 0.1);
+		}
+		lockS(0.3);
+		cd.setS("recentHit", getLockS());
+	}
+
+	override function onDie() {
+		super.onDie();
+		new en.Cadaver(this, "heroDead");
 	}
 
 	override function dispose() {
@@ -43,7 +63,7 @@ class Hero extends Entity {
 				if( isAlive() && e.isAlive() ) {
 					dropItem();
 					var s = 0.4;
-					e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.2);
+					e.bump(Math.cos(throwAngle)*s, Math.sin(throwAngle)*s, 0.3);
 				}
 			}, 0.25);
 			lockS(0.3);

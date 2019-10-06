@@ -176,6 +176,90 @@ class Fx extends dn.Process {
 		#end
 	}
 
+	public function bulletWall(x:Float, y:Float, ang:Float) {
+		// Dots
+		for(i in 0...15) {
+			var p = allocTopAdd(getTile("pixel"), x+rnd(0,1,true), y+rnd(0,1,true));
+			p.setFadeS(rnd(0.3,0.8), 0, rnd(0.1,0.3));
+			p.moveAng(ang+M.PI+rnd(0,0.1,true), rnd(0.2,2));
+			p.frict = rnd(0.87, 0.96);
+			p.gy = rnd(0.01,0.05);
+			p.colorize( Color.interpolateInt(0xffcc00,0xff0000,rnd(0,1)) );
+			p.lifeS = rnd(0.3,0.6);
+		}
+		// Smoke
+		for(i in 0...4) {
+			var p = allocTopNormal(getTile("fxSmoke"), x+rnd(0,2,true), y+rnd(0,2,true));
+			p.setFadeS(rnd(0.3,0.5), 0, rnd(1,2));
+			p.colorize(0x772b2b);
+			p.rotation = rnd(0,6.28);
+			p.setScale(rnd(0.2,0.3,true));
+			p.scaleMul = rnd(0.97,0.99);
+			p.dr = rnd(0,0.03,true);
+			p.dy = -rnd(0.1,0.2);
+			p.frict = 0.96;
+		}
+	}
+
+	public function bulletBleed(x:Float, y:Float, ang:Float) {
+		// Dots
+		for(i in 0...25) {
+			var p = (i<=8 ? allocTopNormal : allocBgNormal)(getTile("pixel"), x+rnd(0,1,true), y+rnd(0,1,true));
+			p.setFadeS(rnd(0.3,0.8), 0, rnd(0.1,0.3));
+			p.moveAng(ang+M.PI+rnd(0,0.1,true), rnd(0.2,2));
+			p.frict = rnd(0.87, 0.96);
+			p.gy = rnd(0.01,0.05);
+			p.colorize(0xaa0000);
+			p.lifeS = rnd(0.3,0.6);
+		}
+		// Smoke
+		for(i in 0...4) {
+			var p = allocTopNormal(getTile("fxSmoke"), x+rnd(0,3,true), y+rnd(0,3,true));
+			p.setFadeS(rnd(0.1,0.3), 0, rnd(0.3,0.6));
+			p.colorize(0xcc0000);
+			p.rotation = rnd(0,6.28);
+			p.setScale(rnd(0.2,0.3,true));
+			p.scaleMul = rnd(0.97,0.99);
+			p.dr = rnd(0,0.03,true);
+			p.dy = -rnd(0.1,0.2);
+			p.frict = 0.96;
+		}
+	}
+
+	public function shoot(x:Float, y:Float, ang:Float, c:UInt) {
+		// Dots
+		for(i in 0...15) {
+			var p = allocTopAdd(getTile("pixel"), x+rnd(0,1,true), y+rnd(0,1,true));
+			p.setFadeS(rnd(0.3,0.8), 0, rnd(0.1,0.3));
+			p.moveAng(ang+rnd(0,0.1,true), rnd(0.03,2));
+			p.frict = rnd(0.94, 0.96);
+			p.lifeS = rnd(0.1,0.2);
+			p.colorize( Color.interpolateInt(0xffcc00,0xff0000,rnd(0,1)) );
+		}
+		// Line
+		var p = allocTopAdd(getTile("fxLineDir"), x,y);
+		p.colorize(c);
+		p.rotation = ang;
+		p.setFadeS(0.6, 0, 0.1);
+		p.setCenterRatio(1,0.5);
+		p.scaleX = -1;
+		p.dsX = -0.1;
+		p.dsFrict = 0.8;
+		p.lifeS = 0.06;
+		// Smoke
+		// for(i in 0...4) {
+		// 	var p = allocTopNormal(getTile("fxSmoke"), x+rnd(0,1,true), y+rnd(0,1,true));
+		// 	p.setFadeS(rnd(0.1,0.2), 0, rnd(0.2,0.4));
+		// 	p.colorize(c);
+		// 	p.rotation = rnd(0,6.28);
+		// 	p.setScale(rnd(0.2,0.4,true));
+		// 	p.scaleMul = rnd(1,1.01);
+		// 	p.dr = rnd(0,0.03,true);
+		// 	p.dy = -rnd(0.1,0.2);
+		// 	p.frict = 0.96;
+		// }
+	}
+
 	public function throwAngle(x:Float, y:Float, ang:Float) {
 		var p = allocTopAdd(getTile("fxLineDir"), x,y);
 		p.setCenterRatio(1,0.5);

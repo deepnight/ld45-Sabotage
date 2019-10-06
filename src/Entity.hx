@@ -28,9 +28,13 @@ class Entity {
 	public var dyTotal(get,never) : Float; inline function get_dyTotal() return dy+bdy;
 	public var frict = 0.82;
 	public var gravity = 0.02;
+	public var hasCollisions = true;
 	public var bumpFrict = 0.93;
 	public var hei : Float = Const.GRID;
 	public var radius = Const.GRID*0.5;
+
+	public var life : Int;
+	public var maxLife : Int;
 
 	public var dir(default,set) = 1;
 	public var sprScaleX = 1.0;
@@ -39,6 +43,8 @@ class Entity {
     public var spr : HSprite;
     public var shadow : Null<HSprite>;
 	var debugLabel : Null<h2d.Text>;
+	var lastHitSource : Null<Entity>;
+	var lastHitAng(get,never) : Float;
 
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
@@ -58,7 +64,39 @@ class Entity {
         Game.ME.scroller.add(spr, Const.DP_MAIN);
 		spr.setCenterRatio(0.5,1);
 		enableShadow();
+		initLife(1);
     }
+
+	public function initLife(v) {
+		life = maxLife = v;
+	}
+
+	public function heal(v) {
+		life = M.iclamp(life+v, 0, maxLife);
+	}
+
+	public function hit(?from:Entity, dmg) {
+		if( !isAlive() || dmg<=0 )
+			return;
+
+		lastHitSource = from;
+		life = M.iclamp(life-dmg, 0, maxLife);
+		onDamage(dmg);
+		if( life<=0 )
+			onDie();
+	}
+
+	function onDamage(dmg:Int) {}
+
+	function onDie() {
+		destroy();
+	}
+
+	function get_lastHitAng() {
+		return
+			lastHitSource==null ? ( dir==1 ? M.PI : 0 )
+			: lastHitSource.is(en.Bullet) ? Math.atan2(lastHitSource.dy,lastHitSource.dx) : lastHitSource.angTo(this);
+	}
 
 	public function disableShadow() {
 		if( shadow!=null ) {
@@ -89,7 +127,7 @@ class Entity {
 	}
 
 	public inline function isAlive() {
-		return !destroyed;
+		return !destroyed && life>0;
 	}
 
 	public function kill(by:Null<Entity>) {
@@ -226,6 +264,7 @@ class Entity {
 		}
     }
 
+	function onTouchWall() {}
 	function onZLand() {}
 
 
@@ -238,16 +277,18 @@ class Entity {
 		var step = dxTotal*tmod / steps;
 		while( steps>0 ) {
 			xr+=step;
-			if( level.hasCollision(cx+1, cy) && xr>0.8 ) {
+			if( hasCollisions && level.hasCollision(cx+1, cy) && xr>0.8 ) {
 				xr = 0.8;
 				if( yr<0.6 && !level.hasCollision(cx+1,cy-1) && dyTotal<=wallSlideTolerance ) dy-=wallSlide*tmod;
 				if( yr>0.6 && !level.hasCollision(cx+1,cy+1) && dyTotal>=-wallSlideTolerance ) dy+=wallSlide*tmod;
+				onTouchWall();
 
 			}
-			if( level.hasCollision(cx-1, cy) && xr<0.2 ) {
+			if( hasCollisions && level.hasCollision(cx-1, cy) && xr<0.2 ) {
 				xr = 0.2;
 				if( yr<0.6 && !level.hasCollision(cx-1,cy-1) && dyTotal<=wallSlideTolerance ) dy-=wallSlide*tmod;
 				if( yr>0.6 && !level.hasCollision(cx-1,cy+1) && dyTotal>=-wallSlideTolerance ) dy+=wallSlide*tmod;
+				onTouchWall();
 			}
 			while( xr>1 ) { xr--; cx++; }
 			while( xr<0 ) { xr++; cx--; }
@@ -263,15 +304,17 @@ class Entity {
 		var step = dyTotal*tmod / steps;
 		while( steps>0 ) {
 			yr+=step;
-			if( level.hasCollision(cx, cy+1) && yr>0.9 ) {
+			if( hasCollisions && level.hasCollision(cx, cy+1) && yr>0.9 ) {
 				yr = 0.9;
 				if( xr<0.5 && !level.hasCollision(cx-1,cy+1) && dxTotal<=wallSlideTolerance ) dx-=wallSlide*tmod;
 				if( xr>0.5 && !level.hasCollision(cx+1,cy+1) && dxTotal>=-wallSlideTolerance ) dx+=wallSlide*tmod;
+				onTouchWall();
 			}
-			if( level.hasCollision(cx, cy-1) && yr<0.5 ) {
+			if( hasCollisions && level.hasCollision(cx, cy-1) && yr<0.5 ) {
 				yr = 0.5;
 				if( xr<0.5 && !level.hasCollision(cx-1,cy-1) && dxTotal<=wallSlideTolerance ) dx-=wallSlide*tmod;
 				if( xr>0.5 && !level.hasCollision(cx+1,cy-1) && dxTotal>=-wallSlideTolerance ) dx+=wallSlide*tmod;
+				onTouchWall();
 			}
 			while( yr>1 ) { yr--; cy++; }
 			while( yr<0 ) { yr++; cy--; }
@@ -288,11 +331,12 @@ class Entity {
 			dz-=gravity*tmod;
 		if( zr<0 ) {
 			zr = 0;
-			dz = -dz*0.4;
-			if( M.fabs(dz)<=0.02 )
+			dz = -dz*0.9;
+			if( M.fabs(dz)<=0.06 )
 				dz = 0;
 			onZLand();
 		}
-		if( M.fabs(dz)<=0.0005*tmod ) dz = 0;
+		dz*=Math.pow(0.9,tmod);
+		if( M.fabs(dz)<=0.0010*tmod ) dz = 0;
     }
 }

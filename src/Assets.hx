@@ -27,5 +27,7 @@ class Assets {
 
 		tiles.defineAnim("guardRun", "0(2), 1(1), 2(2), 1(1)");
 		tiles.defineAnim("guardWalk", "0(3), 1(1), 2(3), 1(1)");
+		tiles.defineAnim("guardShoot", "1(1), 0(2), 1(4)");
+		tiles.defineAnim("guardShootDown", "1(1), 0(2), 1(4)");
 	}
 }

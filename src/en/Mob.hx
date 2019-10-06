@@ -114,20 +114,42 @@ class Mob extends Entity {
 			cd.unset("wasUnderAlarm");
 		}
 
-		// See hero
-		var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.3;
-		var viewDist = hasAlarm() ? 11 : 6;
-		if( ui.Console.ME.hasFlag("cone") ) {
-			fx.angle(footX, footY, lookAng+viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
-			fx.angle(footX, footY, lookAng-viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
-		}
-		if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=viewDist )
-			cd.setS("sawHero", 0.5);
+		if( hero.isAlive() ) {
+			// See hero
+			var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.3;
+			var viewDist = hasAlarm() ? 11 : 6;
+			if( ui.Console.ME.hasFlag("cone") ) {
+				fx.angle(footX, footY, lookAng+viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
+				fx.angle(footX, footY, lookAng-viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
+			}
+			if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=viewDist ) {
+				cd.setS("sawHero", 0.5);
+				cd.setS("canShoot", 0.3);
+			}
 
-		// Continue to track hero longer after last sight
-		if( cd.has("sawHero") ) {
-			lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
-			triggerAlarm();
+			// Continue to track hero longer after last sight
+			if( cd.has("sawHero") ) {
+				lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
+				triggerAlarm();
+			}
+
+			// Shoot
+			if( !isLocked() && cd.has("canShoot") && distCase(hero)<=8 && !cd.has("shootLock")) {
+				lockS(0.3);
+				var a = angTo(hero);
+				// spr.anim.play(M.radDistance(a,1.57)<=0.8 ? "guardShootDown" : "guardShoot").setSpeed(0.2);
+				spr.anim.play("guardShoot").setSpeed(0.2);
+				dir = hero.centerX>centerX ? 1 : -1;
+				var e = new en.Bullet(this, a);
+				fx.shoot(e.footX, e.footY-2, a, 0xff0000);
+				cd.setS("shootLock", 1);
+
+				// for(e in ALL)
+				// 	if( e!=this && e.isAlive() && distCase(e)<=6 && sightCheckEnt(e) && !e.hasAlarm() ) {
+				// 		e.triggerAlarm();
+				// 		e.cd.setS("sawHero",0.2);
+				// 	}
+			}
 		}
 
 		// Movement AI
@@ -136,10 +158,6 @@ class Mob extends Entity {
 				// Patrol movement
 				if( !cd.hasSetS("patrolPath",0.4) )
 					goto(curPatrolPt.cx, curPatrolPt.cy);
-				if( curPatrolPt.cx<cx ) dir = -1;
-				if( curPatrolPt.cx>cx ) dir = 1;
-				if( curPatrolPt.cy<cy ) dir = -1;
-				if( curPatrolPt.cy>cy ) dir = 1;
 			}
 			else {
 				// Reached patrol point
@@ -153,7 +171,6 @@ class Mob extends Entity {
 			// Track alarm source
 			if( !cd.hasSetS("trackPath",0.2) ) {
 				goto(lastAlarmPt.cx, lastAlarmPt.cy);
-				dir = lastAlarmPt.cx<cx ? -1 : lastAlarmPt.cx>cx ? 1 : dir;
 			}
 		}
 
@@ -176,6 +193,11 @@ class Mob extends Entity {
 				var a = Math.atan2(0.5-yr, 0.5-xr);
 				dx+=Math.cos(a)*0.001*tmod;
 				dy+=Math.sin(a)*0.001*tmod;
+
+				if( hasAlarm() )
+					dir = lastAlarmPt.cx<cx ? -1 : lastAlarmPt.cx>cx ? 1 : dir;
+				else
+					dir = next.cx<cx ? -1 : next.cx>cx ? 1 : dir;
 
 				if( hasAlarm() && distPxFree(lastAlarmPt.footX, lastAlarmPt.footY) >= Const.GRID*0.5 )
 					lookAng = Math.atan2(lastAlarmPt.footY-footY, lastAlarmPt.footX-footX);
