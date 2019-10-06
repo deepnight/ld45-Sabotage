@@ -174,10 +174,24 @@ fxSmoke0
   index: -1
 fxSweat0
   rotate: false
-  xy: 40, 175
+  xy: 49, 131
   size: 13, 11
   orig: 16, 16
   offset: 1, 2
+  index: -1
+guardGrabbed0
+  rotate: false
+  xy: 40, 175
+  size: 13, 15
+  orig: 16, 16
+  offset: 1, 0
+  index: -1
+guardGrabbed1
+  rotate: false
+  xy: 49, 156
+  size: 13, 15
+  orig: 16, 16
+  offset: 1, 0
   index: -1
 guardHit0
   rotate: false

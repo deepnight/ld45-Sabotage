@@ -39,6 +39,8 @@ class Entity {
 	public var dir(default,set) = 1;
 	public var sprScaleX = 1.0;
 	public var sprScaleY = 1.0;
+	public var sprOffX = 0.;
+	public var sprOffY = 0.;
 
     public var spr : HSprite;
     public var shadow : Null<HSprite>;
@@ -248,13 +250,28 @@ class Entity {
 	public function getLockS() return cd.getS("lock");
 	public function isLocked() return cd.has("lock");
 
+	public function stunS(t:Float) {
+		lockS(t);
+		cd.setS("stun",t);
+	}
+	public inline function isStunned() return isLocked() && cd.has("stun");
+
     public function preUpdate() {
 		cd.update(tmod);
     }
 
+	public inline function setSpriteOffset(?ox:Float,?oy:Float) {
+		if( ox==null )
+			sprOffY = sprOffX = 0;
+		else {
+			sprOffX = ox;
+			sprOffY = oy;
+		}
+	}
+
     public function postUpdate() {
-        spr.x = (cx+xr)*Const.GRID;
-        spr.y = (cy+yr-zr)*Const.GRID;
+        spr.x = (cx+xr)*Const.GRID + sprOffX;
+        spr.y = (cy+yr-zr)*Const.GRID + sprOffY;
         spr.scaleX = dir*sprScaleX;
         spr.scaleY = sprScaleY;
 

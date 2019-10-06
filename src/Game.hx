@@ -71,7 +71,7 @@ class Game extends Process {
 		// Updates
 		for(e in Entity.ALL) if( !e.destroyed ) e.preUpdate();
 		for(e in Entity.ALL) if( !e.destroyed ) e.update();
-		Entity.ALL.sort( function(a,b) return Reflect.compare(a.footY, b.footY)); // Z-sort
+		Entity.ALL.sort( function(a,b) return Reflect.compare(a.footY+a.sprOffY, b.footY+b.sprOffY)); // Z-sort
 		for(e in Entity.ALL) if( !e.destroyed ) {
 			e.zOver();
 			e.postUpdate();

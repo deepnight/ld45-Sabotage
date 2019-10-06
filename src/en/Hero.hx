@@ -41,11 +41,15 @@ class Hero extends Entity {
 		ca.dispose();
 	}
 
+	public inline function isGrabbing<T:Entity>(c:Class<T>) return grabbedEnt!=null && grabbedEnt.isAlive() && Std.is(grabbedEnt, c);
+
 	function releaseGrab() {
 		if( grabbedEnt!=null ) {
 			grabbedEnt.setPosCase(cx,cy,xr,yr);
-			grabbedEnt.dx = -dir*0.1;
+			grabbedEnt.bump(dir*0.06, 0, 0.2);
+			grabbedEnt.stunS(0.4);
 			grabbedEnt.spr.rotation = 0;
+			grabbedEnt.cd.setS("grabLock",1);
 			grabbedEnt = null;
 		}
 	}
@@ -69,6 +73,8 @@ class Hero extends Entity {
 			}
 		}, 0.25);
 		lockS(0.3);
+		grabbedEnt.stunS(1.2);
+		grabbedEnt.cd.setS("grabLock",1);
 		throwAngle = getThrowAngle();
 		cd.setS("throwingItem", getLockS()-0.1);
 	}
@@ -78,6 +84,17 @@ class Hero extends Entity {
 		dx*=0.3;
 		dy*=0.3;
 		dir = dirTo(e);
+		grabbedEnt = e;
+		lockS(0.3);
+		cd.setS("grabbingItem", getLockS()-0.1);
+	}
+
+	function grab(e:Entity) {
+		releaseGrab();
+		dx*=0.3;
+		dy*=0.3;
+		dir = dirTo(e);
+		e.cancelVelocities();
 		grabbedEnt = e;
 		lockS(0.3);
 		cd.setS("grabbingItem", getLockS()-0.1);
@@ -93,11 +110,18 @@ class Hero extends Entity {
 				grabbedEnt.setPosPixel(footX-dir*4, footY-8);
 			}
 			else {
-				grabbedEnt.spr.rotation = dir*0.2;
-				if( isMoving() )
-					grabbedEnt.setPosPixel(footX-dir*4, footY-3);
-				else
-					grabbedEnt.setPosPixel(footX-dir*3, footY-2);
+				grabbedEnt.setPosCase(cx,cy,xr,yr);
+				if( isGrabbing(en.Item) ) {
+					grabbedEnt.spr.rotation = dir*0.2;
+					if( isMoving() )
+						grabbedEnt.setSpriteOffset(-dir*4, -3);
+					else
+						grabbedEnt.setSpriteOffset(-dir*3, -2);
+				}
+				else if( isGrabbing(en.Mob) ) {
+					grabbedEnt.dir = dir;
+					grabbedEnt.setSpriteOffset(dir*2, 1);
+				}
 			}
 		}
 	}
@@ -156,15 +180,16 @@ class Hero extends Entity {
 		// Grab enemies
 		if( grabbedEnt==null )
 			for(e in en.Mob.ALL) {
-				if( !e.isAlive() )
+				if( !e.isAlive() || e.cd.has("grabLock") )
 					continue;
 
-				if( !e.hasAlarm() && distCase(e)<=0.5 ) {
-					// grab(e);
+				// Grab mob
+				if( ( !e.hasAlarm() || e.cd.has("recentAlarmStart") ) && distCase(e)<=0.5 ) {
+					grab(e);
 					break;
 				}
 
-				if( e.hasAlarm() && distCase(e)<=1 && !cd.has("punch") ) {
+				if( e.hasAlarm() && !e.cd.has("recentAlarmStart") && distCase(e)<=1 && !cd.has("punch") ) {
 					// Melee punch
 					lockS(0.3);
 					cd.setS("punch",0.5);
