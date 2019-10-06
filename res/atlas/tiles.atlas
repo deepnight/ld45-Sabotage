@@ -452,16 +452,23 @@ Gun
   orig: 16, 16
   offset: 0, 0
   index: -1
-heartOff
+heartLoss
   rotate: false
   xy: 28, 257
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
-heartOn
+heartOff
   rotate: false
   xy: 10, 261
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: -1
+heartOn
+  rotate: false
+  xy: 1, 264
   size: 7, 7
   orig: 7, 7
   offset: 0, 0

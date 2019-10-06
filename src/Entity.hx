@@ -85,7 +85,7 @@ class Entity {
 		renderLife();
 	}
 
-	public function renderLife() {
+	public function renderLife(?loss=0) {
 		if( lifeBar==null ) {
 			lifeBar = new h2d.Flow();
 			game.scroller.add(lifeBar, Const.DP_UI);
@@ -95,7 +95,7 @@ class Entity {
 
 		lifeBar.removeChildren();
 		for(i in 0...maxLife)
-			Assets.tiles.getBitmap(i+1<=life ? "heartOn" : "heartOff", lifeBar);
+			Assets.tiles.getBitmap(i+1<=life ? "heartOn" : i+1<=life+loss ? "heartLoss" : "heartOff", lifeBar);
 	}
 
 	public function heal(v) {
@@ -103,10 +103,11 @@ class Entity {
 		showLifeChange();
 	}
 
-	function showLifeChange() {
+	function showLifeChange(?loss=0) {
+		renderLife(loss);
 		lifeBar.alpha = 1;
 		cd.setS("showLifeBar", Const.INFINITE);
-		cd.setS("showLifeChangeLock",0.12);
+		cd.setS("showLifeChangeLock",0.2);
 		cd.setS("showLifeChange",Const.INFINITE);
 	}
 
@@ -115,8 +116,9 @@ class Entity {
 			return;
 
 		lastHitSource = from;
+		var oldLife = life;
 		life = M.iclamp(life-dmg, 0, maxLife);
-		showLifeChange();
+		showLifeChange(oldLife-life);
 		onDamage(dmg);
 		if( life<=0 )
 			onDie();

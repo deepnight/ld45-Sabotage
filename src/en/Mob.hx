@@ -144,7 +144,7 @@ class Mob extends Entity {
 		if( cd.has("punched") ) {
 			hit(1);
 			cancelVelocities();
-			bump(-wallDirX*0.2, -wallDirY*0.1, 0.1);
+			bump(-wallDirX*0.06, -wallDirY*0.06, 0.1);
 			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX));
 			cd.unset("punched");
 		}
@@ -165,7 +165,7 @@ class Mob extends Entity {
 				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) ) {
 					e.bumpAwayFrom(this, 0.1, 0.1);
 					e.stunS(3);
-					e.hit(e,1);
+					e.hit(e, cd.has("violentThrow") ? 2 : 1);
 					e.triggerAlarm();
 					e.cd.setS("touchLock"+uid, 1);
 					if( cd.has("violentThrow") )
