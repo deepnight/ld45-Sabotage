@@ -112,9 +112,9 @@ class Mob extends Entity {
 	override function onDie() {
 		super.onDie();
 		new en.Cadaver(this, "guardDead");
-		for(e in ALL)
-			if( e!=this && e.isAlive() && distCase(e)<=4 && sightCheckEnt(e) )
-				e.triggerAlarm();
+		// for(e in ALL)
+		// 	if( e!=this && e.isAlive() && distCase(e)<=4 && sightCheckEnt(e) )
+		// 		e.triggerAlarm();
 	}
 
 	function goto(x,y) {
@@ -166,7 +166,7 @@ class Mob extends Entity {
 		return isAlive() && cd.has("alarm");
 	}
 
-	public function triggerAlarm(?sec=3.0) {
+	public function triggerAlarm(?sec=6.0) {
 		if( !hasAlarm() ) {
 			onAlarmStart();
 			lockS(0.4);
@@ -181,15 +181,17 @@ class Mob extends Entity {
 	override function onTouchWall(wallDirX:Int, wallDirY:Int) {
 		super.onTouchWall(wallDirX, wallDirY);
 		if( cd.has("violentThrow") ) {
-			hit(99);
+			hit(1);
+			stunS(3);
 			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX));
 			cd.unset("violentThrow");
 		}
 		if( cd.has("punched") ) {
-			hit(1);
+			// hit(1);
+			stunS(3);
 			cancelVelocities();
-			bump(-wallDirX*0.06, -wallDirY*0.06, 0.1);
-			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX));
+			bump(-wallDirX*0.09, -wallDirY*0.09, 0.1);
+			// fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX));
 			cd.unset("punched");
 		}
 	}

@@ -267,11 +267,11 @@
           "name": "item",
           "id": 38,
           "_eid": "29646116",
-          "x": 160,
-          "y": 192,
+          "x": 208,
+          "y": 224,
           "originX": -4,
           "originY": -4,
-          "values": {"type": "Barrel"}
+          "values": {"type": "Grenade"}
         },
         {
           "name": "item",
