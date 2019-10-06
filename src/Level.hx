@@ -97,21 +97,21 @@ class Level extends dn.Process {
 
 		for(l in data.layersReversed) {
 			var target = layerRenders.get(l.name);
-			if( l.name=="roofs" ) {
-				// Special roof render
-				for(cy in 0...l.cHei)
-				for(cx in 0...l.cWid) {
-					if( l.getTileId(cx,cy)<0 )
-						continue;
+			// if( l.name=="roofs" ) {
+			// 	// Special roof render
+			// 	for(cy in 0...l.cHei)
+			// 	for(cx in 0...l.cWid) {
+			// 		if( l.getTileId(cx,cy)<0 )
+			// 			continue;
 
-					var b = new h2d.Bitmap(l.tileset.getTile( l.getTileId(cx,cy) ), target);
-					b.setPosition(cx*l.gridWid, cy*l.gridHei);
-					roofBitmaps.set( coordId(cx,cy), b );
-				}
-				target.y-=8;
+			// 		var b = new h2d.Bitmap(l.tileset.getTile( l.getTileId(cx,cy) ), target);
+			// 		b.setPosition(cx*l.gridWid, cy*l.gridHei);
+			// 		roofBitmaps.set( coordId(cx,cy), b );
+			// 	}
+			// 	target.y-=8;
 
-				continue;
-			}
+			// 	continue;
+			// }
 
 			// Auto render collisions (time saving!)
 			if( l.name=="tiles" ) {
@@ -126,12 +126,38 @@ class Level extends dn.Process {
 						continue;
 					tg.add(
 						cx*Const.GRID, cy*Const.GRID, tile.sub(
-							(hasCollision(cx,cy+1)?1:0)*Const.GRID,
+							(data.layersByName.get("collisions").getIntGrid(cx,cy+1)>0?1:0)*Const.GRID,
 							(3+cid-1)*Const.GRID,
 							Const.GRID, Const.GRID
 						)
 					);
 				}
+			}
+
+			// Auto render roofs
+			if( l.name=="roofs" ) {
+				trace(l);
+				var tile = l.tileset.t;
+				for(cy in 0...l.cHei)
+				for(cx in 0...l.cWid) {
+					if( l.getTileId(cx,cy)<0 )
+						continue;
+					var tx = 0;
+					var ty = 0;
+					if( l.getTileId(cx-1,cy)<0 && l.getTileId(cx,cy-1)<0 ) ty = 0;
+					else if( l.getTileId(cx-1,cy)<0 && l.getTileId(cx,cy+1)<0 ) ty = 2;
+					else if( l.getTileId(cx+1,cy)<0 && l.getTileId(cx,cy-1)<0 ) tx = 2;
+					else if( l.getTileId(cx+1,cy)<0 && l.getTileId(cx,cy+1)<0 ) { tx = 2; ty = 2; }
+					else if( l.getTileId(cx-1,cy)<0 ) { ty = 1; }
+					else if( l.getTileId(cx+1,cy)<0 ) { tx = 2; ty = 1; }
+					else if( l.getTileId(cx,cy-1)<0 ) { tx = 1; }
+					else if( l.getTileId(cx,cy+1)<0 ) { tx = 1; ty = 2; }
+					else { tx = ty = 1; }
+					var b = new h2d.Bitmap( tile.sub( tx*Const.GRID, ty*Const.GRID, Const.GRID, Const.GRID ), target );
+					b.setPosition(cx*l.gridWid, cy*l.gridHei-8);
+					roofBitmaps.set( coordId(cx,cy), b );
+				}
+				continue;
 			}
 
 			// Default renders
