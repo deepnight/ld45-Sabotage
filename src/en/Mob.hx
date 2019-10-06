@@ -78,8 +78,12 @@ class Mob extends Entity {
 	}
 
 	function goto(x,y) {
-		path = level.pf.smooth( level.pf.getPath({x:cx, y:cy}, {x:x, y:y}) ).map( function(pt) return new CPoint(pt.x, pt.y) );
-		path.shift();
+		if( !sightCheckCase(x,y) ) {
+			path = level.pf.smooth( level.pf.getPath({x:cx, y:cy}, {x:x, y:y}) ).map( function(pt) return new CPoint(pt.x, pt.y) );
+			path.shift();
+		}
+		else
+			path = [ new CPoint(x,y) ];
 	}
 
 	override function postUpdate() {
