@@ -5,6 +5,8 @@ class Hero extends Entity {
 	public var grabbedEnt: Null<Entity>;
 	var throwAngle : Float;
 
+	var permaItems : Map<ItemType, Bool> = new Map();
+
 	public function new(x,y) {
 		super(x,y);
 		ca = Main.ME.controller.createAccess("hero");
@@ -19,6 +21,9 @@ class Hero extends Entity {
 
 		initLife(3);
 	}
+
+	public function addPermaItem(k) return permaItems.set(k,true);
+	public function hasPermaItem(k) return permaItems.get(k)==true;
 
 
 	override function hit(?from:Entity, dmg:Int) {
@@ -213,6 +218,14 @@ class Hero extends Entity {
 				dx *= Math.pow(0.6,tmod);
 				dy *= Math.pow(0.6,tmod);
 			}
+
+			// Pick perma item
+			for(e in Item.ALL)
+				if( e.isAlive() && e.isPermaItem() && distCase(e)<=e.getGrabDist() && sightCheckEnt(e) ) {
+					addPermaItem(e.item);
+					fx.pickPerma(e);
+					e.destroy();
+				}
 
 			if( grabbedEnt==null && !cd.has("grabLock") ) {
 				// Pick item

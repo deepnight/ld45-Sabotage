@@ -28,7 +28,7 @@ class Game extends Process {
 
 		camera = new Camera();
 		ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
-		level = new Level(ogmoProj.getLevelName("lab"));
+		level = new Level(ogmoProj.getLevelName("level0"));
 		fx = new Fx();
 
 		var pt = level.getEntityPt("hero");
@@ -36,14 +36,15 @@ class Game extends Process {
 		camera.target = hero;
 		camera.recenter();
 
+		for(e in level.getEntities("door"))
+			new en.Door(e.cx, e.cy, e.getStr("color")=="gold");
+
 		for(e in level.getEntities("guard"))
 			new en.Mob(e.cx, e.cy, e);
 
 		for(e in level.getEntities("item"))
 			new en.Item(e.cx, e.cy, e.getEnum("type",ItemType));
 
-		for(e in level.getEntities("door"))
-			new en.Door(e.cx, e.cy, e.getStr("color")=="gold");
 	}
 
 	public function onCdbReload() {

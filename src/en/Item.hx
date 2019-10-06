@@ -22,6 +22,11 @@ class Item extends Entity {
 		}
 	}
 
+	public function isPermaItem() return switch item {
+		case GoldKey, SilverKey: true;
+		case _ : false;
+	}
+
 	public function getGrabDist() : Float {
 		return switch item {
 			case Barrel: 0.5;
@@ -37,7 +42,7 @@ class Item extends Entity {
 	}
 
 	public function canGrab(){
-		return isAlive() && !isGrabbed() && !isDepleted() && !cd.has("grabLock");
+		return isAlive() && !isGrabbed() && !isDepleted() && !cd.has("grabLock") && !isPermaItem();
 	}
 	public function canUse() return isAlive() && isGrabbed() && !isDepleted();
 	public function isDepleted() return maxUses<=0;

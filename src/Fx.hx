@@ -239,17 +239,69 @@ class Fx extends dn.Process {
 		}
 	}
 
-	public function openDoor(e:en.Door) {
+	public function pickPerma(e:Item) {
 		var n = 30;
 		for(i in 0...n) {
 			var a = 6.28*i/n + rnd(0,0.3,true);
+			var p = allocTopAdd(getTile("pixel"), e.centerX+rnd(0,4,true), e.centerY+rnd(0,4,true));
+			p.setFadeS(rnd(0.6,0.9), 0, rnd(0.3,0.7) );
+			p.colorize(0x2b5997);
+			p.alphaFlicker = 0.5;
+			p.dy = -rnd(1,3);
+			p.gy = rnd(0.01, 0.02);
+			// p.gy = -rnd(0.1,0.2);
+			p.frict = rnd(0.87,0.91);
+			p.lifeS = rnd(0.3,0.4);
+		}
+		var n = 30;
+		for(i in 0...n) {
+			var a = 6.28*i/n + rnd(0,0.3,true);
+			var p = allocTopAdd(getTile("fxLineDir"), e.centerX+rnd(0,4,true), e.centerY+rnd(0,4,true));
+			p.setCenterRatio(1,0.5);
+			p.setFadeS(rnd(0.3,0.5), 0, rnd(0.5,0.7) );
+			p.colorize(0x2b5997);
+			// p.colorize(Color.interpolateInt(0xffcc00, 0x990000, rnd(0,1)));
+			p.moveAwayFrom(e.footX, e.footY+5, 0.1);
+			p.rotation = p.getMoveAng();
+			p.scaleX = -rnd(0.4,0.7);
+			p.scaleY = rnd(2,3);
+			p.scaleXMul = rnd(0.97,0.98);
+			p.dr = rnd(0,0.01,true);
+			p.frict = rnd(0.87,0.91);
+			p.lifeS = rnd(0.3,0.4);
+		}
+
+		var n = 10;
+		for(i in 0...n) {
+			var a = 6.28*i/n + rnd(0,0.3,true);
+			var p = allocTopAdd(getTile("fxSmoke"), e.footX+rnd(0,4,true), e.footY+rnd(0,4,true));
+			p.setFadeS(rnd(0.2,0.3), 0, rnd(0.5,0.7) );
+			p.colorize(0x2b5997);
+			p.rotation = rnd(0,6.28);
+			p.moveAwayFrom(e.footX, e.footY, rnd(0.2,0.3));
+			e.dy*=0.5;
+			p.frict = 0.98;
+			p.setScale(rnd(0.3,0.6,true));
+			p.scaleXMul = rnd(1,1.01);
+			p.dr = rnd(0,0.02,true);
+			p.lifeS = rnd(1.3,1.4);
+		}
+	}
+
+	public function openDoor(e:en.Door) {
+		var n = 30;
+		for(i in 0...n) {
 			var p = allocTopNormal(getTile("fxFragment"), e.centerX+rnd(0,4,true), e.centerY+rnd(0,4,true));
 			p.colorize(e.gold ? 0xffcc00 : 0x445577);
-			p.moveAng(a, rnd(1.5,3));
+			p.dx = rnd(0, 1.5, true);
+			p.dy = -rnd(1.5,3);
 			p.rotation = rnd(0,6.28);
 			p.setFadeS(rnd(0.4,0.9), 0, rnd(0.1,0.2) );
-			p.gy = rnd(0.1,0.2);
-			p.groundY = p.y+rnd(4,9);
+			p.gy = rnd(0.12,0.20);
+			p.groundY = p.y+rnd(6,10);
+			p.onBounce = function() {
+				p.gy = p.dy = 0;
+			}
 			p.frict = rnd(0.80,0.83);
 			p.lifeS = rnd(1,1.5);
 		}
