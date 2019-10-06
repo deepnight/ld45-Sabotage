@@ -254,7 +254,6 @@ class Hero extends Entity {
 					var a = angTo(e);
 					e.stunS(0.9);
 					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
-					// e.hit(this,1);
 					game.camera.shakeS(0.2);
 					break;
 				}
