@@ -211,7 +211,7 @@ class Hero extends Entity {
 								lookAt(e);
 
 							var a = e==null ? leftPushed ? leftAng : dirToAng() : angTo(e);
-							new Bullet(this, a);
+							new Bullet(this, a, 1.5);
 							cd.setS("usingGun", 0.2);
 							lockS(0.2);
 							game.camera.shakeS(0.1, 0.2);
