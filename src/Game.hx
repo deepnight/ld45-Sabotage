@@ -41,6 +41,9 @@ class Game extends Process {
 
 		for(e in level.getEntities("item"))
 			new en.Item(e.cx, e.cy, e.getEnum("type",ItemType));
+
+		for(e in level.getEntities("door"))
+			new en.Door(e.cx, e.cy);
 	}
 
 	public function onCdbReload() {

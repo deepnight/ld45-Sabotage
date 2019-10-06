@@ -176,6 +176,24 @@
           "y": 128,
           "originX": 0,
           "originY": 0
+        },
+        {
+          "name": "door",
+          "id": 26,
+          "_eid": "37529914",
+          "x": 288,
+          "y": 112,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "door",
+          "id": 28,
+          "_eid": "37529914",
+          "x": 400,
+          "y": 144,
+          "originX": 0,
+          "originY": 0
         }
       ]
     },

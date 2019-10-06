@@ -5,11 +5,13 @@ class Level extends dn.Process {
 	public var wid(get,never) : Int; inline function get_wid() return M.ceil(data.pxWid/Const.GRID);
 	public var hei(get,never) : Int; inline function get_hei() return M.ceil(data.pxHei/Const.GRID);
 
+	var invalidatedColls = true;
 	var invalidated = true;
 	var data : ogmo.Level;
 	var layerRenders : Map<String,h2d.Object> = new Map();
 
 	var damageMap : Map<Int, Float> = new Map();
+	var collMap : Map<Int, Bool> = new Map();
 
 	var roofBitmaps : Map<Int, h2d.Bitmap> = new Map();
 	public var pf : dn.PathFinder;
@@ -18,6 +20,10 @@ class Level extends dn.Process {
 		super(Game.ME);
 		data = l;
 		createRootInLayers(game.scroller, Const.DP_BG);
+
+		for(cy in 0...hei)
+		for(cx in 0...wid)
+			collMap.set( coordId(cx,cy), data.layersByName.get("collisions").getIntGrid(cx,cy)==1 );
 
 		for(l in data.layersReversed) {
 			var o = new h2d.Object();
@@ -32,9 +38,6 @@ class Level extends dn.Process {
 		}
 
 		pf = new dn.PathFinder(wid, hei);
-		for(cy in 0...hei)
-		for(cx in 0...wid)
-			pf.setCollision(cx,cy, hasCollision(cx,cy));
 	}
 
 	public inline function getDamage(cx,cy) {
@@ -51,8 +54,15 @@ class Level extends dn.Process {
 	public inline function isValid(cx,cy) return cx>=0 && cx<wid && cy>=0 && cy<hei;
 	public inline function coordId(cx,cy) return cx + cy*wid;
 
+	public function setCollision(cx,cy,v ) {
+		if( isValid(cx,cy) ) {
+			invalidatedColls = true;
+			collMap.set( coordId(cx,cy), v );
+		}
+	}
+
 	public function hasCollision(cx,cy) {
-		return isValid(cx,cy) ? data.layersByName.get("collisions").getIntGrid(cx,cy)==1 : true;
+		return isValid(cx,cy) ? collMap.get(coordId(cx,cy))==true : true;
 	}
 
 
@@ -126,10 +136,21 @@ class Level extends dn.Process {
 		roofEraseMarks = new Map();
 	}
 
+	function onCollisionChange() {
+		invalidatedColls = false;
+
+		pf.fillAll(false);
+		pf.resetCache();
+		for(cy in 0...hei)
+		for(cx in 0...wid)
+			pf.setCollision(cx,cy, hasCollision(cx,cy));
+	}
+
 	override function postUpdate() {
 		super.postUpdate();
 
 		if( invalidated ) render();
+		if( invalidatedColls ) onCollisionChange();
 
 		for(cy in 0...hei)
 		for(cx in 0...wid) {
