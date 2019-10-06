@@ -22,7 +22,13 @@ class Hero extends Entity {
 		initLife(3);
 	}
 
-	public function addPermaItem(k) return permaItems.set(k,true);
+	public function addPermaItem(k) {
+		if( k==Heal ) {
+			heal(maxLife);
+			return;
+		}
+		return permaItems.set(k,true);
+	}
 	public function hasPermaItem(k) return permaItems.get(k)==true;
 
 
@@ -176,7 +182,7 @@ class Hero extends Entity {
 		var dh = new dn.DecisionHelper(Entity.ALL);
 		// var dh = new dn.DecisionHelper(Mob.ALL);
 		if( forEnemy )
-			dh.keepOnly( function(e) return e.isAlive() && ( e.is(Mob) || e.is(Spike) || e.is(Item) && e.as(Item).item==Barrel ));
+			dh.keepOnly( function(e) return e.isAlive() && ( e.is(Mob) || e.is(Spike) && !e.as(Spike).broken || e.is(Item) && e.as(Item).item==Barrel ));
 		else
 			dh.keepOnly( function(e) return e.isAlive() && e.is(Mob) );
 		dh.keepOnly( function(e) return e.isAlive() && ( exclude==null || e!=exclude ) && sightCheckEnt(e) && distCase(e)<=8 && !e.isGrabbed() );
@@ -230,7 +236,7 @@ class Hero extends Entity {
 			for(e in Item.ALL)
 				if( e.isAlive() && e.isPermaItem() && distCase(e)<=e.getGrabDist() && sightCheckEnt(e) ) {
 					addPermaItem(e.item);
-					fx.pickPerma(e);
+					fx.pickPerma(e, e.item==Heal ? 0x1cdb83 : 0x2b5997);
 					e.destroy();
 				}
 
@@ -261,7 +267,7 @@ class Hero extends Entity {
 							game.camera.shakeS(0.1, 0.2);
 							consumeItemUse();
 
-						case Knife, GoldKey, SilverKey:
+						case Knife, GoldKey, SilverKey, Heal:
 					}
 				}
 				if( isGrabbing(Mob) )

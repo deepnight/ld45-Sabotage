@@ -239,13 +239,13 @@ class Fx extends dn.Process {
 		}
 	}
 
-	public function pickPerma(e:Item) {
+	public function pickPerma(e:Item, ?c=0x2b5997) {
 		var n = 30;
 		for(i in 0...n) {
 			var a = 6.28*i/n + rnd(0,0.3,true);
 			var p = allocTopAdd(getTile("pixel"), e.centerX+rnd(0,4,true), e.centerY+rnd(0,4,true));
 			p.setFadeS(rnd(0.6,0.9), 0, rnd(0.3,0.7) );
-			p.colorize(0x2b5997);
+			p.colorize(c);
 			p.alphaFlicker = 0.5;
 			p.dy = -rnd(1,3);
 			p.gy = rnd(0.01, 0.02);
@@ -259,7 +259,7 @@ class Fx extends dn.Process {
 			var p = allocTopAdd(getTile("fxLineDir"), e.centerX+rnd(0,4,true), e.centerY+rnd(0,4,true));
 			p.setCenterRatio(1,0.5);
 			p.setFadeS(rnd(0.3,0.5), 0, rnd(0.5,0.7) );
-			p.colorize(0x2b5997);
+			p.colorize(c);
 			// p.colorize(Color.interpolateInt(0xffcc00, 0x990000, rnd(0,1)));
 			p.moveAwayFrom(e.footX, e.footY+5, 0.1);
 			p.rotation = p.getMoveAng();
@@ -276,7 +276,7 @@ class Fx extends dn.Process {
 			var a = 6.28*i/n + rnd(0,0.3,true);
 			var p = allocTopAdd(getTile("fxSmoke"), e.footX+rnd(0,4,true), e.footY+rnd(0,4,true));
 			p.setFadeS(rnd(0.2,0.3), 0, rnd(0.5,0.7) );
-			p.colorize(0x2b5997);
+			p.colorize(c);
 			p.rotation = rnd(0,6.28);
 			p.moveAwayFrom(e.footX, e.footY, rnd(0.2,0.3));
 			e.dy*=0.5;

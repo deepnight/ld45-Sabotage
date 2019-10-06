@@ -112,9 +112,9 @@ class Mob extends Entity {
 	override function onDie() {
 		super.onDie();
 		new en.Cadaver(this, "guardDead");
-		// for(e in ALL)
-		// 	if( e!=this && e.isAlive() && distCase(e)<=4 && sightCheckEnt(e) )
-		// 		e.triggerAlarm();
+		for(e in ALL)
+			if( e!=this && e.isAlive() && distCase(e)<=4 && sightCheckEnt(e) )
+				e.triggerAlarm();
 	}
 
 	function goto(x,y) {
@@ -338,7 +338,7 @@ class Mob extends Entity {
 
 
 		// Sound emit fx
-		if( level.hasVisibleRoof(cx,cy) && distCase(hero)<=10 ) {
+		if( distCase(hero)<=10 && level.hasVisibleRoof(cx,cy) ) {
 			if( !hasAlarm() && !cd.hasSetS("soundFx", 1) )
 				fx.emitSound(footX, footY);
 			if( hasAlarm() && !cd.hasSetS("soundFxAlarm", 0.4) )

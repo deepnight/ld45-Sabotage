@@ -15,10 +15,10 @@ class Door extends Entity {
 
 		spr.set(level.hasCollision(cx,cy+1) ? gold?"doorV":"doorSilverV" : gold?"doorH":"doorSilverH");
 		if( level.hasCollision(cx,cy+1) )
-			if( level.hasRoof(cx+1,cy) )
-				xr = 0.8;
+			if( level.hasRoof(cx-1,cy) )
+				xr = 0.9;
 			else
-				xr = 0.2;
+				xr = 0.1;
 		updateCollisions();
 		disableShadow();
 	}

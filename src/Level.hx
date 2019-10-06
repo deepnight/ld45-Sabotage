@@ -15,13 +15,15 @@ class Level extends dn.Process {
 	var collMap : Map<Int, Bool> = new Map();
 
 	var roofBitmaps : Map<Int, h2d.Bitmap> = new Map();
+	var texts : h2d.Object;
 	public var pf : dn.PathFinder;
+
+	public var noMobs = false;
 
 	public function new(lid:Int, l:ogmo.Level) {
 		super(Game.ME);
 		this.lid = lid;
 		data = l;
-		createRootInLayers(game.scroller, Const.DP_BG);
 
 		for(cy in 0...hei)
 		for(cx in 0...wid)
@@ -39,6 +41,9 @@ class Level extends dn.Process {
 			}
 		}
 
+		texts = new h2d.Object();
+		game.scroller.add(texts, Const.DP_BG);
+
 		pf = new dn.PathFinder(wid, hei);
 	}
 
@@ -48,6 +53,7 @@ class Level extends dn.Process {
 			l.remove();
 		for(e in roofBitmaps)
 			e.remove();
+		texts.remove();
 		data = null;
 		pf.destroy();
 	}
@@ -106,6 +112,16 @@ class Level extends dn.Process {
 		for(e in layerRenders)
 			e.removeChildren();
 		roofBitmaps = new Map();
+		texts.removeChildren();
+
+		for(e in getEntities("text")) {
+			var tf = new h2d.Text(Assets.fontPixel, texts);
+			tf.text = e.getStr("str");
+			tf.textColor = e.getColor("color");
+			tf.x = Std.int( e.x + Const.GRID*0.5 - tf.textWidth*0.5 );
+			tf.y = Std.int( e.y + Const.GRID*0.5 - tf.textHeight*0.5 );
+
+		}
 
 		for(l in data.layersReversed) {
 			var target = layerRenders.get(l.name);
@@ -186,7 +202,8 @@ class Level extends dn.Process {
 		}
 	}
 
-	public inline function hasRoof(cx,cy) return isValid(cx,cy) && roofBitmaps.exists(coordId(cx,cy));
+	public function hasRoof(cx,cy) return isValid(cx,cy) && data.layersByName.get("roofs").getTileId(cx,cy)>=0;
+	// public inline function hasRoof(cx,cy) return isValid(cx,cy) && roofBitmaps.exists(coordId(cx,cy));
 	public inline function hasVisibleRoof(cx,cy) return hasRoof(cx,cy) && getRoofBitmap(cx,cy).alpha>=0.9;
 	inline function getRoofBitmap(cx,cy) : Null<h2d.Bitmap> return hasRoof(cx,cy) ? roofBitmaps.get(coordId(cx,cy)) : null;
 	var roofEraseMarks : Map<Int,Bool> = new Map();

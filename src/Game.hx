@@ -34,6 +34,7 @@ class Game extends Process {
 
 
 	public function startLevel(id:Int) {
+		trace(id);
 		var mask = new h2d.Bitmap(h2d.Tile.fromColor(0x0));
 		root.add(mask, Const.DP_MASK);
 		mask.scaleX = M.ceil( w()/Const.SCALE );
@@ -64,7 +65,11 @@ class Game extends Process {
 		for(e in level.getEntities("door")) new en.Door(e.cx, e.cy, e.getStr("color")=="gold");
 		for(e in level.getEntities("guard")) new en.Mob(e.cx, e.cy, e);
 		for(e in level.getEntities("item")) new en.Item(e.cx, e.cy, e.getEnum("type",ItemType));
-		for(e in level.getEntities("spikes")) new en.Spike(e.cx, e.cy);
+		for(e in level.getEntities("spikes")) new en.Spike(e.cx, e.cy, false);
+		for(e in level.getEntities("spikesFragile")) new en.Spike(e.cx, e.cy, true);
+
+		if( en.Mob.ALL.length==0 )
+			level.noMobs = true;
 
 		bigText("Level "+(id+1));
 		cd.unset("levelDone");
@@ -118,18 +123,21 @@ class Game extends Process {
 		}
 		gc();
 
-		var any = false;
-		for(e in Mob.ALL)
-			if( e.isAlive() ) {
-				any = true;
-				break;
+		// Victory check
+		if( !level.noMobs ) {
+			var any = false;
+			for(e in Mob.ALL)
+				if( e.isAlive() ) {
+					any = true;
+					break;
+				}
+			if( !any && !cd.hasSetS("levelDone",Const.INFINITE) ) {
+				cd.setS("autoNext", 2);
+				bigText("Mission complete", 0xff0000);
 			}
-		if( !any && !cd.hasSetS("levelDone",Const.INFINITE) ) {
-			cd.setS("autoNext", 2);
-			bigText("Mission complete", 0xff0000);
+			if( cd.has("levelDone") && !cd.has("autoNext") )
+				startLevel(level.lid+1);
 		}
-		if( cd.has("levelDone") && !cd.has("autoNext") )
-			startLevel(level.lid+1);
 
 		if( !ui.Console.ME.isActive() && !ui.Modal.hasAny() ) {
 			#if hl
@@ -141,11 +149,16 @@ class Game extends Process {
 					hxd.System.exit();
 			#end
 
-			#if debug
-			if( ca.isKeyboardPressed(Key.R) )
+			if( ca.selectPressed() || ca.startPressed() )
 				startLevel(level.lid);
-			if( ca.isKeyboardPressed(Key.N) )
+
+			#if debug
+			// Debug
+			if( ca.isKeyboardPressed(Key.N) ) {
+				trace(level.lid);
 				startLevel(level.lid+1);
+			}
+
 			if( ca.isKeyboardPressed(Key.K) )
 				for(e in Mob.ALL) e.hit(999);
 			#end

@@ -19,11 +19,12 @@ class Item extends Entity {
 			case Knife: 4;
 			case SilverKey: 1;
 			case GoldKey: 1;
+			case Heal: 1;
 		}
 	}
 
 	public function isPermaItem() return switch item {
-		case GoldKey, SilverKey: true;
+		case GoldKey, SilverKey, Heal: true;
 		case _ : false;
 	}
 

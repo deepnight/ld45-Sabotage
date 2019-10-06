@@ -5,4 +5,5 @@ enum ItemType {
 	Grenade;
 	GoldKey;
 	SilverKey;
+	Heal;
 }
