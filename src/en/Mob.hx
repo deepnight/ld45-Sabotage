@@ -94,10 +94,7 @@ class Mob extends Entity {
 			fx.sweat(this);
 	}
 
-	function onAlarmStart() {
-		fx.alarm(headX, headY+5);
-		fx.flashBangS(0xffcc00, 0.3);
-	}
+	function onAlarmStart() {}
 	function onAlarmEnd() {
 		var dh = new dn.DecisionHelper(patrolPts);
 		dh.score( function(pt) return -distCaseFree(pt.cx, pt.cy) );
@@ -123,6 +120,17 @@ class Mob extends Entity {
 		lastAlarmPt.set(hero.cx, hero.cy, hero.xr, hero.yr);
 		cd.setS("alarm",sec);
 		cd.setS("wasUnderAlarm", Const.INFINITE);
+	}
+
+	override function onTouchEntity(e:Entity, violent:Bool) {
+		super.onTouchEntity(e, violent);
+
+		if( violent ) {
+			bump(e.dirTo(this)*0.15, 0, 0.2);
+			stunS(0.4);
+			hit(e,1);
+			triggerAlarm();
+		}
 	}
 
 	override function update() {
@@ -151,8 +159,14 @@ class Mob extends Entity {
 				}
 
 				// Continue to track hero longer after last sight
-				if( !isStunned() && cd.has("sawHero") )
+				if( !isStunned() && cd.has("sawHero") ) {
+					if( !hasAlarm() ) {
+						fx.alarm(headX, headY+5);
+						fx.flashBangS(0xffcc00, 0.3);
+					}
+
 					triggerAlarm();
+				}
 
 				// Shoot
 				if( !isLocked() && cd.has("canShoot") && distCase(hero)<=8 && !cd.has("shootLock")) {

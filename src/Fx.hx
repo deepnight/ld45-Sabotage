@@ -167,6 +167,50 @@ class Fx extends dn.Process {
 		p.lifeS = 1;
 	}
 
+	public function explosion(ox:Float, oy:Float, r:Float) {
+		flashBangS(0xffcc00, 0.1, 0.7);
+		// Bigs
+		var n = 10;
+		for(i in 0...n) {
+			var dist = r*rnd(0.01,0.6);
+			var a = rnd(0,6.28);
+			var x = ox+Math.cos(a)*dist;
+			var y = oy+Math.sin(a)*dist;
+			var p = allocTopAdd(getTile("fxExplosion"), x,y);
+			p.playAnimAndKill(Assets.tiles, "fxExplosion", rnd(0.7,0.8));
+			p.rotation = rnd(0,6.28);
+			var d = 0.4*i/n + rnd(0,0.06,true);
+			p.setScale(rnd(0.7,1.1,true));
+			p.delayS = d;
+		}
+		// Smokes
+		var n = 20;
+		for(i in 0...n) {
+			var dist = r*rnd(0.2,0.7);
+			var a = rnd(0,6.28);
+			var x = ox+Math.cos(a)*dist;
+			var y = oy+Math.sin(a)*dist;
+			var p = allocBgNormal(getTile("fxExplosionSmoke"),x,y);
+			p.alpha = rnd(0.6,0.8);
+			p.playAnimAndKill(Assets.tiles, "fxExplosionSmoke", rnd(0.06,0.10));
+			p.colorAnimS(0x660000, 0x0, rnd(0.4,0.8));
+			p.rotation = rnd(0,6.28);
+			p.setScale(rnd(0.8,1.1,true));
+			p.delayS = 0.2*i/n + rnd(0,0.1,true);
+		}
+		// Lines
+		for(i in 0...30) {
+			var p = allocTopAdd(getTile("fxLineDir"), ox+rnd(0,20,true), oy+rnd(0,20,true));
+			p.setCenterRatio(1,0.5);
+			p.colorAnimS(0xffcc00, 0xff0000, rnd(0.2,0.4));
+			p.moveAwayFrom(ox,oy, rnd(10,13));
+			p.rotation = p.getMoveAng();
+			p.scaleXMul = rnd(0.92,0.97);
+			p.frict = rnd(0.7,0.8);
+			p.lifeS = rnd(0.2, 0.4);
+		}
+	}
+
 	public function destroyItem(e:Entity) {
 		var n = 20;
 		for(i in 0...n) {

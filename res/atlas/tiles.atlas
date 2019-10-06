@@ -1,68 +1,68 @@
 
 tiles.png
-size: 256,256
+size: 256,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 barrel0
   rotate: false
-  xy: 29, 235
+  xy: 216, 264
   size: 14, 15
   orig: 16, 16
   offset: 1, 0
   index: -1
 bulletMob0
   rotate: false
-  xy: 248, 119
+  xy: 207, 256
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 bulletMob1
   rotate: false
-  xy: 203, 113
+  xy: 248, 246
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 bulletMob2
   rotate: false
-  xy: 45, 131
+  xy: 249, 96
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 bulletSmallMob0
   rotate: false
-  xy: 45, 138
+  xy: 249, 103
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 bulletSmallMob1
   rotate: false
-  xy: 47, 156
+  xy: 250, 205
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 bulletSmallMob2
   rotate: false
-  xy: 47, 145
+  xy: 250, 212
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 bulletSmallMob3
   rotate: false
-  xy: 52, 131
+  xy: 250, 219
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 dirtFull0
   rotate: false
-  xy: 212, 67
+  xy: 228, 107
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -76,14 +76,14 @@ empty
   index: -1
 fxAlarm0
   rotate: false
-  xy: 203, 130
+  xy: 250, 73
   size: 5, 13
   orig: 5, 13
   offset: 0, 0
   index: -1
 fxCircle
   rotate: false
-  xy: 177, 77
+  xy: 224, 125
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -95,30 +95,121 @@ fxDot
   orig: 3, 3
   offset: 0, 0
   index: -1
+fxExplosion0
+  rotate: false
+  xy: 185, 111
+  size: 37, 37
+  orig: 39, 39
+  offset: 1, 1
+  index: -1
+fxExplosion1
+  rotate: false
+  xy: 55, 185
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+fxExplosion2
+  rotate: false
+  xy: 131, 67
+  size: 52, 52
+  orig: 55, 55
+  offset: 2, 2
+  index: -1
+fxExplosion3
+  rotate: false
+  xy: 131, 121
+  size: 52, 52
+  orig: 55, 55
+  offset: 1, 2
+  index: -1
+fxExplosion4
+  rotate: false
+  xy: 1, 131
+  size: 52, 52
+  orig: 55, 55
+  offset: 1, 2
+  index: -1
+fxExplosion5
+  rotate: false
+  xy: 55, 131
+  size: 52, 52
+  orig: 55, 55
+  offset: 1, 2
+  index: -1
+fxExplosion6
+  rotate: false
+  xy: 127, 175
+  size: 52, 52
+  orig: 55, 55
+  offset: 1, 2
+  index: -1
+fxExplosion7
+  rotate: false
+  xy: 1, 185
+  size: 52, 52
+  orig: 55, 55
+  offset: 1, 2
+  index: -1
+fxExplosion8
+  rotate: false
+  xy: 125, 229
+  size: 47, 52
+  orig: 55, 55
+  offset: 1, 2
+  index: -1
+fxExplosionSmoke0
+  rotate: false
+  xy: 181, 193
+  size: 33, 31
+  orig: 48, 47
+  offset: 7, 5
+  index: -1
+fxExplosionSmoke1
+  rotate: false
+  xy: 222, 164
+  size: 33, 34
+  orig: 48, 47
+  offset: 7, 6
+  index: -1
+fxExplosionSmoke2
+  rotate: false
+  xy: 185, 150
+  size: 35, 41
+  orig: 48, 47
+  offset: 6, 1
+  index: -1
+fxExplosionSmoke3
+  rotate: false
+  xy: 185, 67
+  size: 41, 42
+  orig: 48, 47
+  offset: 4, 3
+  index: -1
 fxFlame0
   rotate: false
-  xy: 17, 218
+  xy: 14, 270
   size: 10, 16
   orig: 10, 16
   offset: 0, 0
   index: -1
 fxFlame1
   rotate: false
-  xy: 246, 146
+  xy: 246, 110
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
   index: -1
 fxFlame2
   rotate: false
-  xy: 17, 236
+  xy: 1, 282
   size: 10, 16
   orig: 10, 16
   offset: 0, 0
   index: -1
 fxFragment0
   rotate: false
-  xy: 251, 89
+  xy: 216, 199
   size: 4, 3
   orig: 4, 3
   offset: 0, 0
@@ -132,14 +223,14 @@ fxFragment1
   index: -1
 fxFragment2
   rotate: false
-  xy: 251, 83
+  xy: 216, 193
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 fxLargeFlame0
   rotate: false
-  xy: 230, 83
+  xy: 228, 83
   size: 19, 22
   orig: 19, 23
   offset: 0, 0
@@ -160,14 +251,14 @@ fxLargeFlame2
   index: -1
 fxLine
   rotate: false
-  xy: 177, 67
+  xy: 222, 200
   size: 33, 3
   orig: 33, 3
   offset: 0, 0
   index: -1
 fxLineDir0
   rotate: false
-  xy: 177, 72
+  xy: 216, 205
   size: 32, 3
   orig: 33, 3
   offset: 1, 0
@@ -181,49 +272,49 @@ fxNova0
   index: -1
 fxQuestion0
   rotate: false
-  xy: 248, 107
+  xy: 207, 244
   size: 7, 10
   orig: 7, 10
   offset: 0, 0
   index: -1
 fxSmallCircle
   rotate: false
-  xy: 203, 122
+  xy: 249, 88
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 fxSmoke0
   rotate: false
-  xy: 131, 67
+  xy: 55, 237
   size: 44, 44
   orig: 44, 44
   offset: 0, 0
   index: -1
 fxSweat0
   rotate: false
-  xy: 1, 131
+  xy: 16, 257
   size: 13, 11
   orig: 16, 16
   offset: 1, 2
   index: -1
 fxSweat1
   rotate: false
-  xy: 16, 131
+  xy: 1, 269
   size: 11, 11
   orig: 16, 16
   offset: 1, 2
   index: -1
 fxSweat2
   rotate: false
-  xy: 29, 131
+  xy: 1, 239
   size: 14, 10
   orig: 16, 16
   offset: 0, 2
   index: -1
 guardDead0
   rotate: false
-  xy: 212, 85
+  xy: 224, 143
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -237,196 +328,196 @@ guardDead1
   index: -1
 guardGrabbed0
   rotate: false
-  xy: 61, 233
+  xy: 32, 239
   size: 13, 15
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardGrabbed1
   rotate: false
-  xy: 48, 181
+  xy: 32, 256
   size: 13, 15
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardHit0
   rotate: false
-  xy: 177, 95
+  xy: 109, 131
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 guardHit1
   rotate: false
-  xy: 195, 77
+  xy: 199, 226
   size: 15, 16
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardHit2
   rotate: false
-  xy: 45, 235
+  xy: 232, 264
   size: 14, 15
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardIdle0
   rotate: false
-  xy: 1, 164
+  xy: 234, 210
   size: 14, 16
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardRun0
   rotate: false
-  xy: 230, 125
+  xy: 107, 203
   size: 16, 15
   orig: 16, 16
   offset: 0, 1
   index: -1
 guardRun1
   rotate: false
-  xy: 1, 145
+  xy: 191, 244
   size: 14, 16
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardRun2
   rotate: false
-  xy: 32, 182
+  xy: 190, 280
   size: 14, 15
   orig: 16, 16
   offset: 0, 1
   index: -1
 guardShoot0
   rotate: false
-  xy: 1, 182
+  xy: 174, 259
   size: 14, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 guardShoot1
   rotate: false
-  xy: 195, 95
+  xy: 101, 251
   size: 15, 16
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardShootDown0
   rotate: false
-  xy: 17, 145
+  xy: 242, 128
   size: 13, 16
   orig: 16, 16
   offset: 2, 0
   index: -1
 guardShootDown1
   rotate: false
-  xy: 32, 145
+  xy: 242, 146
   size: 13, 16
   orig: 16, 16
   offset: 2, 0
   index: -1
 guardWalk0
   rotate: false
-  xy: 1, 200
+  xy: 216, 246
   size: 14, 16
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardWalk1
   rotate: false
-  xy: 1, 218
+  xy: 190, 262
   size: 14, 16
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardWalk2
   rotate: false
-  xy: 17, 182
+  xy: 17, 239
   size: 13, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 gun0
   rotate: false
-  xy: 228, 142
+  xy: 101, 237
   size: 16, 12
   orig: 16, 16
   offset: 0, 0
   index: -1
 heartOff
   rotate: false
-  xy: 248, 128
+  xy: 248, 255
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 heartOn
   rotate: false
-  xy: 248, 137
+  xy: 206, 265
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 heroDead0
   rotate: false
-  xy: 33, 164
+  xy: 206, 281
   size: 14, 15
   orig: 16, 16
   offset: 1, 0
   index: -1
 heroDead1
   rotate: false
-  xy: 230, 73
+  xy: 228, 73
   size: 20, 8
   orig: 22, 16
   offset: 1, 0
   index: -1
 heroGrab0
   rotate: false
-  xy: 32, 199
+  xy: 222, 281
   size: 14, 15
   orig: 16, 16
   offset: 2, 0
   index: -1
 heroHit0
   rotate: false
-  xy: 49, 164
+  xy: 174, 244
   size: 15, 13
   orig: 16, 16
   offset: 1, 0
   index: -1
 heroIdle0
   rotate: false
-  xy: 212, 103
+  xy: 109, 149
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 heroIdle1
   rotate: false
-  xy: 230, 107
+  xy: 109, 167
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 heroIdle2
   rotate: false
-  xy: 131, 113
+  xy: 216, 210
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 heroIdleBack0
   rotate: false
-  xy: 149, 113
+  xy: 181, 226
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 heroPunch0
   rotate: false
-  xy: 167, 113
+  xy: 216, 228
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -440,56 +531,56 @@ heroPunch1
   index: -1
 heroPunch2
   rotate: false
-  xy: 185, 113
+  xy: 234, 228
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 heroPunch3
   rotate: false
-  xy: 1, 236
+  xy: 174, 277
   size: 14, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 heroRun0
   rotate: false
-  xy: 212, 121
+  xy: 107, 185
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 heroRun1
   rotate: false
-  xy: 17, 200
+  xy: 1, 251
   size: 13, 16
   orig: 16, 16
   offset: 2, 0
   index: -1
 heroRun2
   rotate: false
-  xy: 210, 139
+  xy: 107, 220
   size: 16, 15
   orig: 16, 16
   offset: 0, 1
   index: -1
 heroThrow0
   rotate: false
-  xy: 17, 164
+  xy: 232, 246
   size: 14, 16
   orig: 16, 16
   offset: 1, 0
   index: -1
 heroThrow1
   rotate: false
-  xy: 46, 216
+  xy: 238, 281
   size: 14, 15
   orig: 16, 16
   offset: 2, 0
   index: -1
 heroUseGun0
   rotate: false
-  xy: 29, 218
+  xy: 101, 269
   size: 15, 15
   orig: 16, 16
   offset: 1, 0

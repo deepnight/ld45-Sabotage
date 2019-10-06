@@ -72,6 +72,10 @@ class Entity {
 		initLife(1);
     }
 
+	public function toString() {
+		return Type.getClassName(Type.getClass(this)) + '($uid)@$cx,$cy';
+	}
+
 	public function isGrabbed() return hero.isAlive() && hero.grabbedEnt==this;
 
 	public function initLife(v) {
@@ -314,8 +318,8 @@ class Entity {
 		}
 
 		if( lifeBar!=null ) {
-			lifeBar.x = Std.int( headX - lifeBar.outerWidth*0.5 );
-			lifeBar.y = Std.int( headY - lifeBar.outerHeight );
+			lifeBar.x = Std.int( spr.x - lifeBar.outerWidth*0.5 );
+			lifeBar.y = Std.int( spr.y - hei - lifeBar.outerHeight );
 			if( !cd.has("showLifeBar") )
 				lifeBar.alpha += (0-lifeBar.alpha)*0.03;
 		}
@@ -336,10 +340,22 @@ class Entity {
 	function onTouchWall() {}
 	function onZLand() {}
 
+	function onTouchEntity(e:Entity, violent:Bool) {}
 
     public function update() {
 		var wallSlide = 0.005;
 		var wallSlideTolerance = 0.015;
+
+		// Entity collisions
+		if( hasCollisions && ( isMoving() || zr<0 ) )
+			for(e in Entity.ALL)
+				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) ) {
+					onTouchEntity(e, isStunned());
+					e.onTouchEntity(this, isStunned());
+					e.cd.setS("touchLock"+uid, 1);
+					cd.setS("touchLock"+e.uid, 1);
+					break;
+				}
 
 		// X
 		var steps = M.ceil( M.fabs(dxTotal*tmod) );

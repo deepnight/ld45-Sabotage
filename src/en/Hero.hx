@@ -22,9 +22,7 @@ class Hero extends Entity {
 
 	override function hit(?from:Entity, dmg:Int) {
 		if( isGrabbing(en.Mob) ) {
-			var e = grabbedEnt;
-			releaseGrab();
-			e.hit(from, dmg);
+			grabbedEnt.hit(from, dmg);
 			if( from!=null )
 				bump(from.dirTo(this)*0.1, 0, 0);
 			lockS(0.1);
@@ -61,16 +59,22 @@ class Hero extends Entity {
 	public inline function consumeItemUse() if( isGrabbing(en.Item) ) grabbedEnt.as(Item).consumeUse();
 
 	function releaseGrab() {
-		if( grabbedEnt!=null && grabbedEnt.isAlive() ) {
-			grabbedEnt.setPosCase(cx,cy,xr,yr);
-			grabbedEnt.bump(dir*0.06, 0, 0.2);
-			grabbedEnt.stunS(0.4);
-			grabbedEnt.setSpriteOffset();
-			grabbedEnt.spr.rotation = 0;
-			grabbedEnt.cd.setS("grabLock",1);
+		if( grabbedEnt==null )
+			return;
+
+		if( !grabbedEnt.isAlive() || !isAlive() ) {
 			grabbedEnt = null;
-			cd.setS("grabLock",0.5);
+			return;
 		}
+
+		grabbedEnt.setPosCase(cx,cy,xr,yr);
+		grabbedEnt.bump(dir*0.06, 0, 0.2);
+		grabbedEnt.stunS(0.4);
+		grabbedEnt.setSpriteOffset();
+		grabbedEnt.spr.rotation = 0;
+		grabbedEnt.cd.setS("grabLock",1);
+		grabbedEnt = null;
+		cd.setS("grabLock",0.5);
 	}
 
 	function getThrowAngle() {
@@ -234,6 +238,12 @@ class Hero extends Entity {
 			}
 			else if( ca.bPressed() && grabbedEnt!=null )
 				releaseGrab();
+
+			#if debug
+			if( ca.dpadUpPressed() ) {
+				fx.explosion(centerX, centerY, Const.GRID*3);
+			}
+			#end
 
 			// Punch/pick/use
 			// if( ca.aPressed() ) {
