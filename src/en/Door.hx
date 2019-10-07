@@ -53,7 +53,6 @@ class Door extends Entity {
 		if( !isOpen && ( hero.at(cx,cy-1) || hero.at(cx,cy+1) || hero.at(cx-1,cy) || hero.at(cx+1,cy) ) && !cd.hasSetS("heroShake",0.4) ) {
 			cd.setS("shake", 0.2);
 			if( hero.hasPermaItem(gold?GoldKey:SilverKey) ) {
-				hero.consumeItemUse();
 				open();
 				fx.openDoor(this);
 			}
