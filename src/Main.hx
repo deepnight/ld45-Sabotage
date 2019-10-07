@@ -62,20 +62,23 @@ class Main extends dn.Process {
 		controller.bind(SELECT, Key.R);
 		// controller.bind(START, Key.N);
 
-		// Music
-		// #if !debug
-		if( Assets.music!=null )
-			Assets.music.play(true);
-		// #end
-
 		// Start
 		new dn.heaps.GameFocusHelper(Boot.ME.s2d, Assets.fontMedium);
 		delayer.addF( start, 1 );
 	}
 
 	function start() {
+		// Music
+		#if !debug
+		if( Assets.music!=null )
+			Assets.music.play(true);
+		#end
+
+		#if debug
+		startGame();
+		#else
 		new Title();
-		// startGame();
+		#end
 	}
 
 	public function startGame() {
