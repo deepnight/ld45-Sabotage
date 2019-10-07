@@ -70,8 +70,7 @@ class Main extends dn.Process {
 	function start() {
 		// Music
 		#if !debug
-		if( Assets.music!=null )
-			Assets.music.play(true);
+		Assets.playMusic();
 		#end
 
 		#if debug
@@ -105,6 +104,9 @@ class Main extends dn.Process {
 
     override function update() {
 		dn.heaps.slib.SpriteLib.TMOD = tmod;
+
+		if( ca.isKeyboardPressed(Key.M) )
+			Assets.toggleMusicPause();
         super.update();
     }
 }

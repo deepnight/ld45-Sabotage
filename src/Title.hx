@@ -12,7 +12,7 @@ class Title extends dn.Process {
 	public function new() {
 		super(Main.ME);
 
-		ca = Main.ME.controller.createAccess("title", true);
+		ca = Main.ME.controller.createAccess("title", false);
 
 		createRootInLayers(Main.ME.root, Const.DP_UI);
 		img = new h2d.Bitmap(hxd.Res.title.toTile(), root);

@@ -9,7 +9,7 @@ class Assets {
 	public static var fontMedium : h2d.Font;
 	public static var fontLarge : h2d.Font;
 	public static var tiles : SpriteLib;
-	public static var music : hxd.res.Sound;
+	static var music : hxd.res.Sound;
 
 	static var initDone = false;
 	public static function init() {
@@ -47,5 +47,13 @@ class Assets {
 
 		tiles.defineAnim("stun", "0-3,3,2,1");
 		tiles.defineAnim("bird", "0(2), 1(2), 2(4), 4(2), 3(6), 5(1)");
+	}
+
+	static var chan : hxd.snd.Channel;
+	public static function playMusic() {
+		chan = music.play();
+	}
+	public static function toggleMusicPause() {
+		chan.pause = !chan.pause;
 	}
 }
