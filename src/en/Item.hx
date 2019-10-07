@@ -38,7 +38,7 @@ class Item extends Entity {
 
 	public function getSpeedReductionOnGrab() : Float {
 		return switch item {
-			case Barrel: 0.55;
+			case Barrel: 1;
 			case _: 0.;
 		}
 	}
@@ -84,13 +84,13 @@ class Item extends Entity {
 		destroy();
 	}
 
-	function explosion(rCase:Float) {
+	function explosion(rCase:Float, dmg:Int) {
 		cd.setS("exploded", Const.INFINITE);
 		fx.explosion(centerX, centerY, Const.GRID*(rCase-1));
 		for(e in Mob.ALL)
 			if( e.isAlive() && distCase(e)<=rCase && ( sightCheckEnt(e) || distCase(e)<=3 ) ) {
 				e.stunS(4);
-				e.hit(this, 3);
+				e.hit(this, dmg);
 			}
 
 		for(e in Item.ALL)
@@ -108,8 +108,8 @@ class Item extends Entity {
 
 	function onTrigger() {
 		switch item {
-			case Barrel: explosion(6); Assets.SFX.explode2(1);
-			case Grenade: explosion(4); Assets.SFX.explode0(1);
+			case Barrel: explosion(6,4); Assets.SFX.explode2(1);
+			case Grenade: explosion(4,3); Assets.SFX.explode0(1);
 			case _:
 		}
 		destroy();
