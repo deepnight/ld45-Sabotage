@@ -18,11 +18,6 @@ class Guard extends en.Mob {
 		new en.Cadaver(this, "guardDead", loot);
 	}
 
-	override function onSeeHero() {
-		super.onSeeHero();
-		cd.setS("canShoot", 0.3);
-	}
-
 	override function postUpdate() {
 		super.postUpdate();
 
@@ -43,7 +38,6 @@ class Guard extends en.Mob {
 			}
 			if( M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=viewDist && sightCheckEnt(hero) ) {
 				cd.setS("sawHero", 0.5, false);
-				onSeeHero();
 			}
 
 			// Continue to track hero longer after last sight
@@ -56,7 +50,7 @@ class Guard extends en.Mob {
 		}
 
 		// Shoot
-		if( !isGrabbed() && isLocked() && cd.has("canShoot") && distCase(hero)<=8 && !cd.has("shootLock")) {
+		if( !isGrabbed() && !isLocked() && cd.has("sawHero") && distCase(hero)<=8 && !cd.has("shootLock")) {
 			lockS(0.3);
 			var a = angTo(hero);
 			Assets.SFX.hit6(1);

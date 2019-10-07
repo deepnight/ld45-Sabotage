@@ -224,9 +224,6 @@ class Mob extends Entity {
 	}
 
 
-	function onSeeHero() {
-	}
-
 
 	override function update() {
 		super.update();
@@ -252,11 +249,9 @@ class Mob extends Entity {
 					bumpAwayFrom(e, 0.25, 0.1);
 					e.bumpAwayFrom(this, 0.25, 0.1);
 					e.stunS(3);
-					e.hit(e, 1);
+					// e.hit(e, 1);
 					e.triggerAlarm();
 					e.cd.setS("touchLock", 1);
-					// if( cd.has("violentThrow") )
-					// 	hit(1);
 					break;
 				}
 		}
