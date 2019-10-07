@@ -24,10 +24,10 @@ class Bullet extends Entity {
 		destroy();
 	}
 
-	function checkHit(e:Entity) {
+	function checkHit(e:Entity, ?extraBounds=0) {
 		return e.isAlive() && isAlive() && e!=source
-			&& footX>=e.footX-3 && footX<=e.footX+3
-			&& footY>=e.headY+2 && footY<=e.footY;
+			&& footX>=e.footX-3-extraBounds && footX<=e.footX+3+extraBounds
+			&& footY>=e.headY+2-extraBounds && footY<=e.footY+extraBounds;
 	}
 
 	override function update() {
@@ -45,12 +45,11 @@ class Bullet extends Entity {
 			fx.bulletBleed(centerX, centerY, Math.atan2(dy,dx));
 			destroy();
 		}
-		// if( source.is(Hero) )
-			for(e in Mob.ALL)
-				if( checkHit(e) ) {
-					e.hit(this, 3);
-					fx.bulletBleed(centerX, centerY, Math.atan2(dy,dx));
-					destroy();
-				}
+		for(e in Mob.ALL)
+			if( checkHit(e,5) ) {
+				e.hit(this, 3);
+				fx.bulletBleed(centerX, centerY, Math.atan2(dy,dx));
+				destroy();
+			}
 	}
 }
