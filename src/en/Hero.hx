@@ -325,7 +325,7 @@ class Hero extends Entity {
 						bump(dir*0.02, 0, 0);
 						var a = getCleverAngle(true, e);
 						e.stunS(1.2);
-						e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
+						e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.05);
 						e.cd.setS("punched",0.4);
 						game.camera.shakeS(0.2);
 					}
