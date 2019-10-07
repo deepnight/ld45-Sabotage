@@ -28,11 +28,11 @@ class Game extends Process {
 		camera = new Camera();
 		fx = new Fx();
 
-		#if debug
-		startLevel(2);
-		#else
+		// #if debug
+		// startLevel(2);
+		// #else
 		startLevel(-1);
-		#end
+		// #end
 	}
 
 

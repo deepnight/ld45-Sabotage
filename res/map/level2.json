@@ -22,7 +22,7 @@
           "y": 240,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right"}
+          "values": {"patrol": "right", "loot": ""}
         },
         {
           "name": "guard",
@@ -32,7 +32,7 @@
           "y": 144,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right"}
+          "values": {"patrol": "right", "loot": ""}
         },
         {
           "name": "hero",
@@ -51,7 +51,7 @@
           "y": 192,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down"}
+          "values": {"patrol": "down", "loot": ""}
         },
         {
           "name": "guard",
@@ -61,7 +61,7 @@
           "y": 176,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right"}
+          "values": {"patrol": "right", "loot": ""}
         },
         {
           "name": "guard",
@@ -71,7 +71,7 @@
           "y": 176,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left"}
+          "values": {"patrol": "left", "loot": ""}
         },
         {
           "name": "guard",
@@ -81,7 +81,7 @@
           "y": 240,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left"}
+          "values": {"patrol": "left", "loot": ""}
         },
         {
           "name": "guard",
@@ -91,7 +91,7 @@
           "y": 384,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left"}
+          "values": {"patrol": "left", "loot": ""}
         },
         {
           "name": "guard",
@@ -101,7 +101,7 @@
           "y": 304,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right"}
+          "values": {"patrol": "right", "loot": ""}
         },
         {
           "name": "guard",
@@ -111,7 +111,7 @@
           "y": 240,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down"}
+          "values": {"patrol": "down", "loot": ""}
         },
         {
           "name": "guard",
@@ -121,7 +121,7 @@
           "y": 384,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up"}
+          "values": {"patrol": "up", "loot": ""}
         },
         {
           "name": "spikes",
@@ -170,7 +170,7 @@
           "y": 304,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up"}
+          "values": {"patrol": "up", "loot": ""}
         },
         {
           "name": "guard",
@@ -180,7 +180,7 @@
           "y": 304,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up"}
+          "values": {"patrol": "up", "loot": ""}
         },
         {
           "name": "guard",
@@ -190,7 +190,7 @@
           "y": 336,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up"}
+          "values": {"patrol": "up", "loot": ""}
         },
         {
           "name": "door",
@@ -240,7 +240,7 @@
           "y": 176,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left"}
+          "values": {"patrol": "left", "loot": ""}
         },
         {
           "name": "guard",
@@ -250,7 +250,7 @@
           "y": 240,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down"}
+          "values": {"patrol": "down", "loot": ""}
         },
         {
           "name": "guard",
@@ -260,7 +260,7 @@
           "y": 384,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up"}
+          "values": {"patrol": "up", "loot": ""}
         },
         {
           "name": "item",
@@ -362,7 +362,7 @@
           "y": 384,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left"}
+          "values": {"patrol": "left", "loot": ""}
         }
       ]
     },

@@ -18,7 +18,7 @@ class Mob extends Entity {
 		ALL.push(this);
 		lastAlarmPt = new CPoint(cx,cy);
 
-		if( data.getStr("loot")!=null )
+		if( data.getStr("loot","")!="" )
 			loot = Type.createEnum(ItemType, data.getStr("loot"));
 
 
