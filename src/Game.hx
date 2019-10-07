@@ -29,12 +29,15 @@ class Game extends Process {
 		fx = new Fx();
 
 		#if debug
-		startLevel("test");
+		startLevel("intro");
 		#else
 		startLevel("intro");
 		#end
+
+		#if !debug
 		if( Assets.music!=null )
 			Assets.music.play(true);
+		#end
 	}
 
 	public function nextLevel() {
