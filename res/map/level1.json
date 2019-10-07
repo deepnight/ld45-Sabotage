@@ -237,6 +237,16 @@
           "y": 48,
           "originX": 0,
           "originY": 0
+        },
+        {
+          "name": "door",
+          "id": 33,
+          "_eid": "37529914",
+          "x": 208,
+          "y": 352,
+          "originX": 0,
+          "originY": 0,
+          "values": {"color": "gold"}
         }
       ]
     },
