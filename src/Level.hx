@@ -194,7 +194,7 @@ class Level extends dn.Process {
 					);
 
 					// Wall shadows
-					if( data.layersByName.get("collisions").getIntGrid(cx,cy+1)<=0 )
+					if( cid!=5 && data.layersByName.get("collisions").getIntGrid(cx,cy+1)<=0 )
 						tg.addAlpha( cx*Const.GRID, (cy+1)*Const.GRID, 0.3, tile.sub(irnd(3,5)*Const.GRID, 0, Const.GRID, Const.GRID) );
 				}
 			}
@@ -226,8 +226,71 @@ class Level extends dn.Process {
 			pf.setCollision(cx,cy, hasCollision(cx,cy));
 	}
 
+	var pBushes : h2d.Object;
+	var pFog : h2d.Object;
+	var pBack0: h2d.Object;
+	var pBack1: h2d.Object;
+	function updateParallax() {
+		if( data.name!="intro2.json")
+			return;
+
+		if( pBushes==null ) {
+			var baseCy = 9;
+
+			pFog = new h2d.Object();
+			game.scroller.add(pFog, Const.DP_TOP);
+			for(i in 0...2) {
+				var e = Assets.tiles.h_getRandom("forestFog", pFog);
+				e.setCenterRatio(0,1);
+				e.x = i*e.tile.width;
+				e.y = Const.GRID*baseCy+6;
+				e.alpha = 0.4;
+				e.colorize( Color.hexToInt("#dbba84") );
+			}
+
+			pBushes = new h2d.Object();
+			game.scroller.add(pBushes, Const.DP_TOP);
+			for(i in 0...3) {
+				var e = Assets.tiles.h_getRandom("forestBushes", pBushes);
+				e.setCenterRatio(0,1);
+				e.x = i*e.tile.width;
+				e.y = Const.GRID*baseCy+6;
+				e.colorize(0x0);
+			}
+
+			pBack1 = new h2d.Object();
+			game.scroller.add(pBack1, Const.DP_BG);
+			pBack1.scale(0.75);
+			for(i in 0...2) {
+				var e = Assets.tiles.h_getRandom("forestBg", pBack1);
+				e.setCenterRatio(0,1);
+				e.x = i*e.tile.width;
+				e.y = Const.GRID*baseCy+30;
+				e.colorize( Color.hexToInt("#322745") );
+			}
+
+			pBack0 = new h2d.Object();
+			game.scroller.add(pBack0, Const.DP_BG);
+			for(i in 0...2) {
+				var e = Assets.tiles.h_getRandom("forestBg", pBack0);
+				e.setCenterRatio(0,1);
+				e.x = i*e.tile.width;
+				e.y = Const.GRID*baseCy;
+				e.colorize( Color.hexToInt("#242b31") );
+			}
+
+		}
+		// pBushes.x = -game.scroller.x*0.3;
+		pFog.x = -game.scroller.x*0.2;
+		pBack0.x = -game.scroller.x*0.3-40;
+		pBack1.x = -game.scroller.x*0.5-50;
+	}
+
+
 	override function postUpdate() {
 		super.postUpdate();
+
+		updateParallax();
 
 		if( invalidated ) render();
 		if( invalidatedColls ) onCollisionChange();
