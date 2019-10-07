@@ -63,16 +63,6 @@
           "originY": 0
         },
         {
-          "name": "turret",
-          "id": 11,
-          "_eid": "44994685",
-          "x": 176,
-          "y": 160,
-          "originX": 0,
-          "originY": 0,
-          "values": {"loot": ""}
-        },
-        {
           "name": "item",
           "id": 12,
           "_eid": "29646116",
@@ -101,6 +91,36 @@
           "originX": -4,
           "originY": -4,
           "values": {"type": "Knife"}
+        },
+        {
+          "name": "guard",
+          "id": 15,
+          "_eid": "27758560",
+          "x": 192,
+          "y": 176,
+          "originX": 0,
+          "originY": 0,
+          "values": {"patrol": "right", "loot": "", "static": "true"}
+        },
+        {
+          "name": "text",
+          "id": 16,
+          "_eid": "40081262",
+          "x": 96,
+          "y": 96,
+          "originX": 0,
+          "originY": 0,
+          "values": {"str": "A", "color": "#ffffffff", "bg": "btA"}
+        },
+        {
+          "name": "text",
+          "id": 17,
+          "_eid": "40081262",
+          "x": 64,
+          "y": 64,
+          "originX": 0,
+          "originY": 0,
+          "values": {"str": "Space", "color": "#ffffffff", "bg": "longKey"}
         }
       ]
     },

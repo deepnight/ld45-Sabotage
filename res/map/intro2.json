@@ -3,6 +3,7 @@
   "height": 272,
   "offsetX": 0,
   "offsetY": 0,
+  "values": {"nextLevel": ""},
   "layers": [
     {
       "name": "entities",
@@ -67,7 +68,7 @@
           "y": 112,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": "GoldKey"}
+          "values": {"patrol": "up", "loot": "GoldKey", "static": "false"}
         },
         {
           "name": "spikes",
@@ -106,7 +107,8 @@
           "originY": 0,
           "values": {
             "str": "In 1943, the French army decided \nto assault the infamous Castle Unterwäsche",
-            "color": "#ffffffff"
+            "color": "#ffffffff",
+            "bg": ""
           }
         },
         {
@@ -117,7 +119,11 @@
           "y": 144,
           "originX": 0,
           "originY": 0,
-          "values": {"str": "They only sent ONE soldier.", "color": "#ffcc00ff"}
+          "values": {
+            "str": "They only sent ONE soldier.",
+            "color": "#ffcc00ff",
+            "bg": ""
+          }
         },
         {
           "name": "text",
@@ -129,7 +135,8 @@
           "originY": 0,
           "values": {
             "str": "Jean-François Hubert, \na colonel so badass\nhe went on mission naked, \nwithout any weapon.",
-            "color": "#ffffffff"
+            "color": "#ffffffff",
+            "bg": ""
           }
         },
         {
@@ -152,7 +159,8 @@
           "originY": 0,
           "values": {
             "str": "(Use ARROWS or GAMEPAD to move)",
-            "color": "#73788dff"
+            "color": "#73788dff",
+            "bg": ""
           }
         },
         {
@@ -165,7 +173,8 @@
           "originY": 0,
           "values": {
             "str": "Music credits:\nJonathan Dunn \n\"Rambo III\", Atari ST",
-            "color": "#73788dff"
+            "color": "#73788dff",
+            "bg": ""
           }
         },
         {
