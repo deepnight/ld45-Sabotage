@@ -5,8 +5,28 @@ class Turret extends en.Mob {
 
 	public function new(data) {
 		super(data);
-		initLife(5);
+		initLife(3);
 		bumpReduction = 1.0;
+		spr.setCenterRatio(0.5,0.5);
+		spr.anim.registerStateAnim("turret",0);
+	}
+
+	override function hit(?from:Entity, dmg:Int) {
+		super.hit(from, M.imin(1,dmg));
+	}
+
+	override function onDie() {
+		super.onDie();
+		var rCase = 5;
+		cd.setS("exploded", Const.INFINITE);
+		fx.explosion(centerX, centerY, Const.GRID*(rCase-1));
+		for(e in Mob.ALL)
+			if( e.isAlive() && distCase(e)<=rCase && ( sightCheckEnt(e) || distCase(e)<=3 ) )
+				e.hit(this, 99);
+
+		for(e in Item.ALL)
+			if( e.isAlive() && distCase(e)<=rCase && ( sightCheckEnt(e) || distCase(e)<=3 ) && !e.cd.has("exploded") )
+				e.onExplosion(this);
 	}
 
 	override function postUpdate() {
@@ -43,7 +63,7 @@ class Turret extends en.Mob {
 		if( shootCount>0 && !cd.hasSetS("shoot",0.15) ) {
 			var a = angTo(hero);
 			Assets.SFX.hit6(1);
-			var e = new en.Bullet(this, a);
+			var e = new en.Bullet(this, a, 0.66);
 			fx.shoot(e.footX, e.footY-2, a, 0xff0000);
 			shootCount--;
 		}

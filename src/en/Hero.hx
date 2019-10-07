@@ -326,6 +326,7 @@ class Hero extends Entity {
 					if( e.isAlive() && distCase(e)<=Const.MELEE_REACH ) {
 						dir = dirTo(e);
 						bump(dir*0.02, 0, 0);
+						e.blink(0xffffff);
 						var a = getCleverAngle(true, e);
 						e.stunS(1.1);
 						e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.05);

@@ -128,7 +128,6 @@ class Mob extends Entity {
 
 	override function onDie() {
 		super.onDie();
-		new en.Cadaver(this, "guardDead", loot);
 		alertAround(5);
 	}
 
@@ -206,6 +205,7 @@ class Mob extends Entity {
 		if( cd.has("violentThrow") ) {
 			// hit(1);
 			stunS(4);
+			blink();
 			mulVelocities(0.33);
 			bump(-wallDirX*0.12, -wallDirY*0.12, 0.1);
 			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX), 0xff0000);
@@ -214,6 +214,7 @@ class Mob extends Entity {
 		if( cd.has("punched") ) {
 			// hit(1);
 			stunS(2);
+			blink();
 			mulVelocities(0.33);
 			bump(-wallDirX*0.04, -wallDirY*0.04, 0.1);
 			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX), 0x0088ff);

@@ -13,6 +13,11 @@ class Guard extends en.Mob {
 		initLife(3);
 	}
 
+	override function onDie() {
+		super.onDie();
+		new en.Cadaver(this, "guardDead", loot);
+	}
+
 	override function onSeeHero() {
 		super.onSeeHero();
 		cd.setS("canShoot", 0.3);

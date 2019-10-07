@@ -96,7 +96,7 @@ class Item extends Entity {
 				e.onExplosion(this);
 	}
 
-	function onExplosion(from:Entity) {
+	public function onExplosion(from:Entity) {
 		bumpAwayFrom(from, 0.2, rnd(0.2,0.3));
 		switch item {
 			case Barrel, Grenade: trigger(0.2);

@@ -333,7 +333,7 @@ class Entity {
 		}
 	}
 
-	public function blink(c:UInt) {
+	public function blink(?c=0xffffff) {
 		colorAdd.setColor(c);
 		cd.setS("colorMaintain",0.03);
 	}
