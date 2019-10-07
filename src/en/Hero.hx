@@ -22,12 +22,19 @@ class Hero extends Entity {
 		initLife(3);
 	}
 
-	public function addPermaItem(k) {
-		if( k==Heal ) {
-			heal(maxLife);
-			return;
+	public function addPermaItem(k:ItemType) {
+		switch k {
+			case GoldKey, SilverKey:
+				Assets.SFX.item0(1);
+
+			case Heal:
+				heal(maxLife);
+				Assets.SFX.hero2(1);
+				return;
+
+			case _:
 		}
-		return permaItems.set(k,true);
+		permaItems.set(k,true);
 	}
 	public function hasPermaItem(k) return permaItems.get(k)==true;
 
@@ -53,6 +60,7 @@ class Hero extends Entity {
 		}
 		lockS(0.3);
 		cd.setS("recentHit", getLockS());
+		Assets.SFX.hero0(1);
 	}
 
 	override function onDie() {
@@ -113,6 +121,7 @@ class Hero extends Entity {
 	}
 
 	function grab(e:Entity) {
+		Assets.SFX.item2(0.6);
 		releaseGrab();
 		dx*=0.3;
 		dy*=0.3;
@@ -121,6 +130,11 @@ class Hero extends Entity {
 		grabbedEnt = e;
 		lockS(0.09);
 		cd.setS("grabbingItem", getLockS());
+
+		if( e.is(Mob) )
+			Assets.SFX.grab1(1);
+		else
+			Assets.SFX.grab4(1);
 	}
 
 	override function postUpdate() {
@@ -257,6 +271,7 @@ class Hero extends Entity {
 						case Barrel, Grenade:
 							throwGrab();
 							consumeItemUse();
+							Assets.SFX.throw3(1);
 
 						case Gun:
 							// Shoot
@@ -267,6 +282,7 @@ class Hero extends Entity {
 							lockS(0.2);
 							game.camera.shakeS(0.1, 0.2);
 							consumeItemUse();
+							Assets.SFX.throw0(1);
 
 						case Knife, GoldKey, SilverKey, Heal:
 					}
@@ -337,7 +353,12 @@ class Hero extends Entity {
 		if( grabbedEnt!=null && !grabbedEnt.isAlive() )
 			grabbedEnt = null;
 
-		// if( ca.yPressed() )
+		// #if debug
+		if( ca.yPressed() ) {
+			Assets.SFX.explode0(1);
+			trace("play 2");
+		}
+		// #end
 		// 	dn.Bresenham.iterateDisc(cx,cy, 4, function(cx,cy) {
 		// 		level.damage(cx,cy, 0.35);
 			// });

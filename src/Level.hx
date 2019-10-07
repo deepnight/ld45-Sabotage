@@ -204,7 +204,7 @@ class Level extends dn.Process {
 
 	public function hasRoof(cx,cy) return isValid(cx,cy) && data.layersByName.get("roofs").getTileId(cx,cy)>=0;
 	// public inline function hasRoof(cx,cy) return isValid(cx,cy) && roofBitmaps.exists(coordId(cx,cy));
-	public inline function hasVisibleRoof(cx,cy) return hasRoof(cx,cy) && getRoofBitmap(cx,cy).alpha>=0.9;
+	public function hasVisibleRoof(cx,cy) return roofBitmaps.exists(coordId(cx,cy)) && getRoofBitmap(cx,cy).alpha>=0.9;
 	inline function getRoofBitmap(cx,cy) : Null<h2d.Bitmap> return hasRoof(cx,cy) ? roofBitmaps.get(coordId(cx,cy)) : null;
 	var roofEraseMarks : Map<Int,Bool> = new Map();
 	public inline function eraseRoofFrom(cx,cy) {

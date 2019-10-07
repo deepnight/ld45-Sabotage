@@ -8,7 +8,6 @@ class Game extends Process {
 	public var fx : Fx;
 	public var camera : Camera;
 	public var scroller : h2d.Layers;
-	public var ogmoProj : ogmo.Project;
 	public var level : Level;
 
 	public var hero : en.Hero;
@@ -29,7 +28,11 @@ class Game extends Process {
 		camera = new Camera();
 		fx = new Fx();
 
+		#if debug
+		startLevel(2);
+		#else
 		startLevel(-1);
+		#end
 	}
 
 
@@ -48,7 +51,7 @@ class Game extends Process {
 			fx.clear();
 		}
 
-		ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
+		var ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
 		var data = ogmoProj.getLevelName(id<0 ? "intro" : "level"+id);
 		while( data==null ) {
 			id--;
@@ -155,10 +158,8 @@ class Game extends Process {
 
 			#if debug
 			// Debug
-			if( ca.isKeyboardPressed(Key.N) ) {
-				trace(level.lid);
+			if( ca.isKeyboardPressed(Key.N) )
 				startLevel(level.lid+1);
-			}
 
 			if( ca.isKeyboardPressed(Key.K) )
 				for(e in Mob.ALL) e.hit(999);

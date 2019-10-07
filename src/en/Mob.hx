@@ -104,6 +104,10 @@ class Mob extends Entity {
 	override function onDamage(dmg:Int) {
 		super.onDamage(dmg);
 		triggerAlarm();
+		if( Std.random(2)==0 )
+			Assets.SFX.mob3(1);
+		else
+			Assets.SFX.mob4(1);
 	}
 
 	override function dispose() {
@@ -265,6 +269,7 @@ class Mob extends Entity {
 				if( !isLocked() && cd.has("canShoot") && distCase(hero)<=8 && !cd.has("shootLock")) {
 					lockS(0.3);
 					var a = angTo(hero);
+					Assets.SFX.hit6(1);
 					// spr.anim.play(M.radDistance(a,1.57)<=0.8 ? "guardShootDown" : "guardShoot").setSpeed(0.2);
 					spr.anim.play("guardShoot").setSpeed(0.2);
 					dir = hero.centerX>centerX ? 1 : -1;

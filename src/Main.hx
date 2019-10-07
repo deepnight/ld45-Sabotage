@@ -21,11 +21,11 @@ class Main extends dn.Process {
         #end
 
 		// Resources
-		#if debug
-		hxd.Res.initLocal();
-        #else
+		// #if debug
+		// hxd.Res.initLocal();
+        // #else
         hxd.Res.initEmbed({compressSounds:true});
-        #end
+        // #end
 
         // Hot reloading
 		#if debug
