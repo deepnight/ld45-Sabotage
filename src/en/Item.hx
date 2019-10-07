@@ -29,6 +29,7 @@ class Item extends Entity {
 	}
 
 	public function getGrabDist() : Float {
+		return 1.5;
 		return switch item {
 			case Barrel: 0.5;
 			case _: 0.7;
@@ -43,7 +44,7 @@ class Item extends Entity {
 	}
 
 	public function canGrab(){
-		return isAlive() && !isGrabbed() && !isDepleted() && !cd.has("grabLock") && !isPermaItem();
+		return isAlive() && !isGrabbed() && !isDepleted() && !cd.has("grabLock");
 	}
 	public function canUse() return isAlive() && isGrabbed() && !isDepleted();
 	public function isDepleted() return maxUses<=0;

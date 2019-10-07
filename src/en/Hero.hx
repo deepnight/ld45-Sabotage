@@ -247,24 +247,30 @@ class Hero extends Entity {
 				dy *= Math.pow(0.6,tmod);
 			}
 
-			// Pick perma item
-			for(e in Item.ALL)
-				if( e.isAlive() && e.isPermaItem() && distCase(e)<=e.getGrabDist() && sightCheckEnt(e) ) {
-					addPermaItem(e.item);
-					fx.pickPerma(e, e.item==Heal ? 0x1cdb83 : 0x2b5997);
-					e.destroy();
-				}
-
-			if( grabbedEnt==null && !cd.has("grabLock") ) {
-				// Pick item
-				var dh = new dn.DecisionHelper(Item.ALL);
-				dh.keepOnly( function(e) return e.canGrab() && distCase(e)<=e.getGrabDist() && sightCheckEnt(e) );
+			// Grab item/mob
+			if( ca.aPressed() && !cd.has("grabLock") ) {
+				var dh = new dn.DecisionHelper(Entity.ALL);
+				dh.keepOnly( function(e) return ( e.is(Mob) || e.is(Item) && e.as(Item).canGrab() ) && !e.isGrabbed() && distCase(e)<=Const.GRAB_REACH && sightCheckEnt(e) );
 				dh.score( function(e) return -distCase(e) );
+				dh.score( function(e) return e.is(Item) ? 1 : 0 );
 				var e = dh.getBest();
-				if( e!=null )
-					grab(e);
+				if( e!=null ) {
+					if( e.is(Item) && e.as(Item).isPermaItem() ) {
+						var e = e.as(Item);
+						addPermaItem(e.item);
+						fx.pickPerma(e, e.item==Heal ? 0x1cdb83 : 0x2b5997);
+						e.destroy();
+					}
+					else
+						grab(e);
+				}
+				else {
+					spr.anim.play("heroGrab").setSpeed(0.2);
+					lockS(0.06);
+				}
 			}
-			else if( ( ca.xPressed() || ca.aPressed() ) && grabbedEnt!=null ) {
+			else if( ca.xPressed() && grabbedEnt!=null ) {
+				// Use item
 				if( isGrabbing(Item) && grabbedEnt.as(Item).canUse() ) {
 					var i = grabbedEnt.as(Item);
 					switch i.item {
@@ -284,7 +290,22 @@ class Hero extends Entity {
 							consumeItemUse();
 							Assets.SFX.throw0(1);
 
-						case Knife, GoldKey, SilverKey, Heal:
+						case Knife:
+							lockS(0.15);
+							spr.anim.play("heroPunch").setSpeed(0.8);
+							cd.setS("knifePunching",0.1);
+							for(e in Mob.ALL) {
+								if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
+									e.hit(this, 2);
+									e.bumpAwayFrom(this, 0.1);
+									e.stunS(1.5);
+									fx.hit(e, dirTo(e));
+									consumeItemUse();
+								}
+							}
+
+
+						case GoldKey, SilverKey, Heal:
 					}
 				}
 				if( isGrabbing(Mob) )
@@ -293,59 +314,38 @@ class Hero extends Entity {
 			else if( ca.bPressed() && grabbedEnt!=null )
 				releaseGrab();
 
+
+			// Melee punch
+			if( ca.xPressed() && grabbedEnt==null && !cd.has("punch") ) {
+				lockS(0.2);
+				spr.anim.play("heroPunch").setSpeed(0.4);
+				for(e in Mob.ALL) {
+					if( e.isAlive() && distCase(e)<=Const.MELEE_REACH ) {
+						dir = dirTo(e);
+						bump(dir*0.02, 0, 0);
+						var a = getCleverAngle(true, e);
+						e.stunS(1.2);
+						e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
+						e.cd.setS("punched",0.4);
+						game.camera.shakeS(0.2);
+					}
+				}
+			}
+
 			#if debug
 			if( ca.dpadUpPressed() ) {
 				fx.explosion(centerX, centerY, Const.GRID*3);
 			}
 			#end
-
-			// Punch/pick/use
-			// if( ca.aPressed() ) {
-			// 	lockS(0.2);
-			// 	spr.anim.play("heroPunch").setSpeed(0.3);
-			// 	bump(dir*0.02, 0, 0);
-			// }
 		}
 
+		// Bump into enemies
 		for(e in en.Mob.ALL) {
-			if( !e.isAlive() )
+			if( !e.isAlive() || distCase(e)>0.5 || e.isGrabbed() )
 				continue;
-
-			if( isGrabbingItem(Knife) && distCase(e)<=0.8 && !e.cd.hasSetS("knifeHit", 0.2) ) {
-				e.hit(this, 2);
-				e.bumpAwayFrom(this, 0.1);
-				e.stunS(1.5);
-				fx.hit(e, dirTo(e));
-				lockS(0.15);
-				spr.anim.play("heroPunch").setSpeed(0.8);
-				cd.setS("knifePunching",0.2);
-				consumeItemUse();
-			}
-
-			if( grabbedEnt==null && !cd.has("grabLock") && !e.cd.has("grabLock") ) {
-				// Grab mob
-				if( ( !e.hasAlarm() || e.cd.has("allowLastSecondGrab") || e.isStunned() ) && distCase(e)<=0.75 ) {
-					grab(e);
-					break;
-				}
-
-				if( e.hasAlarm() && !e.cd.has("allowLastSecondGrab") && distCase(e)<=0.75 && !cd.has("punch") ) {
-					// Melee punch
-					lockS(0.3);
-					cd.setS("punch",0.5);
-					spr.anim.play("heroPunch").setSpeed(0.4);
-					dir = dirTo(e);
-					bump(dir*0.02, 0, 0);
-					// var a = angTo(e);
-					var a = getCleverAngle(true, e);
-					e.stunS(1.2);
-					e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.15);
-					// e.hit(this, 1);
-					e.cd.setS("punched",0.4);
-					game.camera.shakeS(0.2);
-					break;
-				}
-			}
+			bumpAwayFrom(e, 0.05, 0);
+			e.bumpAwayFrom(this, 0.02, 0);
+			e.triggerAlarm();
 		}
 
 
