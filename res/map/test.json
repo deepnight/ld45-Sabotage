@@ -43,6 +43,24 @@
           "y": 112,
           "originX": -2,
           "originY": -2
+        },
+        {
+          "name": "spikes",
+          "id": 9,
+          "_eid": "38960797",
+          "x": 288,
+          "y": 80,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikes",
+          "id": 10,
+          "_eid": "38960797",
+          "x": 128,
+          "y": 16,
+          "originX": 0,
+          "originY": 0
         }
       ]
     },
