@@ -21,9 +21,9 @@ class Assets {
 		dn.heaps.Sfx.setGroupVolume(0,0.6);
 
 		#if js
-		music = hxd.Res.rambo3;
+		music = hxd.Res.music.rambo3;
 		#else
-		// music = hxd.Res.rambo3_hl;
+		music = hxd.Res.music.rambo3_hl;
 		#end
 
 		fontPixel = hxd.Res.fonts.minecraftiaOutline.toFont();
