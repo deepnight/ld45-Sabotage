@@ -286,7 +286,7 @@ class Hero extends Entity {
 							new Bullet(this, a, 2);
 							cd.setS("usingGun", 0.2);
 							lockS(0.2);
-							game.camera.shakeS(0.1, 0.2);
+							game.camera.shakeS(0.1, 0.3);
 							consumeItemUse();
 							Assets.SFX.throw0(1);
 
@@ -335,7 +335,7 @@ class Hero extends Entity {
 						e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.05);
 						e.cd.setS("punched",0.4);
 						e.onPunch();
-						game.camera.shakeS(0.2);
+						game.camera.shakeS(0.2, 0.2);
 					}
 				}
 			}

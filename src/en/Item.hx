@@ -85,6 +85,7 @@ class Item extends Entity {
 	}
 
 	function explosion(rCase:Float, dmg:Int) {
+		game.camera.shakeS(0.6, 0.3);
 		cd.setS("exploded", Const.INFINITE);
 		fx.explosion(centerX, centerY, Const.GRID*(rCase-1));
 		for(e in Mob.ALL)
