@@ -42,17 +42,6 @@
             "problemMatcher": ["$haxe"],
         },
         {
-            "label": "Flash release",
-            "type": "hxml",
-            "file": "swf.hxml",
-            "presentation": {
-                "reveal": "never",
-                "panel": "dedicated",
-                "clear": true
-            },
-            "problemMatcher": ["$haxe"],
-        },
-        {
             "label": "Lang",
             "type": "hxml",
             "file": "langParser.hxml",
