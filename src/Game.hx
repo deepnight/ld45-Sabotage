@@ -33,6 +33,7 @@ class Game extends Process {
 		// #else
 		startLevel(-1);
 		// #end
+		Assets.music.play(true);
 	}
 
 

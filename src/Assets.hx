@@ -9,6 +9,7 @@ class Assets {
 	public static var fontMedium : h2d.Font;
 	public static var fontLarge : h2d.Font;
 	public static var tiles : SpriteLib;
+	public static var music : hxd.res.Sound;
 
 	static var initDone = false;
 	public static function init() {
@@ -18,6 +19,12 @@ class Assets {
 
 		dn.heaps.Sfx.muteGroup(0); // HACK
 		// dn.heaps.Sfx.setGroupVolume(0,1);
+
+		#if js
+		music = hxd.Res.rambo3;
+		#else
+		// music = hxd.Res.rambo3_hl;
+		#end
 
 		fontPixel = hxd.Res.fonts.minecraftiaOutline.toFont();
 		fontTiny = hxd.Res.fonts.barlow_condensed_medium_regular_9.toFont();
