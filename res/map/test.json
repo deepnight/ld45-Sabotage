@@ -29,19 +29,49 @@
           "id": 1,
           "_eid": "27758560",
           "x": 192,
-          "y": 32,
+          "y": 48,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "true"}
         },
         {
           "name": "spikes",
           "id": 2,
           "_eid": "38960797",
           "x": 288,
-          "y": 64,
+          "y": 160,
           "originX": 0,
           "originY": 0
+        },
+        {
+          "name": "item",
+          "id": 3,
+          "_eid": "29646116",
+          "x": 64,
+          "y": 64,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Knife"}
+        },
+        {
+          "name": "item",
+          "id": 4,
+          "_eid": "29646116",
+          "x": 112,
+          "y": 48,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Gun"}
+        },
+        {
+          "name": "item",
+          "id": 6,
+          "_eid": "29646116",
+          "x": 80,
+          "y": 144,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "GoldKey"}
         }
       ]
     },

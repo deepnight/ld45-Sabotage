@@ -211,6 +211,13 @@ class Entity {
 		dy = bdy = 0;
 	}
 
+	public inline function mulVelocities(f:Float) {
+		dx*=f;
+		dy*=f;
+		bdx*=f;
+		bdy*=f;
+	}
+
 	public inline function at(x,y) return cx==x && cy==y;
 	public function is<T:Entity>(c:Class<T>) return Std.is(this, c);
 	public function as<T:Entity>(c:Class<T>) : T return Std.instance(this, c);

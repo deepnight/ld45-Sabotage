@@ -25,63 +25,77 @@ class Mob extends Entity {
 		dir = Std.random(2)*2-1;
 		lookAng = dirToAng();
 
-		// Parse patrol
-		if( data.nodes.length>0 ) {
-			var lastPt = new CPoint(cx,cy);
-			for(n in data.nodes) {
-				var segment = [];
-				dn.Bresenham.iterateThinLine( lastPt.cx, lastPt.cy, n.cx, n.cy, function(x,y) segment.push( new CPoint(x, y) ) );
-				if( segment[0].cx!=lastPt.cx || segment[0].cy!=lastPt.cy )
-					segment.reverse();
-				patrolPts = patrolPts.concat(segment);
-				lastPt.set(n.cx, n.cy);
+		if( data.getBool("static") ) {
+			// Immobile
+			patrolPts = [ new CPoint(cx,cy) ];
+			dir = data.getStr("patrol")=="left" ? -1 : 1;
+			lookAng = switch data.getStr("patrol") {
+				case "up": -M.PIHALF;
+				case "right": 0;
+				case "down": M.PIHALF;
+				case "left": M.PI;
+				case _ : 0;
 			}
-			var i = 0;
-			while( i<patrolPts.length-1 ) {
-				while( i<patrolPts.length-1 && patrolPts[i].cx==patrolPts[i+1].cx && patrolPts[i].cy==patrolPts[i+1].cy )
-					patrolPts.splice(i,1);
-				i++;
-			}
-			if( !patrolPts[0].is(cx,cy) )
-				patrolPts.insert(0, new CPoint(cx,cy));
 		}
 		else {
-			switch data.getStr("patrol") {
-				case "up" :
-					var to = cy;
-					while( !level.hasCollision(cx,to-1) ) to--;
-					patrolPts.push( new CPoint(cx,to) );
-					var to = cy;
-					while( !level.hasCollision(cx,to+1) ) to++;
-					patrolPts.push( new CPoint(cx,to) );
-
-				case "down" :
-					var to = cy;
-					while( !level.hasCollision(cx,to+1) ) to++;
-					patrolPts.push( new CPoint(cx,to) );
-					var to = cy;
-					while( !level.hasCollision(cx,to-1) ) to--;
-					patrolPts.push( new CPoint(cx,to) );
-
-				case "left" :
-					var to = cx;
-					while( !level.hasCollision(to-1,cy) ) to--;
-					patrolPts.push( new CPoint(to,cy) );
-					var to = cx;
-					while( !level.hasCollision(to+1,cy) ) to++;
-					patrolPts.push( new CPoint(to,cy) );
-
-				case "right" :
-					var to = cx;
-					while( !level.hasCollision(to+1,cy) ) to++;
-					patrolPts.push( new CPoint(to,cy) );
-					var to = cx;
-					while( !level.hasCollision(to-1,cy) ) to--;
-					patrolPts.push( new CPoint(to,cy) );
+			// Parse patrol
+			if( data.nodes.length>0 ) {
+				var lastPt = new CPoint(cx,cy);
+				for(n in data.nodes) {
+					var segment = [];
+					dn.Bresenham.iterateThinLine( lastPt.cx, lastPt.cy, n.cx, n.cy, function(x,y) segment.push( new CPoint(x, y) ) );
+					if( segment[0].cx!=lastPt.cx || segment[0].cy!=lastPt.cy )
+						segment.reverse();
+					patrolPts = patrolPts.concat(segment);
+					lastPt.set(n.cx, n.cy);
+				}
+				var i = 0;
+				while( i<patrolPts.length-1 ) {
+					while( i<patrolPts.length-1 && patrolPts[i].cx==patrolPts[i+1].cx && patrolPts[i].cy==patrolPts[i+1].cy )
+						patrolPts.splice(i,1);
+					i++;
+				}
+				if( !patrolPts[0].is(cx,cy) )
+					patrolPts.insert(0, new CPoint(cx,cy));
 			}
+			else {
+				switch data.getStr("patrol") {
+					case "up" :
+						var to = cy;
+						while( !level.hasCollision(cx,to-1) ) to--;
+						patrolPts.push( new CPoint(cx,to) );
+						var to = cy;
+						while( !level.hasCollision(cx,to+1) ) to++;
+						patrolPts.push( new CPoint(cx,to) );
+
+					case "down" :
+						var to = cy;
+						while( !level.hasCollision(cx,to+1) ) to++;
+						patrolPts.push( new CPoint(cx,to) );
+						var to = cy;
+						while( !level.hasCollision(cx,to-1) ) to--;
+						patrolPts.push( new CPoint(cx,to) );
+
+					case "left" :
+						var to = cx;
+						while( !level.hasCollision(to-1,cy) ) to--;
+						patrolPts.push( new CPoint(to,cy) );
+						var to = cx;
+						while( !level.hasCollision(to+1,cy) ) to++;
+						patrolPts.push( new CPoint(to,cy) );
+
+					case "right" :
+						var to = cx;
+						while( !level.hasCollision(to+1,cy) ) to++;
+						patrolPts.push( new CPoint(to,cy) );
+						var to = cx;
+						while( !level.hasCollision(to-1,cy) ) to--;
+						patrolPts.push( new CPoint(to,cy) );
+				}
+			}
+			if( patrolPts.length==0 )
+				patrolPts.insert(0, new CPoint(cx,cy));
 		}
-		if( patrolPts.length==0 )
-			patrolPts.insert(0, new CPoint(cx,cy));
 
 		// for(i in 0...patrolPts.length) fx.markerCase(patrolPts[i].cx, patrolPts[i].cy, 9999, Color.interpolateInt(0x000088,0x880000, i/patrolPts.length)); // HACK
 
@@ -140,7 +154,7 @@ class Mob extends Entity {
 
 		viewCone.x = footX;
 		viewCone.y = footY;
-		viewCone.visible = zr<=0.4 && !level.hasVisibleRoof(cx,cy) && !isGrabbed();
+		viewCone.visible = zr<=0.4 && !level.hasVisibleRoof(cx,cy) && !isGrabbed() && !isStunned();
 
 		viewCone.scaleX += ( ( hasAlarm() && sightCheckEnt(hero) ? 0.5 : 0.3 ) - viewCone.scaleX ) * 0.2;
 		viewCone.scaleY += ( ( hasAlarm() && sightCheckEnt(hero) ? 0.2 : 0.3 ) - viewCone.scaleY ) * 0.2;
@@ -190,17 +204,19 @@ class Mob extends Entity {
 	override function onTouchWall(wallDirX:Int, wallDirY:Int) {
 		super.onTouchWall(wallDirX, wallDirY);
 		if( cd.has("violentThrow") ) {
-			hit(1);
-			stunS(3);
-			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX));
+			// hit(1);
+			stunS(4);
+			mulVelocities(0.33);
+			bump(-wallDirX*0.12, -wallDirY*0.12, 0.1);
+			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX), 0xff0000);
 			cd.unset("violentThrow");
 		}
 		if( cd.has("punched") ) {
 			// hit(1);
-			stunS(3);
-			cancelVelocities();
-			bump(-wallDirX*0.09, -wallDirY*0.09, 0.1);
-			// fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX));
+			stunS(2);
+			mulVelocities(0.33);
+			bump(-wallDirX*0.04, -wallDirY*0.04, 0.1);
+			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX), 0x0088ff);
 			cd.unset("punched");
 		}
 	}
@@ -274,7 +290,7 @@ class Mob extends Entity {
 					spr.anim.play("guardShoot").setSpeed(0.2);
 					dir = hero.centerX>centerX ? 1 : -1;
 					game.delayer.addS(function() {
-						if( !isAlive() || isStunned() )
+						if( !isAlive() || isStunned() || isGrabbed() )
 							return;
 						var e = new en.Bullet(this, a);
 						fx.shoot(e.footX, e.footY-2, a, 0xff0000);

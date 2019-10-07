@@ -56,7 +56,7 @@ class Spike extends Entity {
 				if( e.isAlive() && distCase(e)<=1 && !e.cd.has("spikeHit") && ( e.isStunned() || e.cd.has("violentThrow") ) ) {
 					e.hit(this, 99);
 					e.stunS(1);
-					fx.wallImpact(centerX, centerY, angTo(e));
+					fx.wallImpact(centerX, centerY, angTo(e), 0xff0000);
 					e.cancelVelocities();
 					e.bumpAwayFrom(this, 0.07);
 					e.cd.setS("spikeHit",0.4);

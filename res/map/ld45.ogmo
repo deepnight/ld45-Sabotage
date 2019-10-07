@@ -164,7 +164,8 @@
           "defaults": "",
           "maxLength": 0,
           "trimWhitespace": true
-        }
+        },
+        {"name": "static", "definition": "Boolean", "defaults": false}
       ]
     },
     {
