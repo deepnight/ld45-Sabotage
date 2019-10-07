@@ -16,8 +16,8 @@ class Assets {
 			return;
 		initDone = true;
 
+		dn.heaps.Sfx.muteGroup(0); // HACK
 		// dn.heaps.Sfx.setGroupVolume(0,1);
-		// dn.heaps.Sfx.setGroupVolume(1,0.5);
 
 		fontPixel = hxd.Res.fonts.minecraftiaOutline.toFont();
 		fontTiny = hxd.Res.fonts.barlow_condensed_medium_regular_9.toFont();
