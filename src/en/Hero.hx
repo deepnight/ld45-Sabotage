@@ -294,15 +294,18 @@ class Hero extends Entity {
 							lockS(0.15);
 							spr.anim.play("heroPunch").setSpeed(0.8);
 							cd.setS("knifePunching",0.1);
+							var any = false;
 							for(e in Mob.ALL) {
 								if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
 									e.hit(this, 2);
 									e.bumpAwayFrom(this, 0.1);
 									e.stunS(1.5);
 									fx.hit(e, dirTo(e));
-									consumeItemUse();
+									any = true;
 								}
 							}
+							if( any )
+								consumeItemUse();
 
 
 						case GoldKey, SilverKey, Heal:
