@@ -49,12 +49,12 @@ class Camera extends dn.Process {
 
 			for(e in en.Mob.ALL)
 				if( e.is(en.mob.Turret) && e.distCase(target)<=9 ) {
-					tx = ( tx*2 + e.centerX*1 ) / 3;
-					ty = ( ty*2 + e.centerY*1 ) / 3;
-				}
-				else if( e.isAlive() && e.hasAlarm() && e.distCase(target)<=9 ) {
 					tx = ( tx*3 + e.centerX*1 ) / 4;
 					ty = ( ty*3 + e.centerY*1 ) / 4;
+				}
+				else if( e.isAlive() && e.hasAlarm() && e.distCase(target)<=9 ) {
+					tx = ( tx*4 + e.centerX*1 ) / 5;
+					ty = ( ty*4 + e.centerY*1 ) / 5;
 				}
 
 			var d = M.dist(x,y, tx, ty);
