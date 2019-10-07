@@ -1,6 +1,8 @@
 import dn.heaps.slib.*;
 
 class Assets {
+	public static var SFX = dn.heaps.Sfx.importDirectory("sfx");
+
 	public static var fontPixel : h2d.Font;
 	public static var fontTiny : h2d.Font;
 	public static var fontSmall : h2d.Font;
@@ -13,6 +15,9 @@ class Assets {
 		if( initDone )
 			return;
 		initDone = true;
+
+		// dn.heaps.Sfx.setGroupVolume(0,1);
+		// dn.heaps.Sfx.setGroupVolume(1,0.5);
 
 		fontPixel = hxd.Res.fonts.minecraftiaOutline.toFont();
 		fontTiny = hxd.Res.fonts.barlow_condensed_medium_regular_9.toFont();
