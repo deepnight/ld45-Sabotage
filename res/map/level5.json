@@ -52,7 +52,7 @@
           "y": 352,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -62,7 +62,7 @@
           "y": 304,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -72,7 +72,7 @@
           "y": 272,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -82,7 +82,7 @@
           "y": 384,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
+          "values": {"patrol": "up", "loot": "", "static": "false"}
         },
         {
           "name": "door",
@@ -102,7 +102,7 @@
           "y": 176,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -112,7 +112,7 @@
           "y": 224,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -122,7 +122,7 @@
           "y": 272,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
+          "values": {"patrol": "up", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -132,7 +132,7 @@
           "y": 128,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
+          "values": {"patrol": "up", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -142,7 +142,7 @@
           "y": 224,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -152,7 +152,7 @@
           "y": 336,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -162,7 +162,7 @@
           "y": 304,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -172,7 +172,7 @@
           "y": 336,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -182,7 +182,7 @@
           "y": 368,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -192,7 +192,7 @@
           "y": 400,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
+          "values": {"patrol": "up", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -202,7 +202,7 @@
           "y": 368,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -212,7 +212,7 @@
           "y": 464,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "door",
@@ -232,7 +232,7 @@
           "y": 416,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -242,7 +242,7 @@
           "y": 528,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -252,7 +252,7 @@
           "y": 528,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -262,7 +262,7 @@
           "y": 512,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -272,7 +272,7 @@
           "y": 496,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
+          "values": {"patrol": "up", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -282,7 +282,7 @@
           "y": 464,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -292,7 +292,7 @@
           "y": 304,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -302,7 +302,7 @@
           "y": 192,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -312,7 +312,7 @@
           "y": 208,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -322,7 +322,7 @@
           "y": 112,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -332,7 +332,7 @@
           "y": 192,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "spikesFragile",
@@ -384,8 +384,8 @@
           "name": "item",
           "id": 41,
           "_eid": "29646116",
-          "x": 432,
-          "y": 240,
+          "x": 448,
+          "y": 224,
           "originX": -4,
           "originY": -4,
           "values": {"type": "Gun"}
@@ -428,7 +428,7 @@
           "y": 272,
           "originX": -4,
           "originY": -4,
-          "values": {"type": "Knife"}
+          "values": {"type": "Grenade"}
         },
         {
           "name": "item",
@@ -438,7 +438,7 @@
           "y": 416,
           "originX": -4,
           "originY": -4,
-          "values": {"type": "Knife"}
+          "values": {"type": "Grenade"}
         },
         {
           "name": "item",
@@ -448,7 +448,7 @@
           "y": 416,
           "originX": -4,
           "originY": -4,
-          "values": {"type": "Gun"}
+          "values": {"type": "Grenade"}
         },
         {
           "name": "spikesFragile",
@@ -512,7 +512,7 @@
           "y": 112,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
+          "values": {"patrol": "up", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -522,7 +522,7 @@
           "y": 96,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "item",
@@ -570,7 +570,7 @@
           "y": 416,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
+          "values": {"patrol": "up", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -580,7 +580,7 @@
           "y": 528,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -590,7 +590,7 @@
           "y": 528,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -600,7 +600,7 @@
           "y": 368,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "spikesFragile",
@@ -629,7 +629,7 @@
           "y": 496,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -639,7 +639,7 @@
           "y": 480,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -649,7 +649,7 @@
           "y": 480,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -659,7 +659,7 @@
           "y": 400,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "right", "loot": ""}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -669,7 +669,7 @@
           "y": 368,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -679,7 +679,7 @@
           "y": 160,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": ""}
+          "values": {"patrol": "left", "loot": "", "static": "false"}
         },
         {
           "name": "guard",
@@ -689,7 +689,7 @@
           "y": 192,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "down", "loot": ""}
+          "values": {"patrol": "down", "loot": "", "static": "false"}
         },
         {
           "name": "door",
@@ -733,23 +733,13 @@
         },
         {
           "name": "guard",
-          "id": 77,
-          "_eid": "27758560",
-          "x": 304,
-          "y": 336,
-          "originX": 0,
-          "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
-        },
-        {
-          "name": "guard",
           "id": 78,
           "_eid": "27758560",
           "x": 272,
           "y": 384,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": ""}
+          "values": {"patrol": "up", "loot": "", "static": "false"}
         },
         {
           "name": "item",
@@ -799,6 +789,108 @@
           "originX": 0,
           "originY": 0,
           "values": {"color": "gold"}
+        },
+        {
+          "name": "turret",
+          "id": 84,
+          "_eid": "44994685",
+          "x": 304,
+          "y": 336,
+          "originX": 0,
+          "originY": 0,
+          "values": {"loot": ""}
+        },
+        {
+          "name": "item",
+          "id": 85,
+          "_eid": "29646116",
+          "x": 288,
+          "y": 240,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Grenade"}
+        },
+        {
+          "name": "spikesFragile",
+          "id": 86,
+          "_eid": "39788198",
+          "x": 288,
+          "y": 112,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 87,
+          "_eid": "39788198",
+          "x": 112,
+          "y": 64,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 88,
+          "_eid": "39788198",
+          "x": 432,
+          "y": 128,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 89,
+          "_eid": "39788198",
+          "x": 432,
+          "y": 208,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 90,
+          "_eid": "39788198",
+          "x": 608,
+          "y": 400,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 91,
+          "_eid": "39788198",
+          "x": 576,
+          "y": 544,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 92,
+          "_eid": "39788198",
+          "x": 432,
+          "y": 544,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 93,
+          "_eid": "39788198",
+          "x": 368,
+          "y": 544,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "item",
+          "id": 94,
+          "_eid": "29646116",
+          "x": 368,
+          "y": 352,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Heal"}
         }
       ]
     },

@@ -277,36 +277,18 @@
           "name": "item",
           "id": 34,
           "_eid": "29646116",
-          "x": 96,
-          "y": 224,
+          "x": 32,
+          "y": 288,
           "originX": -4,
           "originY": -4,
           "values": {"type": "Barrel"}
         },
         {
           "name": "spikesFragile",
-          "id": 35,
-          "_eid": "39788198",
-          "x": 32,
-          "y": 160,
-          "originX": 0,
-          "originY": 0
-        },
-        {
-          "name": "spikesFragile",
-          "id": 36,
-          "_eid": "39788198",
-          "x": 32,
-          "y": 192,
-          "originX": 0,
-          "originY": 0
-        },
-        {
-          "name": "spikesFragile",
           "id": 37,
           "_eid": "39788198",
           "x": 208,
-          "y": 224,
+          "y": 208,
           "originX": 0,
           "originY": 0
         },
@@ -379,7 +361,7 @@
           "id": 46,
           "_eid": "39788198",
           "x": 128,
-          "y": 224,
+          "y": 208,
           "originX": 0,
           "originY": 0
         },
@@ -391,6 +373,62 @@
           "y": 208,
           "originX": 0,
           "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 48,
+          "_eid": "39788198",
+          "x": 176,
+          "y": 336,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 49,
+          "_eid": "39788198",
+          "x": 32,
+          "y": 192,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 50,
+          "_eid": "39788198",
+          "x": 32,
+          "y": 160,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikesFragile",
+          "id": 51,
+          "_eid": "39788198",
+          "x": 288,
+          "y": 160,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "item",
+          "id": 52,
+          "_eid": "29646116",
+          "x": 144,
+          "y": 304,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Barrel"}
+        },
+        {
+          "name": "item",
+          "id": 53,
+          "_eid": "29646116",
+          "x": 80,
+          "y": 160,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Barrel"}
         }
       ]
     },

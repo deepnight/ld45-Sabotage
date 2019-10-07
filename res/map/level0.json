@@ -80,7 +80,7 @@
           "id": 11,
           "_eid": "29646116",
           "x": 368,
-          "y": 176,
+          "y": 80,
           "originX": -4,
           "originY": -4,
           "values": {"type": "Gun"}
@@ -164,8 +164,8 @@
           "name": "item",
           "id": 34,
           "_eid": "29646116",
-          "x": 448,
-          "y": 320,
+          "x": 512,
+          "y": 208,
           "originX": -4,
           "originY": -4,
           "values": {"type": "Barrel"}
@@ -325,7 +325,7 @@
           "y": 224,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "left", "loot": "", "static": "false"}
+          "values": {"patrol": "right", "loot": "", "static": "false"}
         },
         {
           "name": "text",
@@ -406,6 +406,24 @@
           "originX": 0,
           "originY": 0,
           "values": {"patrol": "up", "loot": "SilverKey", "static": "true"}
+        },
+        {
+          "name": "spikes",
+          "id": 61,
+          "_eid": "38960797",
+          "x": 240,
+          "y": 128,
+          "originX": 0,
+          "originY": 0
+        },
+        {
+          "name": "spikes",
+          "id": 62,
+          "_eid": "38960797",
+          "x": 240,
+          "y": 176,
+          "originX": 0,
+          "originY": 0
         }
       ]
     },
@@ -708,11 +726,11 @@
         "3",
         "3",
         "3",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
+        "3",
+        "3",
+        "3",
+        "3",
+        "3",
         "1",
         "1",
         "1",
@@ -780,11 +798,11 @@
         "3",
         "3",
         "3",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
+        "3",
+        "3",
+        "3",
+        "3",
+        "3",
         "1",
         "1",
         "1",
