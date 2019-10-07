@@ -367,7 +367,7 @@ class Entity {
 			lifeBar.x = Std.int( spr.x - lifeBar.outerWidth*0.5 );
 			lifeBar.y = Std.int( spr.y - hei - lifeBar.outerHeight );
 			if( !cd.has("showLifeBar") )
-				lifeBar.alpha += (0-lifeBar.alpha)*0.03;
+				lifeBar.alpha += ( (life<maxLife ? 0.3 : 0 ) -lifeBar.alpha)*0.03;
 		}
 
 		if( shadow!=null ) {

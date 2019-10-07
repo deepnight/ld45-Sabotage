@@ -307,6 +307,13 @@ class Hero extends Entity {
 									any = true;
 								}
 							}
+							for(e in Item.ALL) {
+								if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
+									e.bumpAwayFrom(this, 0.1);
+									if( e.onPunch(true) )
+										any = true;
+								}
+							}
 							if( any )
 								consumeItemUse();
 
@@ -326,7 +333,7 @@ class Hero extends Entity {
 				lockS(0.2);
 				spr.anim.play("heroPunch").setSpeed(0.4);
 				for(e in Mob.ALL) {
-					if( e.isAlive() && distCase(e)<=Const.MELEE_REACH ) {
+					if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
 						dir = dirTo(e);
 						bump(dir*0.02, 0, 0);
 						e.blink(0xffffff);
@@ -336,6 +343,12 @@ class Hero extends Entity {
 						e.cd.setS("punched",0.4);
 						e.onPunch();
 						game.camera.shakeS(0.2, 0.2);
+					}
+				}
+				for(e in Item.ALL) {
+					if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
+						e.bumpAwayFrom(this, 0.1);
+						e.onPunch(false);
 					}
 				}
 			}

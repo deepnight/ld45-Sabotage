@@ -33,7 +33,7 @@
           "y": 144,
           "originX": -4,
           "originY": -4,
-          "values": {"type": "GoldKey"}
+          "values": {"type": "Barrel"}
         },
         {
           "name": "hero",
@@ -1263,7 +1263,7 @@
         -1,
         -1,
         -1,
-        -1,
+        262,
         -1,
         -1,
         -1,

@@ -65,6 +65,19 @@ class Item extends Entity {
 		}
 	}
 
+	public function onPunch(withWeapon:Bool) {
+		switch item {
+			case Barrel:
+				if( withWeapon ) {
+					trigger(1);
+					return true;
+				}
+
+			case _:
+		}
+		return false;
+	}
+
 	public function trigger(sec:Float) {
 		cd.setS("trigger", sec);
 		maxUses = 0;
