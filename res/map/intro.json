@@ -154,6 +154,19 @@
             "str": "(Use ARROWS or GAMEPAD to move)",
             "color": "#73788dff"
           }
+        },
+        {
+          "name": "text",
+          "id": 15,
+          "_eid": "40081262",
+          "x": 736,
+          "y": 16,
+          "originX": 0,
+          "originY": 0,
+          "values": {
+            "str": "Music credits:\nJonathan Dunn \n\"Rambo III\", Atari ST",
+            "color": "#73788dff"
+          }
         }
       ]
     },
