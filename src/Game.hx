@@ -192,6 +192,9 @@ class Game extends Process {
 
 			if( ca.isKeyboardPressed(Key.K) )
 				for(e in Mob.ALL) e.hit(999);
+
+			if( ca.isKeyboardPressed(Key.G) )
+				Main.ME.startGame();
 			#end
 		}
 	}
