@@ -85,7 +85,8 @@ class Game extends Process {
 
 		for(e in level.getEntities("exit")) new en.Exit(e.cx, e.cy);
 		for(e in level.getEntities("door")) new en.Door(e.cx, e.cy, e.getStr("color")=="gold");
-		for(e in level.getEntities("guard")) new en.Mob(e.cx, e.cy, e);
+		for(e in level.getEntities("turret")) new en.mob.Turret(e);
+		for(e in level.getEntities("guard")) new en.mob.Guard(e);
 		for(e in level.getEntities("item")) new en.Item(e.cx, e.cy, e.getEnum("type",ItemType));
 		for(e in level.getEntities("spikes")) new en.Spike(e.cx, e.cy, false);
 		for(e in level.getEntities("spikesFragile")) new en.Spike(e.cx, e.cy, true);

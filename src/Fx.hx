@@ -151,8 +151,8 @@ class Fx extends dn.Process {
 		}
 	}
 
-	public function alarm(x:Float, y:Float) {
-		var p = allocTopNormal(getTile("fxAlarm"), x,y);
+	public function alarm(e:Entity) {
+		var p = allocTopNormal(getTile("fxAlarm"), e.headX, e.headY+5);
 		p.setCenterRatio(0.5,1);
 		p.dy = -3;
 		p.frict = 0.8;

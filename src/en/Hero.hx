@@ -250,7 +250,7 @@ class Hero extends Entity {
 			// Grab item/mob
 			if( ca.aPressed() && !cd.has("grabLock") ) {
 				var dh = new dn.DecisionHelper(Entity.ALL);
-				dh.keepOnly( function(e) return ( e.is(Mob) || e.is(Item) && e.as(Item).canGrab() ) && !e.isGrabbed() && distCase(e)<=Const.GRAB_REACH && sightCheckEnt(e) );
+				dh.keepOnly( function(e) return e.canBeGrabbed() && distCase(e)<=Const.GRAB_REACH && sightCheckEnt(e) );
 				dh.score( function(e) return -distCase(e) );
 				dh.score( function(e) return e.is(Item) ? 1 : 0 );
 				var e = dh.getBest();
@@ -330,6 +330,7 @@ class Hero extends Entity {
 						e.stunS(1.1);
 						e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.05);
 						e.cd.setS("punched",0.4);
+						e.onPunch();
 						game.camera.shakeS(0.2);
 					}
 				}

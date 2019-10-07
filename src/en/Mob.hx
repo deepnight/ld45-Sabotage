@@ -10,11 +10,12 @@ class Mob extends Entity {
 	var curPatrolPt(get,never) : CPoint; inline function get_curPatrolPt() return patrolPts[curPatrolIdx];
 	var path : Array<CPoint> = [];
 
+
 	public var lookAng : Float;
 	var viewCone : HSprite;
 
-	public function new(x,y, data:ogmo.Entity) {
-		super(x,y);
+	public function new(data:ogmo.Entity) {
+		super(data.cx, data.cy);
 		ALL.push(this);
 		lastAlarmPt = new CPoint(cx,cy);
 
@@ -105,14 +106,6 @@ class Mob extends Entity {
 		game.scroller.under(viewCone);
 		viewCone.setScale(0.2);
 		viewCone.blendMode = Add;
-
-		// Anims
-		spr.anim.registerStateAnim("guardGrabbed", 20, 0.1, function() return isGrabbed());
-		spr.anim.registerStateAnim("guardHit", 10, 0.15, function() return isStunned());
-		spr.anim.registerStateAnim("guardRun", 1, 0.2, function() return isMoving() && hasAlarm());
-		spr.anim.registerStateAnim("guardWalk", 1, 0.2, function() return isMoving());
-		spr.anim.registerStateAnim("guardIdle", 0, 0.4);
-		initLife(3);
 	}
 
 	override function onDamage(dmg:Int) {
@@ -145,6 +138,10 @@ class Mob extends Entity {
 				e.triggerAlarm();
 	}
 
+	override function canBeGrabbed():Bool {
+		return isAlive() && !isGrabbed() && !cd.has("grabLock");
+	}
+
 	function goto(x,y) {
 		if( !sightCheckCase(x,y) ) {
 			path = level.pf.smooth( level.pf.getPath({x:cx, y:cy}, {x:x, y:y}) ).map( function(pt) return new CPoint(pt.x, pt.y) );
@@ -171,9 +168,6 @@ class Mob extends Entity {
 		else
 			viewCone.rotation += M.radSubstract(lookAng, viewCone.rotation ) * 0.2 ;
 		viewCone.colorize( hasAlarm() ? sightCheckEnt(hero) ? 0xff0000 : 0xffdd00 : 0x7a9aff );
-
-		if( !isStunned() && hasAlarm() && !cd.has("sawHero") && !cd.hasSetS("sweat",0.1) )
-			fx.sweat(this);
 	}
 
 	function onAlarmStart() {}
@@ -205,6 +199,7 @@ class Mob extends Entity {
 		cd.setS("wasUnderAlarm", Const.INFINITE);
 	}
 
+	public function onPunch() {}
 
 	override function onTouchWall(wallDirX:Int, wallDirY:Int) {
 		super.onTouchWall(wallDirX, wallDirY);
@@ -224,6 +219,10 @@ class Mob extends Entity {
 			fx.wallImpact(centerX, centerY, Math.atan2(wallDirY, wallDirX), 0x0088ff);
 			cd.unset("punched");
 		}
+	}
+
+
+	function onSeeHero() {
 	}
 
 
@@ -248,6 +247,7 @@ class Mob extends Entity {
 
 			for(e in Mob.ALL)
 				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock") ) {
+					bumpAwayFrom(e, 0.25, 0.1);
 					e.bumpAwayFrom(this, 0.25, 0.1);
 					e.stunS(3);
 					e.hit(e, 1);
@@ -263,53 +263,6 @@ class Mob extends Entity {
 			cd.setS("sawHero", 1);
 
 		if( !isGrabbed() ) {
-			if( hero.isAlive() ) {
-				// See hero
-				var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.2;
-				var viewDist = hasAlarm() ? 9 : 5;
-				if( ui.Console.ME.hasFlag("cone") ) {
-					fx.angle(footX, footY, lookAng+viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
-					fx.angle(footX, footY, lookAng-viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
-				}
-				if( sightCheckEnt(hero) && M.radDistance(angTo(hero),lookAng)<=viewAng*0.5 && distCase(hero)<=viewDist ) {
-					cd.setS("sawHero", 0.5, false);
-					cd.setS("canShoot", 0.3);
-				}
-
-				// Continue to track hero longer after last sight
-				if( !isStunned() && cd.has("sawHero") ) {
-					if( !hasAlarm() ) {
-						fx.alarm(headX, headY+5);
-						// fx.flashBangS(0xffcc00, 0.3);
-					}
-
-					triggerAlarm();
-				}
-
-				// Shoot
-				if( !isLocked() && cd.has("canShoot") && distCase(hero)<=8 && !cd.has("shootLock")) {
-					lockS(0.3);
-					var a = angTo(hero);
-					Assets.SFX.hit6(1);
-					// spr.anim.play(M.radDistance(a,1.57)<=0.8 ? "guardShootDown" : "guardShoot").setSpeed(0.2);
-					spr.anim.play("guardShoot").setSpeed(0.2);
-					dir = hero.centerX>centerX ? 1 : -1;
-					game.delayer.addS(function() {
-						if( !isAlive() || isStunned() || isGrabbed() )
-							return;
-						var e = new en.Bullet(this, a);
-						fx.shoot(e.footX, e.footY-2, a, 0xff0000);
-					},0.2);
-					cd.setS("shootLock", 1);
-
-					// for(e in ALL)
-					// 	if( e!=this && e.isAlive() && distCase(e)<=6 && sightCheckEnt(e) && !e.hasAlarm() ) {
-					// 		e.triggerAlarm();
-					// 		e.cd.setS("sawHero",0.2);
-					// 	}
-				}
-			}
-
 			// Movement AI
 			if( !hasAlarm() ) {
 				if( !curPatrolPt.is(cx,cy) ) {

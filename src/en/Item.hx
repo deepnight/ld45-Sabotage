@@ -43,8 +43,11 @@ class Item extends Entity {
 		}
 	}
 
-	public function canGrab(){
+	override function canBeGrabbed():Bool {
 		return isAlive() && !isGrabbed() && !isDepleted() && !cd.has("grabLock");
+	}
+
+	public function canGrab(){
 	}
 	public function canUse() return isAlive() && isGrabbed() && !isDepleted();
 	public function isDepleted() return maxUses<=0;

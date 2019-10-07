@@ -33,6 +33,7 @@ class Entity {
 	public var hei : Float = Const.GRID;
 	public var radius = Const.GRID*0.5;
 	public var zPriorityOffset = 0.;
+	public var bumpReduction = 0.;
 
 	public var life : Int;
 	public var maxLife : Int;
@@ -196,20 +197,23 @@ class Entity {
 		yr = (y-cy*Const.GRID)/Const.GRID;
 	}
 
-	public inline function bumpAwayFrom(e:Entity, spd:Float, ?spdZ=0.) {
+	public inline function bumpAwayFrom(e:Entity, spd:Float, ?spdZ=0., ?ignoreReduction=false) {
 		var a = e.angTo(this);
-		bump(Math.cos(a)*spd, Math.sin(a)*spd*0.5, spdZ);
+		bump(Math.cos(a)*spd, Math.sin(a)*spd*0.5, spdZ, ignoreReduction);
 	}
-	public function bump(x:Float,y:Float,z:Float) {
-		bdx+=x;
-		bdy+=y;
-		dz+=z;
+	public function bump(x:Float,y:Float,z:Float, ?ignoreReduction=false) {
+		var f = ignoreReduction ? 1.0 : 1-bumpReduction;
+		bdx+=x*f;
+		bdy+=y*f;
+		dz+=z*f;
 	}
 
 	public function cancelVelocities() {
 		dx = bdx = 0;
 		dy = bdy = 0;
 	}
+
+	public function canBeGrabbed() return false;
 
 	public inline function mulVelocities(f:Float) {
 		dx*=f;
