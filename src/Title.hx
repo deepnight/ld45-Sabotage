@@ -3,6 +3,7 @@ class Title extends dn.Process {
 	// var blink : h2d.Bitmap;
 	var color : h3d.Vector;
 	var hero : HSprite;
+	var parachute : HSprite;
 	var birds : Array<{ e:HSprite, x:Float, y:Float }> = [];
 
 	public function new() {
@@ -15,6 +16,9 @@ class Title extends dn.Process {
 		color = new h3d.Vector();
 		color.setColor(0xe5ae00);
 		img.colorAdd = color;
+
+		parachute = Assets.tiles.h_getAndPlay("parachute", root);
+		parachute.colorAdd = color;
 
 		hero = Assets.tiles.h_getAndPlay("heroGlide", root);
 		hero.anim.setSpeed(0.4);
@@ -56,14 +60,19 @@ class Title extends dn.Process {
 
 	override function onResize() {
 		super.onResize();
+
 		img.x = ( w()/Const.SCALE*0.5 - img.tile.width*0.5 );
-		hero.x = img.x + 230;
-		hero.y = img.y + 104;
 	}
 
 	var rseed = new dn.Rand(0);
 	override function postUpdate() {
 		super.postUpdate();
+
+		parachute.x = img.x + 183 + Math.cos(ftime*0.030)*2;
+		parachute.y = img.y + 31 + Math.sin(1+ftime*0.019)*3;
+
+		hero.x = img.x + 230 + Math.cos(0.5+ftime*0.030)*2;
+		hero.y = img.y + 114 + Math.sin(1.5+ftime*0.019)*3;
 
 		rseed.initSeed(0);
 		for(b in birds) {
