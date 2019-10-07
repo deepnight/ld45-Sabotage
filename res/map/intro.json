@@ -68,7 +68,7 @@
           "y": 112,
           "originX": 0,
           "originY": 0,
-          "values": {"patrol": "up", "loot": "GoldKey"}
+          "values": {"patrol": "up", "loot": "GoldKey", "static": "false"}
         },
         {
           "name": "spikes",
@@ -168,6 +168,16 @@
             "str": "Music credits:\nJonathan Dunn \n\"Rambo III\", Atari ST",
             "color": "#73788dff"
           }
+        },
+        {
+          "name": "text",
+          "id": 16,
+          "_eid": "40081262",
+          "x": 848,
+          "y": 160,
+          "originX": 0,
+          "originY": 0,
+          "values": {"str": "Press ", "color": "#73788dff"}
         }
       ]
     },
