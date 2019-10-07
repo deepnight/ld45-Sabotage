@@ -29,7 +29,7 @@ class Game extends Process {
 		fx = new Fx();
 
 		#if debug
-		startLevel("level1");
+		startLevel("test");
 		#else
 		startLevel("intro");
 		#end

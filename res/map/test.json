@@ -69,7 +69,8 @@
           "x": 176,
           "y": 160,
           "originX": 0,
-          "originY": 0
+          "originY": 0,
+          "values": {"loot": ""}
         },
         {
           "name": "item",
@@ -79,7 +80,7 @@
           "y": 128,
           "originX": -4,
           "originY": -4,
-          "values": {"type": "Knife"}
+          "values": {"type": "Grenade"}
         },
         {
           "name": "item",

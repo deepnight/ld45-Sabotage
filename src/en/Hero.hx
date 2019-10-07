@@ -349,9 +349,9 @@ class Hero extends Entity {
 
 		// Bump into enemies
 		for(e in en.Mob.ALL) {
-			if( !e.isAlive() || distCase(e)>0.5 || e.isGrabbed() || e.isStunned() )
+			if( !e.isAlive() || distCase(e)>0.5 || e.isGrabbed() )
 				continue;
-			if( !cd.hasSetS("mobBump",0.2) ) {
+			if( !cd.hasSetS("mobBump",0.03) ) {
 				bumpAwayFrom(e, 0.05, 0);
 				e.bumpAwayFrom(this, 0.02, 0);
 				e.triggerAlarm();

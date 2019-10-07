@@ -120,7 +120,7 @@ class Item extends Entity {
 		if( isMoving() || zr<0 )
 			for(e in Mob.ALL)
 				if( e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock"+uid) ) {
-					if( cd.has("violentThrow") ) {
+					if( cd.has("violentThrow") && !cd.has("trigger") ) {
 						e.bump(dirTo(e)*0.15, 0, 0.2);
 						e.stunS(0.4);
 						e.hit(e,1);

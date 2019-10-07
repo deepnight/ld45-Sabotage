@@ -13,7 +13,7 @@ class Turret extends en.Mob {
 	}
 
 	override function hit(?from:Entity, dmg:Int) {
-		super.hit(from, M.imin(1,dmg));
+		super.hit(from, dmg);
 	}
 
 	override function onDie() {
@@ -55,13 +55,13 @@ class Turret extends en.Mob {
 		}
 
 		// Shoot
-		if( hasAlarm() && !isLocked() && distCase(hero)<=shootRange && !cd.has("shootLock")) {
+		if( hasAlarm() && !isLocked() && !isStunned() && distCase(hero)<=shootRange && !cd.has("shootLock")) {
 			lockS(0.3);
 			cd.setS("shootLock", 1.5);
 			shootCount = 3;
 		}
 
-		if( shootCount>0 && !cd.hasSetS("shoot",0.15) ) {
+		if( !isStunned() && shootCount>0 && !cd.hasSetS("shoot",0.15) ) {
 			var a = angTo(hero);
 			Assets.SFX.hit6(1);
 			var e = new en.Bullet(this, a, 0.66);
