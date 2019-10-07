@@ -91,6 +91,16 @@
           "originX": -4,
           "originY": -4,
           "values": {"type": "Gun"}
+        },
+        {
+          "name": "item",
+          "id": 14,
+          "_eid": "29646116",
+          "x": 80,
+          "y": 192,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Knife"}
         }
       ]
     },
