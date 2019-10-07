@@ -248,6 +248,7 @@ class Mob extends Entity {
 				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock") ) {
 					bumpAwayFrom(e, 0.25, 0.1);
 					e.bumpAwayFrom(this, 0.25, 0.1);
+					stunS(3);
 					e.stunS(3);
 					// e.hit(e, 1);
 					e.triggerAlarm();
