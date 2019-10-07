@@ -141,8 +141,18 @@ class Game extends Process {
 				cd.setS("autoNext", 2);
 				bigText("Mission complete", 0xff0000);
 			}
-			if( cd.has("levelDone") && !cd.has("autoNext") )
-				startLevel(level.lid+1);
+			if( cd.has("levelDone") && !cd.has("autoNext") ) {
+				var mask = new h2d.Bitmap(h2d.Tile.fromColor(0x0));
+				cd.setS("autoNext",2);
+				root.add(mask, Const.DP_MASK);
+				mask.scaleX = M.ceil( w()/Const.SCALE );
+				mask.scaleY = M.ceil( h()/Const.SCALE );
+				tw.createS(mask.alpha, 0>1, 0.5).end( function() {
+					mask.remove();
+					startLevel(level.lid+1);
+				} );
+			}
+
 		}
 
 		if( !ui.Console.ME.isActive() && !ui.Modal.hasAny() ) {
