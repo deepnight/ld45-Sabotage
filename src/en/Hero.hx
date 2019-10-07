@@ -297,7 +297,10 @@ class Hero extends Entity {
 							var any = false;
 							for(e in Mob.ALL) {
 								if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
-									e.hit(this, 2);
+									if( e.armor )
+										e.blink();
+									else
+										e.hit(this, 2);
 									e.bumpAwayFrom(this, 0.1);
 									e.stunS(1.5);
 									fx.hit(e, dirTo(e));
@@ -346,11 +349,13 @@ class Hero extends Entity {
 
 		// Bump into enemies
 		for(e in en.Mob.ALL) {
-			if( !e.isAlive() || distCase(e)>0.5 || e.isGrabbed() )
+			if( !e.isAlive() || distCase(e)>0.5 || e.isGrabbed() || e.isStunned() )
 				continue;
-			bumpAwayFrom(e, 0.05, 0);
-			e.bumpAwayFrom(this, 0.02, 0);
-			e.triggerAlarm();
+			if( !cd.hasSetS("mobBump",0.2) ) {
+				bumpAwayFrom(e, 0.05, 0);
+				e.bumpAwayFrom(this, 0.02, 0);
+				e.triggerAlarm();
+			}
 		}
 
 

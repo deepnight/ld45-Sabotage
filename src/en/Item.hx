@@ -89,7 +89,7 @@ class Item extends Entity {
 		fx.explosion(centerX, centerY, Const.GRID*(rCase-1));
 		for(e in Mob.ALL)
 			if( e.isAlive() && distCase(e)<=rCase && ( sightCheckEnt(e) || distCase(e)<=3 ) )
-				e.hit(this, 99);
+				e.hit(this, 3);
 
 		for(e in Item.ALL)
 			if( e!=this && e.isAlive() && distCase(e)<=rCase && ( sightCheckEnt(e) || distCase(e)<=3 ) && !e.cd.has("exploded") )

@@ -5,7 +5,8 @@ class Turret extends en.Mob {
 
 	public function new(data) {
 		super(data);
-		initLife(3);
+		initLife(5);
+		armor = true;
 		bumpReduction = 1.0;
 		spr.setCenterRatio(0.5,0.5);
 		spr.anim.registerStateAnim("turret",0);

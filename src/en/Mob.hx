@@ -9,6 +9,7 @@ class Mob extends Entity {
 	var curPatrolIdx = 0;
 	var curPatrolPt(get,never) : CPoint; inline function get_curPatrolPt() return patrolPts[curPatrolIdx];
 	var path : Array<CPoint> = [];
+	public var armor = false;
 
 
 	public var lookAng : Float;

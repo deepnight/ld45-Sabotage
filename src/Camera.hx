@@ -48,7 +48,11 @@ class Camera extends dn.Process {
 			var ty = target.footY;
 
 			for(e in en.Mob.ALL)
-				if( e.isAlive() && e.hasAlarm() && e.distCase(target)<=9 ) {
+				if( e.is(en.mob.Turret) && e.distCase(target)<=9 ) {
+					tx = ( tx*2 + e.centerX*1 ) / 3;
+					ty = ( ty*2 + e.centerY*1 ) / 3;
+				}
+				else if( e.isAlive() && e.hasAlarm() && e.distCase(target)<=9 ) {
 					tx = ( tx*3 + e.centerX*1 ) / 4;
 					ty = ( ty*3 + e.centerY*1 ) / 4;
 				}

@@ -202,7 +202,15 @@
       "nodeDisplay": 0,
       "nodeGhost": true,
       "tags": [],
-      "values": []
+      "values": [
+        {
+          "name": "loot",
+          "definition": "String",
+          "defaults": "",
+          "maxLength": 0,
+          "trimWhitespace": true
+        }
+      ]
     },
     {
       "exportID": "29646116",
