@@ -122,12 +122,18 @@ class Level extends dn.Process {
 		texts.removeChildren();
 
 		for(e in getEntities("text")) {
-			var tf = new h2d.Text(Assets.fontPixel, texts);
+			var w = new h2d.Object(texts);
+			if( e.getStr("bg")!="" ) {
+				var bg = Assets.tiles.h_get(e.getStr("bg"),0, 0.5,0.5, w);
+				bg.y = 2;
+			}
+			var tf = new h2d.Text(Assets.fontPixel, w);
 			tf.text = e.getStr("str");
 			tf.textColor = e.getColor("color");
-			tf.x = Std.int( e.x + Const.GRID*0.5 - tf.textWidth*0.5 );
-			tf.y = Std.int( e.y + Const.GRID*0.5 - tf.textHeight*0.5 );
-
+			tf.x = Std.int( -tf.textWidth*0.5 );
+			tf.y = Std.int( -tf.textHeight*0.5 );
+			w.x = Std.int( e.x + Const.GRID*0.5 );
+			w.y = Std.int( e.y + Const.GRID*0.5 );
 		}
 
 		for(l in data.layersReversed) {

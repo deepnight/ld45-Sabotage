@@ -419,6 +419,13 @@
           "definition": "Color",
           "defaults": "#ffffffff",
           "includeAlpha": false
+        },
+        {
+          "name": "bg",
+          "definition": "String",
+          "defaults": "",
+          "maxLength": 0,
+          "trimWhitespace": true
         }
       ]
     },
