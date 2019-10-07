@@ -108,11 +108,10 @@ class Item extends Entity {
 
 	function onTrigger() {
 		switch item {
-			case Barrel: explosion(6,4); Assets.SFX.explode2(1);
-			case Grenade: explosion(4,3); Assets.SFX.explode0(1);
+			case Barrel: explosion(6,4); Assets.SFX.explode2(1); destroy();
+			case Grenade: explosion(4,3); Assets.SFX.explode0(1); destroy();
 			case _:
 		}
-		destroy();
 	}
 
 	override function update() {
