@@ -5,9 +5,15 @@ class Title extends dn.Process {
 	var hero : HSprite;
 	var parachute : HSprite;
 	var birds : Array<{ e:HSprite, x:Float, y:Float }> = [];
+	public var ca : dn.heaps.Controller.ControllerAccess;
+	var heroX = 0.;
+	var heroY = 0.;
 
 	public function new() {
 		super(Main.ME);
+
+		ca = Main.ME.controller.createAccess("title", true);
+
 		createRootInLayers(Main.ME.root, Const.DP_UI);
 		img = new h2d.Bitmap(hxd.Res.title.toTile(), root);
 
@@ -40,6 +46,11 @@ class Title extends dn.Process {
 		dn.Process.resizeAll();
 	}
 
+	override function onDispose() {
+		super.onDispose();
+		ca.dispose();
+	}
+
 	var done = false;
 	function skip() {
 		if( done )
@@ -50,8 +61,8 @@ class Title extends dn.Process {
 
 	function onEvent(e:hxd.Event) {
 		switch e.kind {
-			case EPush: skip();
-			case ERelease: skip();
+			// case EPush: skip();
+			// case ERelease: skip();
 			case EKeyDown: skip();
 			case EKeyUp: skip();
 			case _:
@@ -68,11 +79,11 @@ class Title extends dn.Process {
 	override function postUpdate() {
 		super.postUpdate();
 
-		parachute.x = img.x + 183 + Math.cos(ftime*0.030)*2;
-		parachute.y = img.y + 31 + Math.sin(1+ftime*0.019)*3;
+		parachute.x = heroX + img.x + 183 + Math.cos(ftime*0.030)*2;
+		parachute.y = heroY + img.y + 31 + Math.sin(1+ftime*0.019)*3;
 
-		hero.x = img.x + 230 + Math.cos(0.5+ftime*0.030)*2;
-		hero.y = img.y + 114 + Math.sin(1.5+ftime*0.019)*3;
+		hero.x = heroX + img.x + 230 + Math.cos(0.5+ftime*0.030)*2;
+		hero.y = heroY + img.y + 114 + Math.sin(1.5+ftime*0.019)*3;
 
 		rseed.initSeed(0);
 		for(b in birds) {
@@ -86,6 +97,8 @@ class Title extends dn.Process {
 			color.b*=Math.pow(0.98,tmod);
 		}
 		else {
+			heroX+=0.3*tmod;
+			heroY+=0.1*tmod;
 			var s = 0.01;
 			color.r = M.fmax(-1, color.r - s*tmod );
 			color.g = M.fmax(-1, color.g - s*tmod );
@@ -95,5 +108,12 @@ class Title extends dn.Process {
 				destroy();
 			}
 		}
+	}
+
+	override function update() {
+		super.update();
+		if( ca.aPressed() || ca.bPressed() || ca.xPressed() || ca.yPressed()
+			|| ca.selectPressed() || ca.startPressed() )
+				skip();
 	}
 }
