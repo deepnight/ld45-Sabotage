@@ -21,9 +21,9 @@ class Assets {
 		dn.heaps.Sfx.setGroupVolume(0,0.6);
 
 		#if js
-		music = hxd.Res.music.rambo3;
+		music = hxd.Res.music.leatherneck;
 		#else
-		music = hxd.Res.music.rambo3_hl;
+		music = hxd.Res.music.leatherneck_hl;
 		#end
 
 		fontPixel = hxd.Res.fonts.minecraftiaOutline.toFont();
@@ -37,12 +37,15 @@ class Assets {
 		tiles.defineAnim("heroIdle", "0(10), 1(1), 2(8)");
 		tiles.defineAnim("heroThrow", "0(1), 1(999)");
 		tiles.defineAnim("heroPunch", "0(2), 1(1), 2(2), 3(3)");
+		tiles.defineAnim("heroGlide", "0-2, 1");
 
 		tiles.defineAnim("guardRun", "0(2), 1(1), 2(2), 1(1)");
 		tiles.defineAnim("guardWalk", "0(3), 1(1), 2(3), 1(1)");
 		tiles.defineAnim("guardShoot", "1(3), 0(1), 1(4)");
 		tiles.defineAnim("guardShootDown", "1(1), 0(2), 1(4)");
 		tiles.defineAnim("guardHit", "0(1), 1(2), 2(9999)	");
+
 		tiles.defineAnim("stun", "0-3,3,2,1");
+		tiles.defineAnim("bird", "0(2), 1(2), 2(4), 4(2), 3(6), 5(1)");
 	}
 }

@@ -62,9 +62,20 @@ class Main extends dn.Process {
 		controller.bind(SELECT, Key.R);
 		// controller.bind(START, Key.N);
 
+		// Music
+		// #if !debug
+		if( Assets.music!=null )
+			Assets.music.play(true);
+		// #end
+
 		// Start
 		new dn.heaps.GameFocusHelper(Boot.ME.s2d, Assets.fontMedium);
-		delayer.addF( startGame, 1 );
+		delayer.addF( start, 1 );
+	}
+
+	function start() {
+		new Title();
+		// startGame();
 	}
 
 	public function startGame() {
@@ -85,7 +96,7 @@ class Main extends dn.Process {
 		if( Const.AUTO_SCALE_TARGET_WID>0 )
 			Const.SCALE = M.ceil( h()/Const.AUTO_SCALE_TARGET_WID );
 		else if( Const.AUTO_SCALE_TARGET_HEI>0 )
-			Const.SCALE = M.ceil( h()/Const.AUTO_SCALE_TARGET_HEI );
+			Const.SCALE = M.floor( h()/Const.AUTO_SCALE_TARGET_HEI );
 		root.setScale(Const.SCALE);
 	}
 
