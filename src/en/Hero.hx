@@ -67,7 +67,7 @@ class Hero extends Entity {
 		super.onDie();
 		new en.Cadaver(this, "heroDead");
 		fx.flashBangS(0xff0000, 0.3, 2);
-		game.delayer.addS("restart", function() game.startLevel(level.lid), 1);
+		game.delayer.addS("restart", function() game.restartLevel(), 1);
 	}
 
 	override function dispose() {
@@ -353,15 +353,11 @@ class Hero extends Entity {
 		if( grabbedEnt!=null && !grabbedEnt.isAlive() )
 			grabbedEnt = null;
 
-		// #if debug
+		#if debug
 		if( ca.yPressed() ) {
 			Assets.SFX.explode0(1);
-			trace("play 2");
 		}
-		// #end
-		// 	dn.Bresenham.iterateDisc(cx,cy, 4, function(cx,cy) {
-		// 		level.damage(cx,cy, 0.35);
-			// });
+		#end
 
 		// Roof anim
 		if( level.hasRoof(cx,cy) )
@@ -376,6 +372,6 @@ class Hero extends Entity {
 			cd.setS("lookBackLock",rnd(2.5,4));
 		}
 
-		if( ui.Console.ME.hasFlag("fps") ) debug(Std.int(hxd.Timer.fps()));
+		if( ui.Console.ME.hasFlag("fps") ) debug(Std.int(hxd.Timer.fps())+" tmod="+pretty(tmod,2));
 	}
 }

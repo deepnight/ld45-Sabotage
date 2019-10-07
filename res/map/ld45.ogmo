@@ -8,7 +8,15 @@
   "levelDefaultSize": {"x": 320, "y": 240},
   "levelMinSize": {"x": 128, "y": 128},
   "levelMaxSize": {"x": 4096, "y": 4096},
-  "levelValues": [],
+  "levelValues": [
+    {
+      "name": "nextLevel",
+      "definition": "String",
+      "defaults": "",
+      "maxLength": 0,
+      "trimWhitespace": true
+    }
+  ],
   "defaultExportMode": ".json",
   "entityTags": [],
   "layers": [

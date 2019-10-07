@@ -3,6 +3,7 @@
   "height": 272,
   "offsetX": 0,
   "offsetY": 0,
+  "values": {"nextLevel": "level0"},
   "layers": [
     {
       "name": "entities",

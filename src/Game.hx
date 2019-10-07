@@ -28,17 +28,32 @@ class Game extends Process {
 		camera = new Camera();
 		fx = new Fx();
 
-		// #if debug
-		// startLevel(2);
-		// #else
-		startLevel(-1);
-		// #end
+		#if debug
+		startLevel("test");
+		#else
+		startLevel("intro");
+		#end
 		if( Assets.music!=null )
 			Assets.music.play(true);
 	}
 
+	public function nextLevel() {
+		if( level.data.getStr("nextLevel")!="" )
+			startLevel(level.data.getStr("nextLevel"));
+		else {
+			var ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
+			if( ogmoProj.getLevelName("level"+(level.lid+1))==null )
+				startLevel("level"+level.lid);
+			else
+				startLevel("level"+(level.lid+1));
+		}
+	}
 
-	public function startLevel(id:Int) {
+	public function restartLevel() {
+		startLevel(level.data.name);
+	}
+
+	public function startLevel(name:String) {
 		var mask = new h2d.Bitmap(h2d.Tile.fromColor(0x0));
 		root.add(mask, Const.DP_MASK);
 		mask.scaleX = M.ceil( w()/Const.SCALE );
@@ -54,12 +69,14 @@ class Game extends Process {
 		}
 
 		var ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
-		var data = ogmoProj.getLevelName(id<0 ? "intro" : "level"+id);
-		while( data==null ) {
-			id--;
-			data = ogmoProj.getLevelName("level"+id);
-		}
-		level = new Level(id, data);
+		var data = ogmoProj.getLevelName(name);
+		// if( data==null && customLevelName!=null )
+		// 	throw "unknown level "+customLevelName;
+		// while( data==null ) {
+		// 	lid--;
+		// 	data = ogmoProj.getLevelName("level"+lid);
+		// }
+		level = new Level(data);
 
 		var pt = level.getEntityPt("hero");
 		hero = new en.Hero(pt.cx, pt.cy);
@@ -76,8 +93,8 @@ class Game extends Process {
 		if( en.Mob.ALL.length==0 )
 			level.specialEndingCondition = true;
 
-		if( id>=0 )
-			bigText("Level "+(id+1));
+		if( level.lid>=0 )
+			bigText("Level "+(level.lid+1));
 		cd.unset("levelDone");
 	}
 
@@ -149,7 +166,7 @@ class Game extends Process {
 				mask.scaleY = M.ceil( h()/Const.SCALE );
 				tw.createS(mask.alpha, 0>1, 0.5).end( function() {
 					mask.remove();
-					startLevel(level.lid+1);
+					nextLevel();
 				} );
 			}
 
@@ -166,12 +183,12 @@ class Game extends Process {
 			#end
 
 			if( ca.selectPressed() || ca.startPressed() )
-				startLevel(level.lid);
+				restartLevel();
 
 			#if debug
 			// Debug
 			if( ca.isKeyboardPressed(Key.N) )
-				startLevel(level.lid+1);
+				nextLevel();
 
 			if( ca.isKeyboardPressed(Key.K) )
 				for(e in Mob.ALL) e.hit(999);

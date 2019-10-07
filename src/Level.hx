@@ -5,10 +5,10 @@ class Level extends dn.Process {
 	public var wid(get,never) : Int; inline function get_wid() return M.ceil(data.pxWid/Const.GRID);
 	public var hei(get,never) : Int; inline function get_hei() return M.ceil(data.pxHei/Const.GRID);
 
-	public var lid : Int;
+	public var lid(get,never) : Int;
 	var invalidatedColls = true;
 	var invalidated = true;
-	var data : ogmo.Level;
+	public var data : ogmo.Level;
 	var layerRenders : Map<String,h2d.Object> = new Map();
 
 	var damageMap : Map<Int, Float> = new Map();
@@ -20,9 +20,8 @@ class Level extends dn.Process {
 
 	public var specialEndingCondition = false;
 
-	public function new(lid:Int, l:ogmo.Level) {
+	public function new(l:ogmo.Level) {
 		super(Game.ME);
-		this.lid = lid;
 		data = l;
 
 		for(cy in 0...hei)
@@ -45,6 +44,14 @@ class Level extends dn.Process {
 		game.scroller.add(texts, Const.DP_BG);
 
 		pf = new dn.PathFinder(wid, hei);
+	}
+
+	function get_lid() {
+		var reg = ~/[A-Z\-_.]*([0-9]+)/gi;
+		if( !reg.match(data.name) )
+			return -1;
+		else
+			return Std.parseInt( reg.matched(1) );
 	}
 
 	override function onDispose() {

@@ -13,6 +13,6 @@ class Exit extends Entity {
 	override function update() {
 		super.update();
 		if( hero.at(cx,cy) && !cd.hasSetS("once", Const.INFINITE) )
-			game.startLevel(level.lid+1);
+			game.nextLevel();
 	}
 }
