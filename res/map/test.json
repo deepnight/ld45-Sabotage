@@ -16,15 +16,6 @@
       "gridCellsY": 15,
       "entities": [
         {
-          "name": "hero",
-          "id": 0,
-          "_eid": "27361764",
-          "x": 96,
-          "y": 96,
-          "originX": -2,
-          "originY": -2
-        },
-        {
           "name": "guard",
           "id": 1,
           "_eid": "27758560",
@@ -35,35 +26,6 @@
           "values": {"patrol": "right", "loot": "", "static": "true"}
         },
         {
-          "name": "spikes",
-          "id": 2,
-          "_eid": "38960797",
-          "x": 288,
-          "y": 160,
-          "originX": 0,
-          "originY": 0
-        },
-        {
-          "name": "item",
-          "id": 3,
-          "_eid": "29646116",
-          "x": 64,
-          "y": 64,
-          "originX": -4,
-          "originY": -4,
-          "values": {"type": "Knife"}
-        },
-        {
-          "name": "item",
-          "id": 4,
-          "_eid": "29646116",
-          "x": 112,
-          "y": 48,
-          "originX": -4,
-          "originY": -4,
-          "values": {"type": "Gun"}
-        },
-        {
           "name": "item",
           "id": 6,
           "_eid": "29646116",
@@ -72,6 +34,15 @@
           "originX": -4,
           "originY": -4,
           "values": {"type": "GoldKey"}
+        },
+        {
+          "name": "hero",
+          "id": 7,
+          "_eid": "27361764",
+          "x": 80,
+          "y": 112,
+          "originX": -2,
+          "originY": -2
         }
       ]
     },
