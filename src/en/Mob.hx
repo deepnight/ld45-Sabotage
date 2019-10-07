@@ -118,6 +118,7 @@ class Mob extends Entity {
 	override function onDamage(dmg:Int) {
 		super.onDamage(dmg);
 		triggerAlarm();
+		alertAround(3);
 		if( Std.random(2)==0 )
 			Assets.SFX.mob3(1);
 		else
@@ -135,8 +136,12 @@ class Mob extends Entity {
 	override function onDie() {
 		super.onDie();
 		new en.Cadaver(this, "guardDead", loot);
+		alertAround(5);
+	}
+
+	function alertAround(d) {
 		for(e in ALL)
-			if( e!=this && e.isAlive() && distCase(e)<=4 && sightCheckEnt(e) )
+			if( e!=this && e.isAlive() && distCase(e)<=d && sightCheckEnt(e) )
 				e.triggerAlarm();
 	}
 
@@ -242,14 +247,14 @@ class Mob extends Entity {
 				}
 
 			for(e in Mob.ALL)
-				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock") && !cd.has("touchLock") ) {
+				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock") ) {
 					e.bumpAwayFrom(this, 0.25, 0.1);
 					e.stunS(3);
-					e.hit(e, cd.has("violentThrow") ? 2 : 1);
+					e.hit(e, 1);
 					e.triggerAlarm();
 					e.cd.setS("touchLock", 1);
-					if( cd.has("violentThrow") )
-						hit(99);
+					// if( cd.has("violentThrow") )
+					// 	hit(1);
 					break;
 				}
 		}
@@ -261,7 +266,7 @@ class Mob extends Entity {
 			if( hero.isAlive() ) {
 				// See hero
 				var viewAng = hasAlarm() ? M.PI*0.8 : M.PI*0.2;
-				var viewDist = hasAlarm() ? 9 : 4;
+				var viewDist = hasAlarm() ? 9 : 5;
 				if( ui.Console.ME.hasFlag("cone") ) {
 					fx.angle(footX, footY, lookAng+viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
 					fx.angle(footX, footY, lookAng-viewAng*0.5, viewDist*Const.GRID, 0.03, 0xff0000);
