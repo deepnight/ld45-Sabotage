@@ -277,7 +277,7 @@ class Hero extends Entity {
 							// Shoot
 							cancelVelocities();
 							var a = getCleverAngle(false);
-							new Bullet(this, a, 1.5);
+							new Bullet(this, a, 2);
 							cd.setS("usingGun", 0.2);
 							lockS(0.2);
 							game.camera.shakeS(0.1, 0.2);

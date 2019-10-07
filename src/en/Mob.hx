@@ -259,7 +259,7 @@ class Mob extends Entity {
 				if( !isStunned() && cd.has("sawHero") ) {
 					if( !hasAlarm() ) {
 						fx.alarm(headX, headY+5);
-						fx.flashBangS(0xffcc00, 0.3);
+						// fx.flashBangS(0xffcc00, 0.3);
 					}
 
 					triggerAlarm();
