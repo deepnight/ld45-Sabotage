@@ -203,11 +203,13 @@
             <key type="filename">export_tiles/GoldKey.png</key>
             <key type="filename">export_tiles/Grenade.png</key>
             <key type="filename">export_tiles/Gun.png</key>
+            <key type="filename">export_tiles/Heal.png</key>
             <key type="filename">export_tiles/Knife.png</key>
             <key type="filename">export_tiles/SilverKey.png</key>
             <key type="filename">export_tiles/dirtFull0.png</key>
             <key type="filename">export_tiles/doorH.png</key>
             <key type="filename">export_tiles/doorSilverH.png</key>
+            <key type="filename">export_tiles/exit.png</key>
             <key type="filename">export_tiles/fxCircle.png</key>
             <key type="filename">export_tiles/fxSweat0.png</key>
             <key type="filename">export_tiles/fxSweat1.png</key>
@@ -245,6 +247,10 @@
             <key type="filename">export_tiles/heroThrow0.png</key>
             <key type="filename">export_tiles/heroThrow1.png</key>
             <key type="filename">export_tiles/heroUseGun0.png</key>
+            <key type="filename">export_tiles/spike.png</key>
+            <key type="filename">export_tiles/spikeBlood.png</key>
+            <key type="filename">export_tiles/spikeFragile.png</key>
+            <key type="filename">export_tiles/spikeFragileBlood.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -328,6 +334,47 @@
                 <rect>0,0,1,1</rect>
                 <key>scale9Paddings</key>
                 <rect>0,0,1,1</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/forestBg0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>60,40,120,80</rect>
+                <key>scale9Paddings</key>
+                <rect>60,40,120,80</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/forestBushes0.png</key>
+            <key type="filename">export_tiles/forestFog0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>44,10,89,20</rect>
+                <key>scale9Paddings</key>
+                <rect>44,10,89,20</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/forestLarge0.png</key>
+            <key type="filename">export_tiles/forestLargeEnd.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>95,29,190,59</rect>
+                <key>scale9Paddings</key>
+                <rect>95,29,190,59</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -565,6 +612,23 @@
                 <rect>6,4,11,8</rect>
                 <key>scale9Paddings</key>
                 <rect>6,4,11,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/stun0.png</key>
+            <key type="filename">export_tiles/stun1.png</key>
+            <key type="filename">export_tiles/stun2.png</key>
+            <key type="filename">export_tiles/stun3.png</key>
+            <key type="filename">export_tiles/stun4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>3,2,5,4</rect>
+                <key>scale9Paddings</key>
+                <rect>3,2,5,4</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
