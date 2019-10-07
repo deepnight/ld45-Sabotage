@@ -18,7 +18,7 @@ class Assets {
 		initDone = true;
 
 		dn.heaps.Sfx.muteGroup(0); // HACK
-		// dn.heaps.Sfx.setGroupVolume(0,1);
+		dn.heaps.Sfx.setGroupVolume(0,0.6);
 
 		#if js
 		music = hxd.Res.rambo3;
