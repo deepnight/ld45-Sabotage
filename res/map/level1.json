@@ -68,7 +68,7 @@
           "name": "item",
           "id": 6,
           "_eid": "29646116",
-          "x": 48,
+          "x": 112,
           "y": 208,
           "originX": -4,
           "originY": -4,
@@ -247,6 +247,26 @@
           "originX": 0,
           "originY": 0,
           "values": {"color": "gold"}
+        },
+        {
+          "name": "item",
+          "id": 34,
+          "_eid": "29646116",
+          "x": 208,
+          "y": 304,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Heal"}
+        },
+        {
+          "name": "item",
+          "id": 35,
+          "_eid": "29646116",
+          "x": 48,
+          "y": 256,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Grenade"}
         }
       ]
     },

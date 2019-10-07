@@ -424,6 +424,16 @@
           "y": 176,
           "originX": 0,
           "originY": 0
+        },
+        {
+          "name": "item",
+          "id": 63,
+          "_eid": "29646116",
+          "x": 416,
+          "y": 128,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "Heal"}
         }
       ]
     },
