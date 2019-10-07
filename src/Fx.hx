@@ -240,23 +240,24 @@ class Fx extends dn.Process {
 	}
 
 	public function pickPerma(e:Item, ?c=0x2b5997) {
-		var n = 30;
+		var n = 35;
 		for(i in 0...n) {
 			var a = 6.28*i/n + rnd(0,0.3,true);
-			var p = allocTopAdd(getTile("pixel"), e.centerX+rnd(0,4,true), e.centerY+rnd(0,4,true));
+			var p = allocTopAdd(getTile("pixel"), e.centerX+rnd(0,4,true), e.footY+rnd(0,4,true));
 			p.setFadeS(rnd(0.6,0.9), 0, rnd(0.3,0.7) );
 			p.colorize(c);
 			p.alphaFlicker = 0.5;
 			p.dy = -rnd(1,3);
-			p.gy = rnd(0.01, 0.02);
+			p.gy = rnd(0.001, 0.012);
+			p.groundY = e.footY+rnd(0,3);
 			// p.gy = -rnd(0.1,0.2);
 			p.frict = rnd(0.87,0.91);
-			p.lifeS = rnd(0.3,0.4);
+			p.lifeS = rnd(0.6,0.4);
 		}
 		var n = 30;
 		for(i in 0...n) {
 			var a = 6.28*i/n + rnd(0,0.3,true);
-			var p = allocTopAdd(getTile("fxLineDir"), e.centerX+rnd(0,4,true), e.centerY+rnd(0,4,true));
+			var p = allocTopAdd(getTile("fxLineDir"), e.centerX+rnd(0,4,true), e.footY+rnd(0,4,true));
 			p.setCenterRatio(1,0.5);
 			p.setFadeS(rnd(0.3,0.5), 0, rnd(0.5,0.7) );
 			p.colorize(c);
@@ -271,17 +272,17 @@ class Fx extends dn.Process {
 			p.lifeS = rnd(0.3,0.4);
 		}
 
-		var n = 10;
+		var n = 20;
 		for(i in 0...n) {
-			var a = 6.28*i/n + rnd(0,0.3,true);
-			var p = allocTopAdd(getTile("fxSmoke"), e.footX+rnd(0,4,true), e.footY+rnd(0,4,true));
+			var a = 6.28*i/n + rnd(0,0.1,true);
+			var p = allocTopAdd(getTile("fxSmoke"), e.footX+rnd(0,6,true), e.footY-3+rnd(0,3,true));
 			p.setFadeS(rnd(0.2,0.3), 0, rnd(0.5,0.7) );
 			p.colorize(c);
 			p.rotation = rnd(0,6.28);
-			p.moveAwayFrom(e.footX, e.footY, rnd(0.2,0.3));
+			p.moveAwayFrom(e.footX, e.footY-3, rnd(0.10,0.13));
 			e.dy*=0.5;
 			p.frict = 0.98;
-			p.setScale(rnd(0.3,0.6,true));
+			p.setScale(rnd(0.1,0.2,true));
 			p.scaleXMul = rnd(1,1.01);
 			p.dr = rnd(0,0.02,true);
 			p.lifeS = rnd(1.3,1.4);
