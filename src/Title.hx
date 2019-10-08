@@ -17,6 +17,7 @@ class Title extends dn.Process {
 		createRootInLayers(Main.ME.root, Const.DP_UI);
 		img = new h2d.Bitmap(hxd.Res.title.toTile(), root);
 
+		cd.setS("lock",0.2);
 		Boot.ME.s2d.addEventListener( onEvent );
 		// blink = new h2d.Bitmap(h2d.Tile.fromColor(0xffcc00) root);
 		color = new h3d.Vector();
@@ -48,6 +49,7 @@ class Title extends dn.Process {
 
 	override function onDispose() {
 		super.onDispose();
+		Boot.ME.s2d.removeEventListener(onEvent);
 		ca.dispose();
 	}
 
@@ -60,6 +62,9 @@ class Title extends dn.Process {
 	}
 
 	function onEvent(e:hxd.Event) {
+		if( destroyed || cd.has("lock") )
+			return;
+
 		switch e.kind {
 			// case EPush: skip();
 			// case ERelease: skip();
@@ -112,8 +117,14 @@ class Title extends dn.Process {
 
 	override function update() {
 		super.update();
-		if( ca.aPressed() || ca.bPressed() || ca.xPressed() || ca.yPressed()
-			|| ca.selectPressed() || ca.startPressed() )
-				skip();
+
+		if( !cd.has("lock") ) {
+			if( ca.isKeyboardPressed(hxd.Key.ESCAPE) )
+				hxd.System.exit();
+
+			if( ca.aPressed() || ca.bPressed() || ca.xPressed() || ca.yPressed()
+				|| ca.selectPressed() || ca.startPressed() )
+					skip();
+		}
 	}
 }

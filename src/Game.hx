@@ -172,14 +172,18 @@ class Game extends Process {
 		}
 
 		if( !ui.Console.ME.isActive() && !ui.Modal.hasAny() ) {
-			#if hl
 			// Exit
 			if( ca.isKeyboardPressed(Key.ESCAPE) )
 				if( !cd.hasSetS("exitWarn",3) )
 					trace(Lang.t._("Press ESCAPE again to exit."));
-				else
+				else {
+					#if( debug && hl )
 					hxd.System.exit();
-			#end
+					#else
+					destroy();
+					new Title();
+					#end
+				}
 
 			if( ca.selectPressed() )
 				restartLevel();
