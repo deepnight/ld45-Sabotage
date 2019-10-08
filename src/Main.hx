@@ -60,7 +60,6 @@ class Main extends dn.Process {
 		controller.bind(A, Key.F, Key.E);
 		controller.bind(B, Key.ESCAPE);
 		controller.bind(SELECT, Key.R);
-		// controller.bind(START, Key.N);
 
 		// Start
 		new dn.heaps.GameFocusHelper(Boot.ME.s2d, Assets.fontMedium);
