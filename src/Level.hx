@@ -156,7 +156,7 @@ class Level extends dn.Process {
 
 			// Auto render roofs
 			if( l.name=="roofs" ) {
-				var tile = l.tileset.t;
+				var tile = l.tileset.tile;
 				for(cy in 0...l.cHei)
 				for(cx in 0...l.cWid) {
 					if( l.getTileId(cx,cy)<0 )
@@ -189,7 +189,7 @@ class Level extends dn.Process {
 
 			// Auto render collisions (time saving!)
 			if( l.name=="ground" ) {
-				var tile = l.tileset.t;
+				var tile = l.tileset.tile;
 				var tg = new h2d.TileGroup(tile, target);
 				for(cy in 0...l.cHei)
 				for(cx in 0...l.cWid) {
