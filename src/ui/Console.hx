@@ -13,7 +13,9 @@ class Console extends h2d.Console {
 
 		// Settings
 		ME = this;
+		#if debug
 		h2d.Console.HIDE_LOG_TIMEOUT = 30;
+		#end
 		Lib.redirectTracesToH2dConsole(this);
 
 		// Debug flags
