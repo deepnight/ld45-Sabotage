@@ -6,4 +6,5 @@ enum ItemType {
 	GoldKey;
 	SilverKey;
 	Heal;
+	ItchIo;
 }

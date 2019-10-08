@@ -135,6 +135,9 @@ class Hero extends Entity {
 			Assets.SFX.grab1(1);
 		else
 			Assets.SFX.grab4(1);
+
+		if( e.is(Item) )
+			e.as(Item).onGrab();
 	}
 
 	override function postUpdate() {
@@ -274,7 +277,7 @@ class Hero extends Entity {
 				if( isGrabbing(Item) && grabbedEnt.as(Item).canUse() ) {
 					var i = grabbedEnt.as(Item);
 					switch i.item {
-						case Barrel, Grenade:
+						case Barrel, Grenade, ItchIo:
 							throwGrab();
 							consumeItemUse();
 							Assets.SFX.throw3(1);

@@ -14,6 +14,7 @@ class Item extends Entity {
 
 		maxUses = switch i {
 			case Barrel: 1;
+			case ItchIo: 1;
 			case Grenade: 1;
 			case Gun: 4;
 			case Knife: 4;
@@ -52,12 +53,23 @@ class Item extends Entity {
 	public function canUse() return isAlive() && isGrabbed() && !isDepleted();
 	public function isDepleted() return maxUses<=0;
 
+	public function onGrab() {
+		if( item==ItchIo )
+			for(e in Mob.ALL )
+				if( e.isAlive() ) {
+					e.triggerAlarm();
+					e.lookAt(hero);
+					e.lockS(1.5);
+				}
+	}
+
 	public function consumeUse() {
 		maxUses--;
 		if( maxUses<=0 ) {
 			cd.setS("grabLock",Const.INFINITE);
 			switch item {
 				case Barrel, Grenade: trigger(1);
+				case ItchIo: trigger(2);
 				case _:
 					cd.setS("selfDestructing", Const.INFINITE);
 					cd.setS("selfDestruct", 0.2);
@@ -124,6 +136,7 @@ class Item extends Entity {
 		switch item {
 			case Barrel: explosion(6,4); Assets.SFX.explode2(1); destroy();
 			case Grenade: explosion(4,3); Assets.SFX.explode0(1); destroy();
+			case ItchIo: explosion(5,99); Assets.SFX.explode0(1); destroy();
 			case _:
 		}
 	}

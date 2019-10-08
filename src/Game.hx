@@ -27,7 +27,7 @@ class Game extends Process {
 		fx = new Fx();
 
 		#if debug
-		startLevel("test");
+		startLevel("itch");
 		#else
 		startLevel("intro");
 		#end
