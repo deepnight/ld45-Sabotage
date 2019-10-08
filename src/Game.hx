@@ -181,7 +181,7 @@ class Game extends Process {
 					hxd.System.exit();
 			#end
 
-			if( ca.selectPressed() || ca.startPressed() )
+			if( ca.selectPressed() )
 				restartLevel();
 
 			#if debug
