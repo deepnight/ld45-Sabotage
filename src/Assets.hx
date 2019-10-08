@@ -51,7 +51,7 @@ class Assets {
 
 	static var chan : hxd.snd.Channel;
 	public static function playMusic() {
-		chan = music.play();
+		chan = music.play(true, 0.75);
 	}
 	public static function toggleMusicPause() {
 		chan.pause = !chan.pause;
