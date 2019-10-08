@@ -40,7 +40,7 @@ class Game extends Process {
 			startLevel(level.data.getStr("nextLevel"));
 		else {
 			var ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
-			if( ogmoProj.getLevelName("level"+(level.lid+1))==null )
+			if( ogmoProj.getLevelByName("level"+(level.lid+1))==null )
 				startLevel("level"+level.lid);
 			else
 				startLevel("level"+(level.lid+1));
@@ -67,7 +67,7 @@ class Game extends Process {
 		}
 
 		var ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
-		var data = ogmoProj.getLevelName(name);
+		var data = ogmoProj.getLevelByName(name);
 		// if( data==null && customLevelName!=null )
 		// 	throw "unknown level "+customLevelName;
 		// while( data==null ) {

@@ -26,7 +26,7 @@ class Level extends dn.Process {
 
 		for(cy in 0...hei)
 		for(cx in 0...wid)
-			collMap.set( coordId(cx,cy), data.layersByName.get("collisions").getIntGrid(cx,cy)>=1 );
+			collMap.set( coordId(cx,cy), data.getLayerByName("collisions").getIntGrid(cx,cy)>=1 );
 
 		for(l in data.layersReversed) {
 			var o = new h2d.Object();
@@ -92,7 +92,7 @@ class Level extends dn.Process {
 
 
 	public function getEntityPt(id:String) {
-		for(e in data.layersByName.get("entities").entities)
+		for(e in data.getLayerByName("entities").entities)
 			if( e.name==id )
 				return new CPoint(e.cx, e.cy);
 		return null;
@@ -100,7 +100,7 @@ class Level extends dn.Process {
 
 	public function getEntityPts(id:String) {
 		var a = [];
-		for(e in data.layersByName.get("entities").entities)
+		for(e in data.getLayerByName("entities").entities)
 			if( e.name==id )
 				a.push( new CPoint(e.cx, e.cy) );
 		return a;
@@ -108,7 +108,7 @@ class Level extends dn.Process {
 
 	public function getEntities(id:String) {
 		var a = [];
-		for(e in data.layersByName.get("entities").entities)
+		for(e in data.getLayerByName("entities").entities)
 			if( e.name==id )
 				a.push(e);
 		return a;
@@ -195,19 +195,19 @@ class Level extends dn.Process {
 				for(cx in 0...l.cWid) {
 					if( !hasCollision(cx,cy) )
 						continue;
-					var cid = data.layersByName.get("collisions").getIntGrid(cx,cy);
+					var cid = data.getLayerByName("collisions").getIntGrid(cx,cy);
 					if( cid<=0 )
 						continue;
 					tg.add(
 						cx*Const.GRID, cy*Const.GRID, tile.sub(
-							(data.layersByName.get("collisions").getIntGrid(cx,cy+1)>0?1:0)*Const.GRID,
+							(data.getLayerByName("collisions").getIntGrid(cx,cy+1)>0?1:0)*Const.GRID,
 							(3+cid-1)*Const.GRID,
 							Const.GRID, Const.GRID
 						)
 					);
 
 					// Wall shadows
-					if( cid!=5 && data.layersByName.get("collisions").getIntGrid(cx,cy+1)<=0 )
+					if( cid!=5 && data.getLayerByName("collisions").getIntGrid(cx,cy+1)<=0 )
 						tg.addAlpha( cx*Const.GRID, (cy+1)*Const.GRID, 0.3, tile.sub(irnd(3,5)*Const.GRID, 0, Const.GRID, Const.GRID) );
 				}
 			}
@@ -215,7 +215,7 @@ class Level extends dn.Process {
 		}
 	}
 
-	public function hasRoof(cx,cy) return isValid(cx,cy) && data.layersByName.get("roofs").getTileId(cx,cy)>=0;
+	public function hasRoof(cx,cy) return isValid(cx,cy) && data.getLayerByName("roofs").getTileId(cx,cy)>=0;
 	// public inline function hasRoof(cx,cy) return isValid(cx,cy) && roofBitmaps.exists(coordId(cx,cy));
 	public function hasVisibleRoof(cx,cy) return roofBitmaps.exists(coordId(cx,cy)) && getRoofBitmap(cx,cy).alpha>=0.9;
 	inline function getRoofBitmap(cx,cy) : Null<h2d.Bitmap> return hasRoof(cx,cy) ? roofBitmaps.get(coordId(cx,cy)) : null;
