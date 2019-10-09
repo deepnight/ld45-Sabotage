@@ -110,7 +110,7 @@ class Hero extends Entity {
 		grabbedEnt.spr.rotation = 0;
 		grabbedEnt.cd.setS("grabLock",1);
 		grabbedEnt = null;
-		cd.setS("grabLock",0.5);
+		// cd.setS("grabLock",0.5);
 	}
 
 	function throwGrab() {
@@ -129,7 +129,7 @@ class Hero extends Entity {
 		lockS(0.2);
 		grabbedEnt.stunS(1.2);
 		grabbedEnt.cd.setS("grabLock",1);
-		cd.setS("grabLock",0.5);
+		// cd.setS("grabLock",0.5);
 		throwAngle = getCleverAngle(false, e);
 		cd.setS("throwingItem", getLockS()-0.1);
 	}
@@ -143,7 +143,7 @@ class Hero extends Entity {
 		e.cancelVelocities();
 		grabbedEnt = e;
 		lockS(0.09);
-		cd.setS("grabbingItem", getLockS());
+		cd.setS("grabbingItem", 0.3);
 
 		if( e.is(Mob) )
 			Assets.SFX.grab1(1);
@@ -174,8 +174,12 @@ class Hero extends Entity {
 
 		if( grabbedEnt!=null ) {
 			grabbedEnt.setPosCase(cx,cy,xr,yr);
-			if( cd.has("grabbingItem") )
-				grabbedEnt.setSpriteOffset(dir*10, 1);
+			if( cd.has("grabbingItem") ) {
+				grabbedEnt.setSpriteOffset(dir*4, 1);
+				grabbedEnt.zPriorityOffset = 20;
+				if( !grabbedEnt.cd.hasSetS("blinkGrab",1) )
+					grabbedEnt.blink();
+			}
 			else if( cd.has("throwingItem") ) {
 				grabbedEnt.spr.rotation = 0;
 				grabbedEnt.setSpriteOffset(-dir*4, -8);
@@ -238,7 +242,7 @@ class Hero extends Entity {
 		else
 			dh.keepOnly( function(e) return e.isAlive() && e.is(Mob) );
 		dh.keepOnly( function(e) return e.isAlive() && ( exclude==null || e!=exclude ) && sightCheckEnt(e) && distCase(e)<=8 && !e.isGrabbed() );
-		if( leftPushed )
+		if( leftPushed && !ca.isKeyboard() )
 			dh.remove( function(e) return M.radDistance(leftAng, angTo(e))>1 );
 		dh.score( function(e) return isLookingAt(e) ? 10 : 0 );
 		dh.score( function(e) return e.is(Mob) && e.as(Mob).hasAlarm() ? 3 : 0 );
