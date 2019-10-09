@@ -20,10 +20,10 @@ class Assets {
 		dn.heaps.Sfx.muteGroup(0); // HACK
 		dn.heaps.Sfx.setGroupVolume(0,0.6);
 
-		#if js
-		music = hxd.Res.music.leatherneck;
-		#else
+		#if hl
 		music = hxd.Res.music.leatherneck_hl;
+		#else
+		music = hxd.Res.music.leatherneck;
 		#end
 
 		fontPixel = hxd.Res.fonts.minecraftiaOutline.toFont();
