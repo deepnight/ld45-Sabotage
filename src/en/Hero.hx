@@ -7,6 +7,8 @@ class Hero extends Entity {
 
 	var permaItems : Map<ItemType, Bool> = new Map();
 
+	var ammoBar : Null<h2d.Flow>;
+
 	public function new(x,y) {
 		super(x,y);
 		ca = Main.ME.controller.createAccess("hero");
@@ -18,6 +20,13 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroRun", 1, 0.2, function() return isMoving());
 		spr.anim.registerStateAnim("heroIdleBack", 0, 0.4, function() return cd.has("lookingBack"));
 		spr.anim.registerStateAnim("heroIdle", 0, 0.4);
+
+		ammoBar = new h2d.Flow();
+		game.scroller.add(ammoBar, Const.DP_UI);
+		ammoBar.visible = false;
+		ammoBar.verticalAlign = Middle;
+		ammoBar.horizontalSpacing = 1;
+		ammoBar.verticalAlign = Middle;
 
 		initLife(3);
 	}
@@ -78,7 +87,12 @@ class Hero extends Entity {
 
 	public inline function isGrabbing<T:Entity>(c:Class<T>) return grabbedEnt!=null && grabbedEnt.isAlive() && Std.is(grabbedEnt, c);
 	public inline function isGrabbingItem(k:ItemType) return isGrabbing(en.Item) && grabbedEnt.as(Item).item==k;
-	public inline function consumeItemUse() if( isGrabbing(en.Item) ) grabbedEnt.as(Item).consumeUse();
+	public inline function consumeItemUse() {
+		if( isGrabbing(en.Item) ) {
+			grabbedEnt.as(Item).consumeUse();
+			updateAmmo();
+		}
+	}
 
 	function releaseGrab() {
 		if( grabbedEnt==null )
@@ -136,8 +150,23 @@ class Hero extends Entity {
 		else
 			Assets.SFX.grab4(1);
 
-		if( e.is(Item) )
-			e.as(Item).onGrab();
+		if( e.is(Item) ) {
+			var i = e.as(Item);
+			i.onGrab();
+			updateAmmo();
+		}
+	}
+
+	function updateAmmo() {
+		if( !isGrabbing(Item) )
+			return;
+		var i = grabbedEnt.as(Item);
+		ammoBar.removeChildren();
+		for(n in 0...i.maxUses) {
+			var a = Assets.tiles.h_get("pixel", ammoBar);
+			a.alpha = n+1<=i.uses ? 1 : 0.2;
+			a.scaleY = 2;
+		}
 	}
 
 	override function postUpdate() {
@@ -190,6 +219,11 @@ class Hero extends Entity {
 			}
 			grabbedEnt.postUpdate();
 		}
+
+		ammoBar.x = Std.int( spr.x - ammoBar.outerWidth*0.5 );
+		ammoBar.y = Std.int( spr.y - hei - ammoBar.outerHeight );
+		ammoBar.visible = grabbedEnt!=null && grabbedEnt.is(Item) && grabbedEnt.as(Item).maxUses>1;
+
 	}
 
 	function getCleverAngle(forEnemy:Bool, ?exclude:Entity) {

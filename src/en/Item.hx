@@ -4,7 +4,8 @@ class Item extends Entity {
 	public static var ALL : Array<Item> = [];
 	public var item : ItemType;
 
-	public var maxUses : Int;
+	public var uses : Int;
+	public var maxUses(default,null) : Int;
 
 	public function new(x,y,i:ItemType) {
 		super(x,y);
@@ -14,7 +15,7 @@ class Item extends Entity {
 
 		cd.setS("autoPickLock", 0.3);
 
-		maxUses = switch i {
+		maxUses = uses = switch i {
 			case Barrel: 1;
 			case ItchIo: 1;
 			case Grenade: 1;
@@ -51,7 +52,7 @@ class Item extends Entity {
 	}
 
 	public function canUse() return isAlive() && isGrabbed() && !isDepleted();
-	public function isDepleted() return maxUses<=0;
+	public function isDepleted() return uses<=0;
 
 	public function onGrab() {
 		if( item==ItchIo )
@@ -64,8 +65,8 @@ class Item extends Entity {
 	}
 
 	public function consumeUse() {
-		maxUses--;
-		if( maxUses<=0 ) {
+		uses--;
+		if( uses<=0 ) {
 			cd.setS("grabLock",Const.INFINITE);
 			switch item {
 				case Barrel, Grenade: trigger(1);
@@ -92,7 +93,7 @@ class Item extends Entity {
 
 	public function trigger(sec:Float) {
 		cd.setS("trigger", sec);
-		maxUses = 0;
+		uses = 0;
 	}
 
 	override function onZLand() {
