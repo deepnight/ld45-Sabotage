@@ -35,6 +35,8 @@ class Cadaver extends Entity {
 		super.postUpdate();
 		if( !cd.has("landed") )
 			fx.bloodTail(this, M.sign(dxTotal));
+		else
+			spr.alpha += ( 0.33 - spr.alpha ) * 0.006;
 	}
 
 	override function update() {
