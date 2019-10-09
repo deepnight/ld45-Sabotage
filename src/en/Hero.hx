@@ -44,6 +44,7 @@ class Hero extends Entity {
 			case _:
 		}
 		permaItems.set(k,true);
+		game.hud.invalidate();
 	}
 	public function hasPermaItem(k) return permaItems.get(k)==true;
 

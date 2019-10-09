@@ -9,6 +9,7 @@ class Game extends Process {
 	public var camera : Camera;
 	public var scroller : h2d.Layers;
 	public var level : Level;
+	public var hud : ui.Hud;
 
 	public var hero : en.Hero;
 
@@ -25,6 +26,7 @@ class Game extends Process {
 
 		camera = new Camera();
 		fx = new Fx();
+		hud = new ui.Hud();
 
 		#if debug
 		startLevel("test");
@@ -87,6 +89,7 @@ class Game extends Process {
 		if( level.lid>=0 )
 			bigText("Level "+(level.lid+1));
 		cd.unset("levelDone");
+		hud.invalidate();
 	}
 
 	public function onCdbReload() {
