@@ -3,6 +3,7 @@
   "height": 240,
   "offsetX": 0,
   "offsetY": 0,
+  "values": {"nextLevel": ""},
   "layers": [
     {
       "name": "entities",
@@ -31,7 +32,11 @@
           "y": 96,
           "originX": 0,
           "originY": 0,
-          "values": {"str": "Thanks for playing!", "color": "#ffcc00ff"}
+          "values": {
+            "str": "Thanks for playing!",
+            "color": "#ffcc00ff",
+            "bg": ""
+          }
         },
         {
           "name": "text",
@@ -43,7 +48,8 @@
           "originY": 0,
           "values": {
             "str": "More games on www.deepnight.net",
-            "color": "#74809dff"
+            "color": "#74809dff",
+            "bg": ""
           }
         },
         {
@@ -55,8 +61,9 @@
           "originX": 0,
           "originY": 0,
           "values": {
-            "str": "A game made in 48h for Ludum Dare 45",
-            "color": "#74809dff"
+            "str": "A game made in 72h for Ludum Dare 45",
+            "color": "#74809dff",
+            "bg": ""
           }
         },
         {
@@ -69,7 +76,8 @@
           "originY": 0,
           "values": {
             "str": "It's a bit short, but I ran out of time :)",
-            "color": "#74809dff"
+            "color": "#74809dff",
+            "bg": ""
           }
         },
         {
