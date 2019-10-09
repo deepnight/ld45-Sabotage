@@ -60,9 +60,16 @@ btA
   orig: 13, 16
   offset: 0, 0
   index: -1
-btX
+btB
   rotate: false
   xy: 48, 352
+  size: 13, 14
+  orig: 13, 16
+  offset: 0, 0
+  index: -1
+btX
+  rotate: false
+  xy: 16, 353
   size: 13, 14
   orig: 13, 16
   offset: 0, 0
@@ -391,7 +398,7 @@ fxSmoke0
   index: -1
 fxSweat0
   rotate: false
-  xy: 16, 353
+  xy: 1, 363
   size: 13, 11
   orig: 16, 16
   offset: 1, 2
@@ -433,7 +440,7 @@ guardDead0
   index: -1
 guardDead1
   rotate: false
-  xy: 230, 22
+  xy: 230, 42
   size: 23, 7
   orig: 23, 16
   offset: 0, 0
@@ -734,7 +741,7 @@ heroUseGun0
   index: -1
 ItchIo
   rotate: false
-  xy: 230, 1
+  xy: 230, 21
   size: 23, 19
   orig: 23, 19
   offset: 0, 0
@@ -762,16 +769,16 @@ parachute
   index: -1
 pixel
   rotate: false
-  xy: 253, 31
+  xy: 252, 66
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 shortKey
   rotate: false
-  xy: 230, 31
-  size: 21, 18
-  orig: 21, 18
+  xy: 230, 1
+  size: 25, 18
+  orig: 25, 18
   offset: 0, 0
   index: -1
 SilverKey
@@ -839,7 +846,7 @@ stun3
   index: -1
 stun4
   rotate: false
-  xy: 1, 363
+  xy: 31, 368
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
