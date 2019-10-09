@@ -18,8 +18,6 @@ class Title extends dn.Process {
 		img = new h2d.Bitmap(hxd.Res.title.toTile(), root);
 
 		cd.setS("lock",0.2);
-		Boot.ME.s2d.addEventListener( onEvent );
-		// blink = new h2d.Bitmap(h2d.Tile.fromColor(0xffcc00) root);
 		color = new h3d.Vector();
 		color.setColor(0xe5ae00);
 		img.colorAdd = color;
@@ -49,7 +47,6 @@ class Title extends dn.Process {
 
 	override function onDispose() {
 		super.onDispose();
-		Boot.ME.s2d.removeEventListener(onEvent);
 		ca.dispose();
 	}
 
@@ -59,19 +56,6 @@ class Title extends dn.Process {
 			return;
 		color.setColor(0xffcc44);
 		done = true;
-	}
-
-	function onEvent(e:hxd.Event) {
-		if( destroyed || cd.has("lock") )
-			return;
-
-		switch e.kind {
-			// case EPush: skip();
-			// case ERelease: skip();
-			case EKeyDown: skip();
-			case EKeyUp: skip();
-			case _:
-		}
 	}
 
 	override function onResize() {
@@ -120,6 +104,9 @@ class Title extends dn.Process {
 
 		if( !cd.has("lock") ) {
 			if( ca.isKeyboardPressed(hxd.Key.ESCAPE) )
+				hxd.System.exit();
+
+			if( ca.isKeyboardPressed(hxd.Key.ENTER) )
 				hxd.System.exit();
 
 			if( ca.aPressed() || ca.bPressed() || ca.xPressed() || ca.yPressed()
