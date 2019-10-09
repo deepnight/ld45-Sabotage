@@ -206,6 +206,7 @@ class Mob extends Entity {
 		if( cd.has("violentThrow") ) {
 			// hit(1);
 			stunS(4);
+			showLifeChange();
 			blink();
 			mulVelocities(0.33);
 			bump(-wallDirX*0.12, -wallDirY*0.12, 0.1);
@@ -215,6 +216,7 @@ class Mob extends Entity {
 		if( cd.has("punched") ) {
 			// hit(1);
 			stunS(2);
+			showLifeChange();
 			blink();
 			mulVelocities(0.33);
 			bump(-wallDirX*0.04, -wallDirY*0.04, 0.1);
@@ -248,7 +250,9 @@ class Mob extends Entity {
 				if( e!=this && e.isAlive() && distCase(e)<=1.3 && !e.cd.has("touchLock") ) {
 					bumpAwayFrom(e, 0.25, 0.1);
 					e.bumpAwayFrom(this, 0.25, 0.1);
+					showLifeChange();
 					stunS(3);
+					e.showLifeChange();
 					e.stunS(3);
 					// e.hit(e, 1);
 					e.triggerAlarm();

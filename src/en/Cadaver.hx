@@ -14,7 +14,7 @@ class Cadaver extends Entity {
 
 		initLife(e.maxLife);
 		life = 0;
-		showLifeChange();
+		showLifeChange(e.maxLife);
 
 		var a = e.lastHitAng;
 		if( e.lastHitSource!=null )
