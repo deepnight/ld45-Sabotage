@@ -30,6 +30,12 @@ class Bullet extends Entity {
 			&& footY>=e.headY+2-extraBounds && footY<=e.footY+extraBounds;
 	}
 
+	override function postUpdate() {
+		super.postUpdate();
+		if( !cd.hasSetS("tail",0.02) )
+			fx.tail(this, source.is(Hero) ? 0x2266ff : 0xff0000, 0.3, source.is(Hero) ? 0.2 : 0.4, 1, -3);
+	}
+
 	override function update() {
 		super.update();
 		if( level.hasCollision(cx,cy) ) {

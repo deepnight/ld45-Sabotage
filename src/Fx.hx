@@ -366,6 +366,19 @@ class Fx extends dn.Process {
 		p.frict = 0.96;
 	}
 
+	public function tail(e:Entity, c:UInt, ?alpha=0.4, ?durationS=0.03, ?thick=1.0, ?offY=0.) {
+		var a = Math.atan2(e.footY-e.lastFootY, e.footX-e.lastFootX);
+		var d = M.dist(e.footX, e.footY+offY, e.lastFootX, e.lastFootY+offY);
+		var p = allocBgAdd(getTile("fxLine"), e.lastFootX, e.lastFootY+offY);
+		p.setFadeS(0.6*alpha, 0, durationS);
+		p.colorize(c);
+		p.setCenterRatio(0.5,0.5);
+		p.scaleX = 2*d / (p.t.width-10);
+		p.scaleY = thick;
+		p.rotation = a;
+		p.lifeS = 0;
+	}
+
 	public function bloodTail(e:Entity, dir:Int) {
 		var x = e.spr.x;
 		var y = e.spr.y;

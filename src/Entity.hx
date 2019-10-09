@@ -53,6 +53,8 @@ class Entity {
 	var lastHitSource : Null<Entity>;
 	var lastHitAng(get,never) : Float;
 	var lastHitDir(get,never) : Int;
+	public var lastFootX : Float;
+	public var lastFootY : Float;
 
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
@@ -190,6 +192,8 @@ class Entity {
 		cy = y;
 		this.xr = xr;
 		this.yr = yr;
+		lastFootX = footX;
+		lastFootY = footY;
 	}
 
 	public function setPosPixel(x:Float, y:Float) {
@@ -197,6 +201,8 @@ class Entity {
 		cy = Std.int(y/Const.GRID);
 		xr = (x-cx*Const.GRID)/Const.GRID;
 		yr = (y-cy*Const.GRID)/Const.GRID;
+		lastFootX = footX;
+		lastFootY = footY;
 	}
 
 	public inline function bumpAwayFrom(e:Entity, spd:Float, ?spdZ=0., ?ignoreReduction=false) {
@@ -384,6 +390,11 @@ class Entity {
 			debugLabel.y = Std.int(footY+1);
 		}
     }
+
+	public function frameEnd() {
+		lastFootX = footX;
+		lastFootY = footY;
+	}
 
 	function onTouchWall(wallDirX:Int, wallDirY:Int) {}
 	function onZLand() {}

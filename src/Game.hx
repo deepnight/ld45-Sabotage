@@ -138,6 +138,7 @@ class Game extends Process {
 			e.zOver();
 			e.postUpdate();
 		}
+		for(e in Entity.ALL) if( !e.destroyed ) e.frameEnd();
 		gc();
 
 		// Victory check
