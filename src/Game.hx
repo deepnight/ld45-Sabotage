@@ -165,9 +165,9 @@ class Game extends Process {
 
 		if( !ui.Console.ME.isActive() && !ui.Modal.hasAny() ) {
 			// Exit
-			if( ca.isKeyboardPressed(Key.ESCAPE) )
+			if( ca.isKeyboardPressed(Key.X) )
 				if( !cd.hasSetS("exitWarn",3) )
-					trace(Lang.t._("Press ESCAPE again to exit."));
+					trace(Lang.t._("Press X again to exit."));
 				else {
 					#if( debug && hl )
 					hxd.System.exit();
