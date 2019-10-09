@@ -135,8 +135,8 @@ class Item extends Entity {
 
 	function onTrigger() {
 		switch item {
-			case Barrel: explosion(6,4); Assets.SFX.explode2(1); destroy();
-			case Grenade: explosion(4,3); Assets.SFX.explode0(1); destroy();
+			case Barrel: explosion(6,11); Assets.SFX.explode2(1); destroy();
+			case Grenade: explosion(4,9); Assets.SFX.explode0(1); destroy();
 			case ItchIo: explosion(5,99); Assets.SFX.explode0(1); destroy();
 			case _:
 		}

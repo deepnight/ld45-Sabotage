@@ -5,7 +5,7 @@ class Turret extends en.Mob {
 
 	public function new(data) {
 		super(data);
-		initLife(5);
+		initLife(12);
 		armor = true;
 		bumpReduction = 1.0;
 		spr.setCenterRatio(0.5,0.5);

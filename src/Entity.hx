@@ -103,6 +103,8 @@ class Entity {
 		lifeBar.removeChildren();
 		for(i in 0...maxLife)
 			Assets.tiles.getBitmap(i+1<=life ? "heartOn" : i+1<=life+loss ? "heartLoss" : "heartOff", lifeBar);
+
+		lifeBar.horizontalSpacing = maxLife>=7 ? -4 : 0;
 	}
 
 	public function heal(v) {
