@@ -19,7 +19,7 @@ class Item extends Entity {
 			case Barrel: 1;
 			case ItchIo: 1;
 			case Grenade: 1;
-			case Gun: 4;
+			case Gun: 12;
 			case Knife: 4;
 			case SilverKey: 1;
 			case GoldKey: 1;
