@@ -82,6 +82,7 @@ class Hero extends Entity {
 
 	override function dispose() {
 		super.dispose();
+		ammoBar.remove();
 		releaseGrab();
 		ca.dispose();
 	}
@@ -328,7 +329,7 @@ class Hero extends Entity {
 							var a = getCleverAngle(false);
 							new Bullet(this, a, 2);
 							cd.setS("usingGun", 0.2);
-							lockS(0.2);
+							lockS(0.1);
 							game.camera.shakeS(0.1, 0.3);
 							consumeItemUse();
 							Assets.SFX.throw0(1);
