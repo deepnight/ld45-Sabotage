@@ -211,6 +211,7 @@
             <key type="filename">export_tiles/doorSilverH.png</key>
             <key type="filename">export_tiles/exit.png</key>
             <key type="filename">export_tiles/fxCircle.png</key>
+            <key type="filename">export_tiles/fxPick.png</key>
             <key type="filename">export_tiles/fxSweat0.png</key>
             <key type="filename">export_tiles/fxSweat1.png</key>
             <key type="filename">export_tiles/fxSweat2.png</key>
@@ -303,6 +304,7 @@
                 <false/>
             </struct>
             <key type="filename">export_tiles/btA.png</key>
+            <key type="filename">export_tiles/btB.png</key>
             <key type="filename">export_tiles/btX.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
