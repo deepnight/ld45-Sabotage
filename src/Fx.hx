@@ -287,6 +287,19 @@ class Fx extends dn.Process {
 			p.dr = rnd(0,0.02,true);
 			p.lifeS = rnd(1.3,1.4);
 		}
+
+		// Icon
+		var p = allocBgAdd(getTile("fxPick"), e.centerX, e.centerY);
+		p.colorize(0xffcc00);
+		p.setFadeS(1, 0, 0.5);
+		p.dy = -3;
+		p.frict = 0.85;
+
+		var p = allocTopNormal(e.spr.tile, e.centerX, e.centerY);
+		p.setFadeS(1, 0, 0.5);
+		p.dy = -3;
+		p.frict = 0.85;
+
 	}
 
 	public function openDoor(e:en.Door) {

@@ -103,24 +103,44 @@
           "values": {"patrol": "right", "loot": "", "static": "true"}
         },
         {
-          "name": "text",
-          "id": 16,
-          "_eid": "40081262",
-          "x": 96,
-          "y": 96,
-          "originX": 0,
-          "originY": 0,
-          "values": {"str": "A", "color": "#ffffffff", "bg": "btA"}
+          "name": "item",
+          "id": 18,
+          "_eid": "29646116",
+          "x": 32,
+          "y": 112,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "GoldKey"}
         },
         {
-          "name": "text",
-          "id": 17,
-          "_eid": "40081262",
+          "name": "item",
+          "id": 19,
+          "_eid": "29646116",
+          "x": 48,
+          "y": 80,
+          "originX": -4,
+          "originY": -4,
+          "values": {"type": "SilverKey"}
+        },
+        {
+          "name": "door",
+          "id": 20,
+          "_eid": "37529914",
           "x": 64,
           "y": 64,
           "originX": 0,
           "originY": 0,
-          "values": {"str": "Space", "color": "#ffffffff", "bg": "longKey"}
+          "values": {"color": "gold"}
+        },
+        {
+          "name": "door",
+          "id": 21,
+          "_eid": "37529914",
+          "x": 96,
+          "y": 96,
+          "originX": 0,
+          "originY": 0,
+          "values": {"color": "silver"}
         }
       ]
     },
@@ -215,12 +235,12 @@
         "0",
         "1",
         "1",
+        "2",
+        "2",
+        "2",
         "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
+        "2",
+        "2",
         "0",
         "0",
         "0",
@@ -240,7 +260,7 @@
         "0",
         "0",
         "0",
-        "0",
+        "2",
         "0",
         "0",
         "0",
