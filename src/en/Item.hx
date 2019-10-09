@@ -12,6 +12,8 @@ class Item extends Entity {
 		item = i;
 		spr.set(item.getName());
 
+		cd.setS("autoPickLock", 0.3);
+
 		maxUses = switch i {
 			case Barrel: 1;
 			case ItchIo: 1;
@@ -39,17 +41,15 @@ class Item extends Entity {
 
 	public function getSpeedReductionOnGrab() : Float {
 		return switch item {
-			case Barrel: 1;
+			case Barrel: 0.66;
 			case _: 0.;
 		}
 	}
 
 	override function canBeGrabbed():Bool {
-		return isAlive() && !isGrabbed() && !isDepleted() && !cd.has("grabLock");
+		return isAlive() && !isGrabbed() && !isDepleted() && !cd.has("grabLock") && !isPermaItem();
 	}
 
-	public function canGrab(){
-	}
 	public function canUse() return isAlive() && isGrabbed() && !isDepleted();
 	public function isDepleted() return maxUses<=0;
 

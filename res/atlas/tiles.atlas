@@ -55,14 +55,14 @@ bird5
   index: -1
 btA
   rotate: false
-  xy: 48, 342
+  xy: 33, 352
   size: 13, 14
   orig: 13, 16
   offset: 0, 0
   index: -1
 btX
   rotate: false
-  xy: 63, 351
+  xy: 48, 352
   size: 13, 14
   orig: 13, 16
   offset: 0, 0
@@ -361,6 +361,13 @@ fxNova0
   orig: 128, 128
   offset: 0, 0
   index: -1
+fxPick
+  rotate: false
+  xy: 81, 305
+  size: 14, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
 fxQuestion0
   rotate: false
   xy: 37, 283
@@ -384,7 +391,7 @@ fxSmoke0
   index: -1
 fxSweat0
   rotate: false
-  xy: 16, 354
+  xy: 16, 353
   size: 13, 11
   orig: 16, 16
   offset: 1, 2
@@ -398,7 +405,7 @@ fxSweat1
   index: -1
 fxSweat2
   rotate: false
-  xy: 96, 331
+  xy: 36, 322
   size: 14, 10
   orig: 16, 16
   offset: 0, 2
@@ -433,14 +440,14 @@ guardDead1
   index: -1
 guardGrabbed0
   rotate: false
-  xy: 1, 346
+  xy: 18, 336
   size: 13, 15
   orig: 16, 16
   offset: 1, 0
   index: -1
 guardGrabbed1
   rotate: false
-  xy: 33, 340
+  xy: 1, 346
   size: 13, 15
   orig: 16, 16
   offset: 1, 0
@@ -461,7 +468,7 @@ guardHit1
   index: -1
 guardHit2
   rotate: false
-  xy: 81, 305
+  xy: 64, 316
   size: 14, 15
   orig: 16, 16
   offset: 1, 0
@@ -489,7 +496,7 @@ guardRun1
   index: -1
 guardRun2
   rotate: false
-  xy: 64, 316
+  xy: 97, 314
   size: 14, 15
   orig: 16, 16
   offset: 0, 1
@@ -510,14 +517,14 @@ guardShoot1
   index: -1
 guardShootDown0
   rotate: false
-  xy: 36, 322
+  xy: 36, 334
   size: 13, 16
   orig: 16, 16
   offset: 2, 0
   index: -1
 guardShootDown1
   rotate: false
-  xy: 63, 333
+  xy: 64, 333
   size: 13, 16
   orig: 16, 16
   offset: 2, 0
@@ -538,7 +545,7 @@ guardWalk1
   index: -1
 guardWalk2
   rotate: false
-  xy: 78, 339
+  xy: 79, 339
   size: 13, 16
   orig: 16, 16
   offset: 0, 0
@@ -580,7 +587,7 @@ heartOn
   index: -1
 heroDead0
   rotate: false
-  xy: 97, 314
+  xy: 80, 322
   size: 14, 15
   orig: 16, 16
   offset: 1, 0
@@ -615,7 +622,7 @@ heroGlide2
   index: -1
 heroGrab0
   rotate: false
-  xy: 80, 322
+  xy: 121, 321
   size: 14, 15
   orig: 16, 16
   offset: 2, 0
@@ -692,7 +699,7 @@ heroRun0
   index: -1
 heroRun1
   rotate: false
-  xy: 18, 336
+  xy: 63, 351
   size: 13, 16
   orig: 16, 16
   offset: 2, 0
@@ -713,7 +720,7 @@ heroThrow0
   index: -1
 heroThrow1
   rotate: false
-  xy: 121, 321
+  xy: 96, 331
   size: 14, 15
   orig: 16, 16
   offset: 2, 0
@@ -811,28 +818,28 @@ stun0
   index: -1
 stun1
   rotate: false
-  xy: 51, 322
+  xy: 52, 322
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
   index: -1
 stun2
   rotate: false
-  xy: 51, 332
+  xy: 52, 332
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
   index: -1
 stun3
   rotate: false
-  xy: 1, 363
+  xy: 51, 342
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
   index: -1
 stun4
   rotate: false
-  xy: 31, 357
+  xy: 1, 363
   size: 10, 8
   orig: 10, 8
   offset: 0, 0

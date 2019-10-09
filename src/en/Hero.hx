@@ -250,29 +250,30 @@ class Hero extends Entity {
 				dy *= Math.pow(0.6,tmod);
 			}
 
+			// Auto pick perma items
+			for(e in Item.ALL)
+				if( e.isAlive() && e.isPermaItem() && !e.cd.has("autoPickLock") && distCase(e)<=1 && sightCheckEnt(e) ) {
+					var e = e.as(Item);
+					addPermaItem(e.item);
+					fx.pickPerma(e, e.item==Heal ? 0x1cdb83 : 0x2b5997);
+					e.destroy();
+				}
+
 			// Grab item/mob
-			if( ca.aPressed() && !cd.has("grabLock") ) {
+			if( ca.aPressed() && !cd.has("grabLock") && grabbedEnt==null ) {
 				var dh = new dn.DecisionHelper(Entity.ALL);
 				dh.keepOnly( function(e) return e.canBeGrabbed() && distCase(e)<=Const.GRAB_REACH && sightCheckEnt(e) );
 				dh.score( function(e) return -distCase(e) );
 				dh.score( function(e) return e.is(Item) ? 1 : 0 );
 				var e = dh.getBest();
-				if( e!=null ) {
-					if( e.is(Item) && e.as(Item).isPermaItem() ) {
-						var e = e.as(Item);
-						addPermaItem(e.item);
-						fx.pickPerma(e, e.item==Heal ? 0x1cdb83 : 0x2b5997);
-						e.destroy();
-					}
-					else
-						grab(e);
-				}
+				if( e!=null )
+					grab(e);
 				else {
 					spr.anim.play("heroGrab").setSpeed(0.2);
 					lockS(0.06);
 				}
 			}
-			else if( ca.xPressed() && grabbedEnt!=null ) {
+			else if( ca.aPressed() && grabbedEnt!=null ) {
 				// Use item
 				if( isGrabbing(Item) && grabbedEnt.as(Item).canUse() ) {
 					var i = grabbedEnt.as(Item);
@@ -332,29 +333,29 @@ class Hero extends Entity {
 
 
 			// Melee punch
-			if( ca.xPressed() && grabbedEnt==null && !cd.has("punch") ) {
-				lockS(0.2);
-				spr.anim.play("heroPunch").setSpeed(0.4);
-				for(e in Mob.ALL) {
-					if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
-						dir = dirTo(e);
-						bump(dir*0.02, 0, 0);
-						e.blink(0xffffff);
-						var a = getCleverAngle(true, e);
-						e.stunS(1.1);
-						e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.05);
-						e.cd.setS("punched",0.4);
-						e.onPunch();
-						game.camera.shakeS(0.2, 0.2);
-					}
-				}
-				for(e in Item.ALL) {
-					if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
-						e.bumpAwayFrom(this, 0.1);
-						e.onPunch(false);
-					}
-				}
-			}
+			// if( ca.aPressed() && grabbedEnt==null && !cd.has("punch") ) {
+			// 	lockS(0.2);
+			// 	spr.anim.play("heroPunch").setSpeed(0.4);
+			// 	for(e in Mob.ALL) {
+			// 		if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
+			// 			dir = dirTo(e);
+			// 			bump(dir*0.02, 0, 0);
+			// 			e.blink(0xffffff);
+			// 			var a = getCleverAngle(true, e);
+			// 			e.stunS(1.1);
+			// 			e.bump(Math.cos(a)*0.4, Math.sin(a)*0.2, 0.05);
+			// 			e.cd.setS("punched",0.4);
+			// 			e.onPunch();
+			// 			game.camera.shakeS(0.2, 0.2);
+			// 		}
+			// 	}
+			// 	for(e in Item.ALL) {
+			// 		if( e.isAlive() && distCase(e)<=Const.MELEE_REACH && sightCheckEnt(e) ) {
+			// 			e.bumpAwayFrom(this, 0.1);
+			// 			e.onPunch(false);
+			// 		}
+			// 	}
+			// }
 
 			#if debug
 			if( ca.dpadUpPressed() ) {
