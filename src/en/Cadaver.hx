@@ -12,6 +12,10 @@ class Cadaver extends Entity {
 		spr.set(sprId,0);
 		dir = -e.lastHitDir;
 
+		initLife(e.maxLife);
+		life = 0;
+		showLifeChange();
+
 		var a = e.lastHitAng;
 		if( e.lastHitSource!=null )
 			bump(Math.cos(a)*rnd(0.2,0.3), Math.sin(a)*0.2, rnd(0.11,0.15));
