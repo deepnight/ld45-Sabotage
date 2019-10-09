@@ -63,6 +63,8 @@ class Main extends dn.Process {
 		// Start
 		new dn.heaps.GameFocusHelper(Boot.ME.s2d, Assets.fontMedium);
 		delayer.addF( start, 1 );
+
+		Lib.enableFullscreen(this, true);
 	}
 
 	function start() {
