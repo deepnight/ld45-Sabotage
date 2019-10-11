@@ -28,11 +28,7 @@ class Game extends Process {
 		fx = new Fx();
 		hud = new ui.Hud();
 
-		#if debug
-		startLevel("test");
-		#else
 		startLevel("intro");
-		#end
 	}
 
 	public function nextLevel() {
@@ -194,6 +190,9 @@ class Game extends Process {
 
 			if( ca.isKeyboardPressed(Key.G) )
 				Main.ME.startGame();
+
+			if( ca.isKeyboardPressed(Key.T) )
+				startLevel("test");
 			#end
 		}
 	}
