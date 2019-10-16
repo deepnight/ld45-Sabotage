@@ -5,6 +5,7 @@ class Main extends dn.Process {
 	public static var ME : Main;
 	public var controller : dn.heaps.Controller;
 	public var ca : dn.heaps.Controller.ControllerAccess;
+	var overlay : dn.heaps.OverlayTextureFilter;
 
 	public function new(s:h2d.Scene) {
 		super();
@@ -48,6 +49,12 @@ class Main extends dn.Process {
 
 		// Console
 		new ui.Console(Assets.fontTiny, s);
+
+		// Game filter
+		overlay = new dn.heaps.OverlayTextureFilter();
+		Boot.ME.s2d.filter = overlay;
+		overlay.alpha = 0.3;
+		overlay.bevelType = Soft;
 
 		// Game controller
 		controller = new dn.heaps.Controller(s);
@@ -98,6 +105,8 @@ class Main extends dn.Process {
 		else if( Const.AUTO_SCALE_TARGET_HEI>0 )
 			Const.SCALE = M.floor( h()/Const.AUTO_SCALE_TARGET_HEI );
 		root.setScale(Const.SCALE);
+
+		overlay.bevelSize = Std.int( Const.SCALE );
 	}
 
     override function update() {
