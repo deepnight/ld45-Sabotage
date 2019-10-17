@@ -49,11 +49,20 @@ class Assets {
 		tiles.defineAnim("bird", "0(2), 1(2), 2(4), 4(2), 3(6), 5(1)");
 	}
 
-	static var chan : hxd.snd.Channel;
+	static var chan : Null<hxd.snd.Channel>;
 	public static function playMusic() {
 		chan = music.play(true, 0.75);
 	}
+	public static function stopMusic() {
+		if( chan!=null ) {
+			chan.stop();
+			chan = null;
+		}
+	}
 	public static function toggleMusicPause() {
-		chan.pause = !chan.pause;
+		if( chan!=null )
+			stopMusic();
+		else
+			playMusic();
 	}
 }
