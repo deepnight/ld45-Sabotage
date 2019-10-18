@@ -53,12 +53,6 @@ class Assets {
 	public static function playMusic() {
 		music.play(true);
 	}
-	public static function stopMusic() {
-		if( chan!=null ) {
-			chan.stop();
-			chan = null;
-		}
-	}
 	public static function toggleMusicPause() {
 		music.togglePlay(true);
 	}
