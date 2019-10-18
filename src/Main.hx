@@ -76,14 +76,14 @@ class Main extends dn.Process {
 	function start() {
 		// Music
 		#if !debug
-		// Assets.playMusic(); // HACK
+		Assets.playMusic();
 		#end
 
-		// #if debug
+		#if debug
 		startGame();
-		// #else
-		// new Title();
-		// #end
+		#else
+		new Title();
+		#end
 	}
 
 	public function startGame() {
