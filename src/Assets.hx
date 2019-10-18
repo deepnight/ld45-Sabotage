@@ -9,7 +9,7 @@ class Assets {
 	public static var fontMedium : h2d.Font;
 	public static var fontLarge : h2d.Font;
 	public static var tiles : SpriteLib;
-	static var music : hxd.res.Sound;
+	static var music : dn.heaps.Sfx;
 
 	static var initDone = false;
 	public static function init() {
@@ -21,10 +21,14 @@ class Assets {
 		dn.heaps.Sfx.setGroupVolume(0,0.6);
 
 		#if js
-		music = hxd.Res.music.leatherneck;
+		music = new dn.heaps.Sfx(hxd.Res.music.leatherneck_js);
+		// music = hxd.Res.music.leatherneck;
 		#else
-		music = hxd.Res.music.leatherneck_hl;
+		music = new dn.heaps.Sfx(hxd.Res.music.leatherneck_hl);
+		// music = hxd.Res.music.leatherneck_hl;
 		#end
+		music.groupId = 1;
+		// dn.heaps.Sfx.setGroupVolume(1, 0.8);
 
 		fontPixel = hxd.Res.fonts.minecraftiaOutline.toFont();
 		fontTiny = hxd.Res.fonts.barlow_condensed_medium_regular_9.toFont();
@@ -49,11 +53,10 @@ class Assets {
 		tiles.defineAnim("bird", "0(2), 1(2), 2(4), 4(2), 3(6), 5(1)");
 	}
 
-	static var chan : hxd.snd.Channel;
 	public static function playMusic() {
-		chan = music.play(true, 0.75);
+		music.play(true);
 	}
 	public static function toggleMusicPause() {
-		chan.pause = !chan.pause;
+		music.togglePlay(true);
 	}
 }
