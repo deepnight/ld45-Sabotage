@@ -13,7 +13,7 @@ class Main extends dn.Process {
 
         createRoot(s);
         root.filter = new h2d.filter.ColorMatrix(); // force rendering for pixel perfect
-		Lib.fixKeyPropagationBugJs();
+		Lib.preventBrowserGameKeyEvents();
 
 		// Engine settings
 		hxd.Timer.wantedFPS = Const.FPS;
@@ -76,14 +76,14 @@ class Main extends dn.Process {
 	function start() {
 		// Music
 		#if !debug
-		Assets.playMusic();
+		// Assets.playMusic(); // HACK
 		#end
 
-		#if debug
+		// #if debug
 		startGame();
-		#else
-		new Title();
-		#end
+		// #else
+		// new Title();
+		// #end
 	}
 
 	public function startGame() {
