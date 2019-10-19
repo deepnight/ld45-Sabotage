@@ -25,13 +25,19 @@
 	<body id="body">
 		<iframe id="frame" frameborder="0" scrolling="no" src="redist.js/index.html" allow="fullscreen" allowfullscreen="true"></iframe>
 
+		<button id="fs">Fullscreen</button>
+
 		<div class="filler">
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dictum risus lorem, vel efficitur mi sodales vitae. Etiam mollis finibus sapien, vel posuere velit iaculis id. Quisque laoreet tristique auctor. Cras et hendrerit orci. Proin metus ante, ultrices eget justo a, iaculis ultrices augue. Nullam lorem sem, imperdiet a varius in, fringilla et ex. Aenean porttitor nec risus vitae vehicula. In aliquam volutpat sapien vitae gravida. Sed ullamcorper, sem eu tincidunt luctus, erat urna posuere ipsum, ut dictum mi erat at quam. Curabitur et vestibulum orci, non cursus augue. Proin semper, ante sed gravida volutpat, ex nunc condimentum dolor, a egestas augue magna eu massa. Ut ultricies ante eu lorem feugiat ullamcorper. Praesent scelerisque feugiat lectus vel egestas. </p>
 			<p>Nulla elementum est nec est semper pellentesque. Fusce accumsan enim non pretium cursus. Fusce eu sapien sit amet felis pharetra posuere. Aenean luctus sodales nisl, pellentesque fringilla nisl lobortis eu. In ligula lorem, sagittis eget nisl sed, pellentesque pretium nulla. Nullam at commodo tortor. Nulla malesuada quis elit nec rutrum. Phasellus vitae eleifend nunc. Donec non vehicula purus. Morbi tincidunt felis in neque dictum, ac scelerisque ipsum sodales. Cras ac purus mi. </p>
 		</div>
 
 		<script type="text/javascript">
-			var e = document.getElementById("frame");
+			var frame = document.getElementById("frame");
+			var bt = document.getElementById("fs");
+			bt.addEventListener("click", function(e) {
+				frame.requestFullscreen();
+			});
 		</script>
 	</body>
 </html>
