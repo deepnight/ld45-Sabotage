@@ -20,11 +20,7 @@ class Assets {
 		dn.heaps.Sfx.muteGroup(0); // HACK
 		dn.heaps.Sfx.setGroupVolume(0,0.6);
 
-		#if js
-		music = new dn.heaps.Sfx(hxd.Res.music.leatherneck_js);
-		#else
-		music = new dn.heaps.Sfx(hxd.Res.music.leatherneck_hl);
-		#end
+		music = new dn.heaps.Sfx(hxd.Res.music.leatherneck);
 		music.groupId = 1;
 
 		fontPixel = hxd.Res.fonts.minecraftiaOutline.toFont();
@@ -54,6 +50,6 @@ class Assets {
 		music.play(true);
 	}
 	public static function toggleMusicPause() {
-		music.togglePlay(true);
+		music.togglePlayPause();
 	}
 }

@@ -1,4 +1,5 @@
 base.hxml
 -D windowSize=1280x720
+-D heaps_enable_hl_mp3
 -hl bin/client.hl
 -lib hlsdl
