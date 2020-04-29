@@ -5,7 +5,7 @@ class Main extends dn.Process {
 	public static var ME : Main;
 	public var controller : dn.heaps.Controller;
 	public var ca : dn.heaps.Controller.ControllerAccess;
-	var overlay : dn.heaps.OverlayTextureFilter;
+	var overlay : dn.heaps.filter.OverlayTexture;
 
 	public function new(s:h2d.Scene) {
 		super();
@@ -51,7 +51,7 @@ class Main extends dn.Process {
 		new ui.Console(Assets.fontTiny, s);
 
 		// Game filter
-		overlay = new dn.heaps.OverlayTextureFilter();
+		overlay = new dn.heaps.filter.OverlayTexture();
 		Boot.ME.s2d.filter = overlay;
 		overlay.alpha = 0.3;
 		overlay.bevelType = Soft;
