@@ -16,7 +16,7 @@ class Level extends dn.Process {
 
 	var roofBitmaps : Map<Int, h2d.Bitmap> = new Map();
 	var texts : h2d.Object;
-	public var pf : dn.PathFinder;
+	public var pf : dn.pathfinder.AStar<CPoint>;
 
 	public var specialEndingCondition = false;
 
@@ -43,7 +43,7 @@ class Level extends dn.Process {
 		texts = new h2d.Object();
 		game.scroller.add(texts, Const.DP_BG);
 
-		pf = new dn.PathFinder(wid, hei);
+		pf = new dn.pathfinder.AStar(function(cx,cy) return new CPoint(cx,cy));
 	}
 
 	function get_lid() {
@@ -62,7 +62,7 @@ class Level extends dn.Process {
 			e.remove();
 		texts.remove();
 		data = null;
-		pf.destroy();
+		pf = null;
 	}
 
 	public inline function getDamage(cx,cy) {
@@ -232,11 +232,7 @@ class Level extends dn.Process {
 	function onCollisionChange() {
 		invalidatedColls = false;
 
-		pf.fillAll(false);
-		pf.resetCache();
-		for(cy in 0...hei)
-		for(cx in 0...wid)
-			pf.setCollision(cx,cy, hasCollision(cx,cy));
+		pf.init(wid,hei, hasCollision);
 	}
 
 	var pBushes : h2d.Object;

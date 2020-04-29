@@ -144,8 +144,9 @@ class Mob extends Entity {
 
 	function goto(x,y) {
 		if( !sightCheckCase(x,y) ) {
-			path = level.pf.smooth( level.pf.getPath({x:cx, y:cy}, {x:x, y:y}) ).map( function(pt) return new CPoint(pt.x, pt.y) );
-			path.shift();
+			path = level.pf.getPath(cx,cy, x,y);
+			// path = level.pf.smooth( level.pf.getPath({x:cx, y:cy}, {x:x, y:y}) ).map( function(pt) return new CPoint(pt.x, pt.y) );
+			// path.shift();
 		}
 		else
 			path = [ new CPoint(x,y) ];
@@ -297,6 +298,8 @@ class Mob extends Entity {
 				}
 				if( next!=null ) {
 					// Movement
+					if( ui.Console.ME.hasFlag("path") )
+						fx.markerCase(next.cx, next.cy, 0.1);
 					var s = hasAlarm() ? 0.008 : spr.frame==1 ? 0.003 : 0.006;
 					var a = Math.atan2(next.footY-footY, next.footX-footX);
 					dx+=Math.cos(a)*s*tmod;
