@@ -43,6 +43,7 @@ class Main extends dn.Process {
 		#end
 
 		// Assets & data init
+		hxd.snd.Manager.get();
 		Lang.init("en");
 		Assets.init();
 		Data.load( hxd.Res.data.entry.getText() );
@@ -110,7 +111,7 @@ class Main extends dn.Process {
 	}
 
     override function update() {
-		dn.heaps.slib.SpriteLib.TMOD = tmod;
+		Assets.tiles.tmod = tmod;
 
 		if( ca.isKeyboardPressed(Key.M) )
 			Assets.toggleMusicPause();
