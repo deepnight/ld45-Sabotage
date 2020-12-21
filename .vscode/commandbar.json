@@ -57,7 +57,7 @@
 		{
 			"text": "📦 Redist",
 			"color": "lightgreen",
-			"command": "haxelib run redistHelper hl.hxml js.hxml -p sabotage",
+			"command": "haxelib run redistHelper hl.hxml js.hxml -p Sabotage -zip",
 			"alignment": "right",
 			"skipTerminateQuickPick": false,
 			"priority": -50
