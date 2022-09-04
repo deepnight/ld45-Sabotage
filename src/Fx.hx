@@ -340,11 +340,12 @@ class Fx extends dn.Process {
 	}
 
 	public function hit(e:Entity, dir:Int) {
+		var c = game.cd.has("kidMode") ? 0xffcc00 : 0x791616;
 		var x = e.spr.x;
 		var y = e.spr.y;
 		for(i in 0...25) {
 			var p = allocTopNormal(getTile("pixel"), x+rnd(0,1,true), y+rnd(0,1,true));
-			p.colorize(0x791616);
+			p.colorize(c);
 			p.setFadeS(rnd(0.3,0.8), 0, rnd(0.1,0.3));
 			p.dx = -dir*rnd(1,5);
 			p.dy = -rnd(2, 2.5);
@@ -356,7 +357,7 @@ class Fx extends dn.Process {
 		}
 		var p = allocBgNormal(getTile("fxSmoke"), x+rnd(0,2,true), y+rnd(0,2,true));
 		p.setFadeS(rnd(0.3,0.5), 0, rnd(1,2));
-		p.colorize(0x791616);
+		p.colorize(c);
 		p.rotation = rnd(0,6.28);
 		p.setScale(rnd(0.2,0.3,true));
 		p.scaleMul = rnd(0.97,0.99);
@@ -431,6 +432,8 @@ class Fx extends dn.Process {
 	}
 
 	public function bulletBleed(x:Float, y:Float, ang:Float) {
+		var c = game.cd.has("kidMode") ? 0xffcc00 : 0x791616;
+
 		// Dots
 		for(i in 0...25) {
 			var p = (i<=8 ? allocTopNormal : allocBgNormal)(getTile("pixel"), x+rnd(0,1,true), y+rnd(0,1,true));
@@ -438,14 +441,14 @@ class Fx extends dn.Process {
 			p.moveAng(ang+M.PI+rnd(0,0.1,true), rnd(0.2,2));
 			p.frict = rnd(0.87, 0.96);
 			p.gy = rnd(0.01,0.05);
-			p.colorize(0xaa0000);
+			p.colorize(c);
 			p.lifeS = rnd(0.3,0.6);
 		}
 		// Smoke
 		for(i in 0...4) {
 			var p = allocTopNormal(getTile("fxSmoke"), x+rnd(0,3,true), y+rnd(0,3,true));
 			p.setFadeS(rnd(0.1,0.3), 0, rnd(0.3,0.6));
-			p.colorize(0xcc0000);
+			p.colorize(c);
 			p.rotation = rnd(0,6.28);
 			p.setScale(rnd(0.2,0.3,true));
 			p.scaleMul = rnd(0.97,0.99);

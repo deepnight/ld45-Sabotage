@@ -56,7 +56,7 @@ class Hero extends Entity {
 				bump(from.dirTo(this)*0.1, 0, 0);
 			lockS(0.1);
 		}
-		else
+		else if( !game.cd.has("kidMode") )
 			super.hit(from, dmg);
 	}
 

@@ -180,13 +180,22 @@ class Game extends Process {
 			if( ca.selectPressed() )
 				restartLevel();
 
+			// Kid mode
+			if( ca.isKeyboardPressed(Key.K ) ) {
+				if( cd.has("kidMode") )
+					cd.unset("kidMode");
+				else
+					cd.setS("kidMode", Const.INFINITE);
+				bigText("Kid mode: "+(cd.has("kidMode")?"ON":"off"));
+			}
+
 			#if debug
 			// Debug
 			if( ca.isKeyboardPressed(Key.N) )
 				nextLevel();
 
-			if( ca.isKeyboardPressed(Key.K) )
-				for(e in Mob.ALL) e.hit(999);
+			// if( ca.isKeyboardPressed(Key.K) )
+			// 	for(e in Mob.ALL) e.hit(999);
 
 			if( ca.isKeyboardPressed(Key.G) )
 				Main.ME.startGame();
