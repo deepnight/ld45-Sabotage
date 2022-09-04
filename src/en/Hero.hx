@@ -1,7 +1,7 @@
 package en;
 
 class Hero extends Entity {
-	var ca : dn.heaps.Controller.ControllerAccess;
+	var ca : ControllerAccess;
 	public var grabbedEnt: Null<Entity>;
 	var throwAngle : Float;
 
@@ -87,7 +87,7 @@ class Hero extends Entity {
 		ca.dispose();
 	}
 
-	public inline function isGrabbing<T:Entity>(c:Class<T>) return grabbedEnt!=null && grabbedEnt.isAlive() && Std.is(grabbedEnt, c);
+	public inline function isGrabbing<T:Entity>(c:Class<T>) return grabbedEnt!=null && grabbedEnt.isAlive() && Std.isOfType(grabbedEnt, c);
 	public inline function isGrabbingItem(k:ItemType) return isGrabbing(en.Item) && grabbedEnt.as(Item).item==k;
 	public inline function consumeItemUse() {
 		if( isGrabbing(en.Item) ) {

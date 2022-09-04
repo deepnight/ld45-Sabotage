@@ -32,7 +32,7 @@ class Boot extends hxd.App {
 		#if debug
 		tmod *= hxd.Key.isDown(hxd.Key.NUMPAD_ADD) ? 5 : 1;
 		#end
-		dn.heaps.Controller.beforeUpdate();
+		Controller.beforeUpdate();
 		dn.Process.updateAll(tmod);
 	}
 }

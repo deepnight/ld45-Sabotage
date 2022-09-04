@@ -5,7 +5,7 @@ class Title extends dn.Process {
 	var hero : HSprite;
 	var parachute : HSprite;
 	var birds : Array<{ e:HSprite, x:Float, y:Float }> = [];
-	public var ca : dn.heaps.Controller.ControllerAccess;
+	public var ca : ControllerAccess;
 	var heroX = 0.;
 	var heroY = 0.;
 

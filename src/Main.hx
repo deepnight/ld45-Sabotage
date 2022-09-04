@@ -3,8 +3,8 @@ import hxd.Key;
 
 class Main extends dn.Process {
 	public static var ME : Main;
-	public var controller : dn.heaps.Controller;
-	public var ca : dn.heaps.Controller.ControllerAccess;
+	public var controller : Controller;
+	public var ca : ControllerAccess;
 	var overlay : dn.heaps.filter.OverlayTexture;
 
 	public function new(s:h2d.Scene) {
@@ -55,10 +55,10 @@ class Main extends dn.Process {
 		overlay = new dn.heaps.filter.OverlayTexture();
 		Boot.ME.s2d.filter = overlay;
 		overlay.alpha = 0.3;
-		overlay.bevelType = Soft;
+		overlay.textureStyle = Soft;
 
 		// Game controller
-		controller = new dn.heaps.Controller(s);
+		controller = new Controller(s);
 		ca = controller.createAccess("main");
 		controller.bind(AXIS_LEFT_X_NEG, Key.LEFT, Key.Q, Key.A);
 		controller.bind(AXIS_LEFT_X_POS, Key.RIGHT, Key.D);
@@ -107,7 +107,7 @@ class Main extends dn.Process {
 			Const.SCALE = M.floor( h()/Const.AUTO_SCALE_TARGET_HEI );
 		root.setScale(Const.SCALE);
 
-		overlay.bevelSize = Std.int( Const.SCALE );
+		overlay.size = Std.int( Const.SCALE );
 	}
 
     override function update() {

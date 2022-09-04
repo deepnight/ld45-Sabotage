@@ -4,7 +4,7 @@ import hxd.Key;
 class Game extends Process {
 	public static var ME : Game;
 
-	public var ca : dn.heaps.Controller.ControllerAccess;
+	public var ca : ControllerAccess;
 	public var fx : Fx;
 	public var camera : Camera;
 	public var scroller : h2d.Layers;
@@ -35,7 +35,7 @@ class Game extends Process {
 		if( level.data.getStr("nextLevel")!="" )
 			startLevel(level.data.getStr("nextLevel"));
 		else {
-			var ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
+			var ogmoProj = new ogmo.Project(hxd.Res.map.ld45_ogmo, false);
 			if( ogmoProj.getLevelByName("level"+(level.lid+1))==null )
 				startLevel("level"+level.lid);
 			else
@@ -62,7 +62,7 @@ class Game extends Process {
 			fx.clear();
 		}
 
-		var ogmoProj = new ogmo.Project(hxd.Res.map.ld45, false);
+		var ogmoProj = new ogmo.Project(hxd.Res.map.ld45_ogmo, false);
 		var data = ogmoProj.getLevelByName(name);
 		level = new Level(data);
 
